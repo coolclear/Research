@@ -1,8 +1,9 @@
 import tensorflow as tf
 import os, sys
-sys.path.append('/home/yang/open-convnet-black-box/VGGImagenet/Deep_Models/')
+sys.path.append('/home/yang/Research/Deep_Models/')
 from vgg16 import Vgg16
 from resnet import Resnet
+from small_CNN import Small_CNN
 
 from keras import backend as K
 from keras.applications.vgg16 import VGG16
@@ -16,10 +17,10 @@ def _GuidedReluGrad(op, grad):
     return tf.where(0. < grad, gen_nn_ops._relu_grad(grad, op.outputs[0]), tf.zeros(tf.shape(grad)))
 
 @ops.RegisterGradient("DeconvRelu")
-def _GuidedReluGrad(op, grad):
+def _DeconvReluGrad(op, grad):
     return tf.where(0. < grad, grad, tf.zeros(tf.shape(grad)))
 
-weight_path = '/home/yang/open-convnet-black-box/VGGImagenet/vgg16_weights.npz'
+weight_path = '/home/yang/Research/Deep_Models/vgg16_weights.npz'
 
 def prepare_vgg(sal_type, layer_idx, load_weights, sess):
 
@@ -168,6 +169,30 @@ def prepare_keras_resnet50(sal_type, init, sess):
         sess.run(tf.global_variables_initializer())
 
     return resnet50
+
+def prepare_denoising(sess):
+
+    input_dim = [None, 224, 224, 3]
+
+    eval_graph = tf.get_default_graph()
+
+    with eval_graph.gradient_override_map({'Relu': 'GuidedRelu'}):
+        model = Small_CNN(sess=sess, input_dim=input_dim)
+
+    input_tensor = model.layers_dic['images']
+    bs = input_tensor.get
+
+
+
+    index = tf.random_uniform(dtype=tf.int32, minval=0, maxval=512, shape=[])
+    gbps = tf.gradients(model.logits[:, index], model.layers_dic['images'])
+    gbps_norm = tf.map_fn(lambda x : tf.nn.l2_normalize(x), gbps)
+
+
+
+
+    return vgg
+
 
 
 

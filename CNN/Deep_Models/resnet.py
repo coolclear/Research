@@ -1,8 +1,7 @@
 import numpy as np
 import tensorflow as tf
 import sys
-sys.path.append('/home/yang/open-convnet-black-box/VGGImagenet/')
-tf.set_random_seed(1234)
+sys.path.append('/home/yang/Research/')
 
 class Resnet(object):
 
