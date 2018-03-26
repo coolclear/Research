@@ -7,7 +7,6 @@ from keras.datasets import cifar10
 import numpy as np
 import tensorflow as tf
 from Prepare_Model import prepare_GBP_small_CNN
-from Plot import simple_plot
 import pickle as pkl
 
 
