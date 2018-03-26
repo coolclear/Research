@@ -37,9 +37,8 @@ def GBP_Reconstruction(image):
 (X_train_ori, y_train), (X_test_ori, y_test) = cifar10.load_data()
 
 # each example to its corresponding GBP reconstruction
-vmap = np.vectorize(GBP_Reconstruction)
-X_train_gbp = vmap(X_train_ori)
-X_test_gbp =  vmap(X_test_ori)
+X_train_gbp = np.apply_along_axis(GBP_Reconstruction, 0, X_train_ori)
+X_test_gbp =  np.apply_along_axis(GBP_Reconstruction, 0, X_test_ori)
 
 
 
