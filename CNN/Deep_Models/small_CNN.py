@@ -7,11 +7,12 @@ class Small_CNN(object):
 
     def __init__(self, sess=None,
                  act_type='relu', pool_type='maxpool', trainable=False,
-                 input_dim=[None, 224, 224, 3], output_dim=[None, 100]):
+                 input_dim=224, output_dim=100):
 
         self.act_type = act_type
         self.pool_type = pool_type
         self.trainable = trainable
+
         self.input_dim = input_dim
         self.output_dim = output_dim
 
@@ -19,11 +20,11 @@ class Small_CNN(object):
 
         # zero-mean input
         with tf.name_scope('input') as scope:
-            self.images = tf.placeholder(tf.float32, self.input_dim)
+            self.images = tf.placeholder(tf.float32, [None, self.input_dim, self.input_dim, 3])
             self.layers_dic['images'] = self.images
 
         with tf.name_scope('output') as scope:
-            self.labels = tf.placeholder(tf.float32, self.output_dim)
+            self.labels = tf.placeholder(tf.float32, [None, self.output_dim])
 
         self.convlayers()
         self.fc_layers()

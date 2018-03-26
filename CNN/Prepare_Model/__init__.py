@@ -170,28 +170,12 @@ def prepare_keras_resnet50(sal_type, init, sess):
 
     return resnet50
 
-def prepare_denoising(sess):
-
-    input_dim = [None, 224, 224, 3]
+def prepare_GBP_small_CNN(sess, input_dim=224, output_dim=100):
 
     eval_graph = tf.get_default_graph()
 
     with eval_graph.gradient_override_map({'Relu': 'GuidedRelu'}):
-        model = Small_CNN(sess=sess, input_dim=input_dim)
-
-    input_tensor = model.layers_dic['images']
-    bs = input_tensor.get
-
-
-
-    index = tf.random_uniform(dtype=tf.int32, minval=0, maxval=512, shape=[])
-    gbps = tf.gradients(model.logits[:, index], model.layers_dic['images'])
-    gbps_norm = tf.map_fn(lambda x : tf.nn.l2_normalize(x), gbps)
-
-
-
-
-    return vgg
+        return Small_CNN(sess=sess, input_dim=input_dim, output_dim=output_dim)
 
 
 
