@@ -28,7 +28,7 @@ def GBP_Reconstruction(image):
     # the tf tensor to calculate the GBP visualization
     gbp_tensor = tf.gradients(model.logits[:, random_index], model.layers_dic['images'])[0]
 
-    temp_result = sess.run(gbp_tensor, feed_dict={model.layers_dic['images'] : tf.expand_dims(image, 0)})
+    temp_result = sess.run(gbp_tensor, feed_dict={model.layers_dic['images'] : np.expand_dims(image, 0)})
     temp_result -= np.min(temp_result)
     temp_result /= np.max(temp_result)
 
@@ -36,13 +36,12 @@ def GBP_Reconstruction(image):
 
 # [num_examples, 32, 32, 3]
 (X_train_ori, y_train), (X_test_ori, y_test) = cifar10.load_data()
-print(X_train_ori.shape)
-print(X_test_ori.shape)
 
 # each example to its corresponding GBP reconstruction
-map_op_train = tf.map_fn(lambda img : GBP_Reconstruction(img), tf.constant(X_train_ori, dtype=tf.float32))
-map_op_test = tf.map_fn(lambda img : GBP_Reconstruction(img), tf.constant(X_test_ori, dtype=tf.float32))
-X_train_gbp, X_test_gbp = sess.run(map_op_train, map_op_test)
+print('Test Start ...')
+X_test_gbp =  [GBP_Reconstruction(img) for img in X_test_ori]
+print('Train Start ...')
+X_train_gbp = [GBP_Reconstruction(img) for img in X_train_ori]
 
 # save to pickle
 f = open('./../../../Data/{}.pkl'.format('CIFAR10_GBP'), 'wb')
