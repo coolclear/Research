@@ -38,12 +38,12 @@ print(X_train_ori.shape)
 
 # reshape to [num_examples, 32, 32, 3]
 X_train_ori_trans = np.transpose(X_train_ori, (0, 2, 3, 1))
-print(X_train_ori_trans)
+print(X_train_ori_trans.shape)
 X_test_ori_trans = np.transpose(X_test_ori, (0, 2, 3, 1))
 
-# map each example to its corresponding GBP reconstruction
-X_train_gbp = np.apply_along_axis(GBP_Reconstruction, 0, X_train_ori_trans)
-#X_test_gbp = vmap(X_test_ori_trans)
+# each example to its corresponding GBP reconstruction
+X_train_gbp = [GBP_Reconstruction(img) for img in X_train_ori_trans]
+X_test_gbp = [GBP_Reconstruction(img) for img in X_test_ori_trans]
 
 
 
