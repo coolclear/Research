@@ -48,12 +48,6 @@ pkl.dump((X_train_gbp, y_train), f, -1)
 pkl.dump((X_test_gbp, y_test), f, -1)
 f.close()
 
-# visualize some images
-random_indices = np.random.choice(50000, 10)
-for i in random_indices:
-    simple_plot(X_train_ori[i], '{}_ori.png'.format(i), 'viz')
-    simple_plot(X_train_gbp[i], '{}_gbp.png'.format(i), 'viz')
-
 
 
 
