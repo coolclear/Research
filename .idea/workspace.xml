@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a407c93b-3742-4ae8-b810-e1066bea3e55" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/CNN/GBP_Denoising/prepare_data.py" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/CNN/Deep_Models/small_CNN.py" afterPath="$PROJECT_DIR$/CNN/Deep_Models/small_CNN.py" />
+      <change beforePath="$PROJECT_DIR$/CNN/GBP_Denoising/prepare_data.py" afterPath="$PROJECT_DIR$/CNN/GBP_Denoising/prepare_data.py" />
       <change beforePath="$PROJECT_DIR$/CNN/Prepare_Model/__init__.py" afterPath="$PROJECT_DIR$/CNN/Prepare_Model/__init__.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -16,12 +15,38 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="prepare_data.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="prepare_data.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/CNN/GBP_Denoising/prepare_data.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
-              <caret line="8" column="0" lean-forward="true" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+            <state relative-caret-position="300">
+              <caret line="20" column="22" lean-forward="false" selection-start-line="20" selection-start-column="22" selection-end-line="20" selection-end-column="22" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="deconv.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/CNN/DeepNet_Visualization/deconv.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="75">
+              <caret line="5" column="5" lean-forward="false" selection-start-line="5" selection-start-column="5" selection-end-line="5" selection-end-column="5" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="__init__.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/CNN/Prepare_Model/__init__.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="255">
+              <caret line="17" column="0" lean-forward="true" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
+              <folding>
+                <element signature="e#0#23#0" expanded="true" />
+                <element signature="e#822#2275#0" expanded="false" />
+                <element signature="e#2346#3241#0" expanded="false" />
+                <element signature="e#3295#4332#0" expanded="false" />
+                <element signature="e#4389#5493#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -45,8 +70,8 @@
         <option value="$PROJECT_DIR$/CNN/Deep_Models/resnet.py" />
         <option value="$PROJECT_DIR$/CNN/Deep_Models/vgg16.py" />
         <option value="$PROJECT_DIR$/CNN/Deep_Models/small_CNN.py" />
-        <option value="$PROJECT_DIR$/CNN/Prepare_Model/__init__.py" />
         <option value="$PROJECT_DIR$/CNN/GBP_Denoising/prepare_data.py" />
+        <option value="$PROJECT_DIR$/CNN/Prepare_Model/__init__.py" />
       </list>
     </option>
   </component>
@@ -94,6 +119,12 @@
               <item name="Research" type="462c0819:PsiDirectoryNode" />
               <item name="CNN" type="462c0819:PsiDirectoryNode" />
               <item name="Deep_Models" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Research" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Research" type="462c0819:PsiDirectoryNode" />
+              <item name="CNN" type="462c0819:PsiDirectoryNode" />
+              <item name="DeepNet_Visualization" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Research" type="b2602c69:ProjectViewProjectNode" />
@@ -249,11 +280,11 @@
         <state relative-caret-position="540">
           <caret line="176" column="39" lean-forward="true" selection-start-line="176" selection-start-column="39" selection-end-line="176" selection-end-column="39" />
           <folding>
-            <element signature="e#0#23#0" expanded="false" />
-            <element signature="e#818#2271#0" expanded="false" />
-            <element signature="e#2342#3237#0" expanded="false" />
-            <element signature="e#3291#4328#0" expanded="false" />
-            <element signature="e#4385#5489#0" expanded="false" />
+            <element signature="e#0#23#0" expanded="true" />
+            <element signature="e#822#2275#0" expanded="false" />
+            <element signature="e#2346#3241#0" expanded="false" />
+            <element signature="e#3295#4332#0" expanded="false" />
+            <element signature="e#4389#5493#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -351,32 +382,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/CNN/DeepNet_Visualization/deconv.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="810">
-          <caret line="54" column="66" lean-forward="true" selection-start-line="54" selection-start-column="22" selection-end-line="54" selection-end-column="66" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/CNN/Prepare_Data/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CNN/Prepare_Model/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="540">
-          <caret line="177" column="78" lean-forward="false" selection-start-line="177" selection-start-column="78" selection-end-line="177" selection-end-column="78" />
-          <folding>
-            <element signature="e#818#2271#0" expanded="false" />
-            <element signature="e#2342#3237#0" expanded="false" />
-            <element signature="e#3291#4328#0" expanded="false" />
-            <element signature="e#4385#5489#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -388,11 +398,33 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/CNN/DeepNet_Visualization/deconv.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="5" lean-forward="false" selection-start-line="5" selection-start-column="5" selection-end-line="5" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/CNN/GBP_Denoising/prepare_data.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" column="0" lean-forward="true" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+        <state relative-caret-position="300">
+          <caret line="20" column="22" lean-forward="false" selection-start-line="20" selection-start-column="22" selection-end-line="20" selection-end-column="22" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CNN/Prepare_Model/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="17" column="0" lean-forward="true" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#23#0" expanded="true" />
+            <element signature="e#822#2275#0" expanded="false" />
+            <element signature="e#2346#3241#0" expanded="false" />
+            <element signature="e#3295#4332#0" expanded="false" />
+            <element signature="e#4389#5493#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>

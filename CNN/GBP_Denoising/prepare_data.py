@@ -1,6 +1,6 @@
 import sys
-sys.path.append('/home/yang/Research/')
-sys.path.append('/home/yang/Research/Prepare_Model')
+sys.path.append('/home/yang/Research/CNN/')
+sys.path.append('/home/yang/Research/CNN/Prepare_Model')
 
 from keras.datasets import cifar10
 import numpy as np

@@ -1,6 +1,6 @@
 import tensorflow as tf
 import os, sys
-sys.path.append('/home/yang/Research/Deep_Models/')
+sys.path.append('/home/yang/Research/CNN/Deep_Models/')
 from vgg16 import Vgg16
 from resnet import Resnet
 from small_CNN import Small_CNN
