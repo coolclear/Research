@@ -131,11 +131,11 @@ class Small_CNN(object):
         # fc2
         with tf.name_scope('fc2') as scope:
 
-            fc2w = tf.Variable(tf.truncated_normal([512, self.output_dim[-1]], dtype=tf.float32, stddev=1e-1),
+            fc2w = tf.Variable(tf.truncated_normal([512, self.output_dim], dtype=tf.float32, stddev=1e-1),
                                trainable=self.trainable,
                                name='w_fc2')
 
-            fc2b = tf.Variable(tf.constant(0.0, shape=[self.output_dim[-1]], dtype=tf.float32),
+            fc2b = tf.Variable(tf.constant(0.0, shape=[self.output_dim], dtype=tf.float32),
                                trainable=self.trainable,
                                name='b_fc2')
 
