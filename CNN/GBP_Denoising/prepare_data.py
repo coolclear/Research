@@ -38,8 +38,9 @@ def GBP_Reconstruction(image):
 (X_train_ori, y_train), (X_test_ori, y_test) = cifar10.load_data()
 
 # each example to its corresponding GBP reconstruction
-X_train_gbp = [GBP_Reconstruction(img) for img in X_train_ori]
-X_test_gbp =  [GBP_Reconstruction(img) for img in X_test_ori]
+map_op_train = tf.map_fn(lambda img : GBP_Reconstruction(img), tf.covert_to_tensor(X_train_ori, dtype=tf.float32))
+map_op_test = tf.map_fn(lambda img : GBP_Reconstruction(img), tf.covert_to_tensor(X_test_ori, dtype=tf.float32))
+X_train_gbp, X_test_gbp = sess.run(map_op_train, map_op_test)
 
 # save to pickle
 f = open('./../../../Data/{}.pkl'.format('CIFAR10_GBP'), 'wb')
