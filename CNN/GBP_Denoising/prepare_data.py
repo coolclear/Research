@@ -22,6 +22,7 @@ def GBP_Reconstruction(image):
 
     # generate a random index
     random_index = np.random.choice(output_dim, 1)
+    print(random_index)
 
     # the tf tensor to calculate the GBP visualization
     gbp_tensor = tf.gradients(model.logits[:, random_index], model.layers_dic['images'])[0]
@@ -36,8 +37,9 @@ def GBP_Reconstruction(image):
 (X_train_ori, y_train), (X_test_ori, y_test) = cifar10.load_data()
 
 # each example to its corresponding GBP reconstruction
-X_train_gbp = [GBP_Reconstruction(img) for img in X_train_ori]
-X_test_gbp = [GBP_Reconstruction(img) for img in X_test_ori]
+vmap = np.vectorize(GBP_Reconstruction)
+X_train_gbp = vmap(X_train_ori)
+X_test_gbp =  vmap(X_test_ori)
 
 
 

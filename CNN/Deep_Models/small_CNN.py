@@ -35,6 +35,7 @@ class Small_CNN(object):
 
         if sess is not None:
             self.init(sess)
+            print('Initialized ...')
         else:
             print("Initialization failed ... ")
 
