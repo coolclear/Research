@@ -34,9 +34,11 @@ def GBP_Reconstruction(image):
 
 # [num_examples, 3, 32, 32]
 (X_train_ori, y_train), (X_test_ori, y_test) = cifar10.load_data()
+print(X_train_ori.shape)
 
 # reshape to [num_examples, 32, 32, 3]
 X_train_ori_trans = np.transpose(X_train_ori, (0, 2, 3, 1))
+print(X_train_ori_trans)
 X_test_ori_trans = np.transpose(X_test_ori, (0, 2, 3, 1))
 
 # map each example to its corresponding GBP reconstruction
