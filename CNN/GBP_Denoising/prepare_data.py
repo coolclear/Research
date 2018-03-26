@@ -28,7 +28,7 @@ def GBP_Reconstruction(image):
     # the tf tensor to calculate the GBP visualization
     gbp_tensor = tf.gradients(model.logits[:, random_index], model.layers_dic['images'])[0]
 
-    temp_result = sess.run(gbp_tensor, feed_dict={model.layers_dic['images'] : np.expand_dims(image, 0)})
+    temp_result = sess.run(gbp_tensor, feed_dict={model.layers_dic['images'] : tf.expand_dims(image, 0)})
     temp_result -= np.min(temp_result)
     temp_result /= np.max(temp_result)
 
@@ -36,6 +36,8 @@ def GBP_Reconstruction(image):
 
 # [num_examples, 32, 32, 3]
 (X_train_ori, y_train), (X_test_ori, y_test) = cifar10.load_data()
+print(X_train_ori.shape)
+print(X_test_ori.shape)
 
 # each example to its corresponding GBP reconstruction
 map_op_train = tf.map_fn(lambda img : GBP_Reconstruction(img), tf.constant(X_train_ori, dtype=tf.float32))
