@@ -29,7 +29,7 @@ def Map(tfOp, ph, images, sess):
     num_examples = images.shape[0]
     num_batches = (num_examples - 1) / batch_size + 1
     counter = 0
-    result = np.array([])
+    result = None
 
     while counter <  num_batches:
 
@@ -41,10 +41,10 @@ def Map(tfOp, ph, images, sess):
 
         print('Processing {}/{}'.format(counter, num_batches))
 
-        temp = sess.run(tfOp, feed_dict={ph: image_batch})
-        print(temp.shape)
-
-        np.append(result, temp, axis=0)
+        if counter == 0:
+            result = sess.run(tfOp, feed_dict={ph: image_batch})
+        else :
+            np.append(result, sess.run(tfOp, feed_dict={ph: image_batch}), axis=0)
 
     print(result.shape)
 
