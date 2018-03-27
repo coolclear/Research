@@ -14,11 +14,13 @@ def main():
     if_gbp_preprocess = True
 
     if if_gbp_preprocess:
-        with open('CIFAR10_GBP.pkl', 'rb') as f:
-            (x_train, y_train), (x_test, y_test) = pkl.load(f)
+        with open('CIFAR10_GBP.pkl', 'rb') as file:
+            (x_train, y_train) = pkl.load(file)
+            (x_test, y_test) = pkl.load(file)
     else:
-        with open('CIFAR10.pkl', 'rb') as f:
-            (x_train, y_train), (x_test, y_test) = pkl.load(f)
+        with open('CIFAR10.pkl', 'rb') as file:
+            (x_train, y_train) = pkl.load(file)
+            (x_test, y_test) = pkl.load(file)
 
     ######################### data pre-processing starts here ####################
 
