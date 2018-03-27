@@ -37,7 +37,6 @@ def Map(tfOp, ph, images, sess):
             image_batch = images[counter * batch_size : (counter + 1) * batch_size]
         else: # the last batch
             image_batch = images[counter * batch_size : ]
-        counter += 1
 
         print('Processing {}/{}'.format(counter, num_batches))
 
@@ -45,6 +44,8 @@ def Map(tfOp, ph, images, sess):
             result = sess.run(tfOp, feed_dict={ph: image_batch})
         else:
             result = np.concatenate((result, sess.run(tfOp, feed_dict={ph: image_batch})), axis=0)
+
+        counter += 1
 
     print(result.shape)
 
