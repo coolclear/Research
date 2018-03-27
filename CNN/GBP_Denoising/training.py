@@ -6,6 +6,7 @@ from keras.layers import Conv2D, MaxPooling2D
 import os
 import pickle as pkl
 import numpy as np
+from keras.datasets import cifar10
 
 def main():
 
@@ -19,8 +20,7 @@ def main():
             (x_test, y_test) = pkl.load(file)
     else:
         with open('CIFAR10.pkl', 'rb') as file:
-            (x_train, y_train) = pkl.load(file)
-            (x_test, y_test) = pkl.load(file)
+            (x_train, y_train), (x_test, y_test) = cifar10.load_data()
 
     ######################### data pre-processing starts here ####################
 
@@ -39,7 +39,7 @@ def main():
     # hyper-parameters
     batch_size = 32
     num_classes = 10
-    epochs = 200
+    epochs = 50
     save_dir = os.path.join(os.getcwd(), 'Saved_Models')
     model_name = 'CIFAR10_Trained_Model_GBP_{}.h5'.format(if_gbp_preprocess)
 
@@ -55,9 +55,13 @@ def main():
     model.add(Activation('relu'))
     model.add(Conv2D(32, (3, 3)))
     model.add(Activation('relu'))
+    model.add(Conv2D(32, (3, 3)))
+    model.add(Activation('relu'))
     model.add(MaxPooling2D(pool_size=(2, 2)))
 
     model.add(Conv2D(64, (3, 3), padding='same'))
+    model.add(Activation('relu'))
+    model.add(Conv2D(64, (3, 3)))
     model.add(Activation('relu'))
     model.add(Conv2D(64, (3, 3)))
     model.add(Activation('relu'))
@@ -71,7 +75,7 @@ def main():
 
     ########################## model ends here ###################################
 
-    opt = keras.optimizers.Adagrad(lr=0.001, decay=1e-6)
+    opt = keras.optimizers.Adagrad(lr=0.01)
 
     model.compile(loss='categorical_crossentropy',
                   optimizer=opt,
