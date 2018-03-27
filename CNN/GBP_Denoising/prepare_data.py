@@ -56,7 +56,9 @@ def main():
 
     # reset graph & start session
     tf.reset_default_graph()
-    sess = tf.Session()
+    config = tf.ConfigProto()
+    config.gpu_options.allow_growth = True
+    sess = tf.Session(config=config)
 
     # prepare a randomly initialized shallow CNN with the gradient has been overwritten to "GBP"
     # in terms of the GBP reconstruction, this model can be any as long as it's a ConvNet.
