@@ -12,15 +12,14 @@ def main():
 
     # we could either train the model on original cifar10
     # or the one preprocessed by the GBP reconstruction
-    if_gbp_preprocess = True
+    if_gbp_preprocess = False
 
     if if_gbp_preprocess:
         with open('CIFAR10_GBP.pkl', 'rb') as file:
             (x_train, y_train) = pkl.load(file)
             (x_test, y_test) = pkl.load(file)
     else:
-        with open('CIFAR10.pkl', 'rb') as file:
-            (x_train, y_train), (x_test, y_test) = cifar10.load_data()
+        (x_train, y_train), (x_test, y_test) = cifar10.load_data()
 
     ######################### data pre-processing starts here ####################
 
