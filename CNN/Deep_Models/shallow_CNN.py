@@ -3,7 +3,7 @@ import tensorflow as tf
 import sys
 sys.path.append('/home/yang/Research/')
 
-class Small_CNN(object):
+class Shallow_CNN(object):
 
     def __init__(self, sess=None,
                  act_type='relu', pool_type='maxpool', trainable=False,
