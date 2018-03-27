@@ -25,7 +25,7 @@ def GBP_Reconstruction(model, output_dim):
 
 def Map(tfOp, ph, images, sess):
 
-    batch_size = 64
+    batch_size = 256
     num_examples = images.shape[0]
     num_batches = (num_examples - 1) / batch_size + 1
     counter = 0
