@@ -41,7 +41,10 @@ def Map(tfOp, ph, images, sess):
 
         print('Processing {}/{}'.format(counter, num_batches))
 
-        np.append(result, sess.run(tfOp, feed_dict={ph: image_batch}), axis=0)
+        temp = sess.run(tfOp, feed_dict={ph: image_batch})
+        print(temp.shape)
+
+        np.append(result, temp, axis=0)
 
     print(result.shape)
 
