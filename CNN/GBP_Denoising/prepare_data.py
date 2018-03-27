@@ -43,11 +43,11 @@ def Map(tfOp, ph, images, sess):
 
         if counter == 0:
             result = sess.run(tfOp, feed_dict={ph: image_batch})
-        else :
-            np.append(result, sess.run(tfOp, feed_dict={ph: image_batch}), axis=0)
+        else:
+            result = np.concatenate(result, sess.run(tfOp, feed_dict={ph: image_batch}))
 
     print(result.shape)
-
+    
     return result
 
 def main():
