@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a407c93b-3742-4ae8-b810-e1066bea3e55" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/CNN/GBP_Denoising/prepare_data.py" afterPath="$PROJECT_DIR$/CNN/GBP_Denoising/prepare_data.py" />
-    </list>
+    <list default="true" id="a407c93b-3742-4ae8-b810-e1066bea3e55" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
