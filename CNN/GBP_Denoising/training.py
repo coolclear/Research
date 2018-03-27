@@ -25,6 +25,8 @@ def main():
 
     # for CIFAR10_ORI, we normalize it roughly in the same way as we do to CIFAR10_GBP
     if not if_gbp_preprocess:
+        x_train = x_train.astype('float32')
+        x_test = x_test.astype('float32')
         x_train /= 255.
         x_test /= 255.
 
