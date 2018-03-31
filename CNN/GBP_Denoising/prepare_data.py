@@ -21,7 +21,7 @@ def GBP_Reconstruction(model, output_dim):
     tfOp_gbp_raw = tf.gradients(model.logits[:, random_index], model.layers_dic['images'])[0]
     tfOp_gbp_submin = tf.map_fn(lambda img : img - tf.reduce_min(img), tfOp_gbp_raw)
     tfOp_gbp_divmax = tf.map_fn(lambda img : img / tf.reduce_max(img), tfOp_gbp_submin)
-    tfOp_gbp_255 = tf.map_fn(lambda img : tf.cast(img * 255, tf.int32), tfOp_gbp_divmax)
+    tfOp_gbp_255 = tf.map_fn(lambda img : tf.cast(img * 255, tf.int32), tfOp_gbp_divmax, dtype=tf.int32)
 
     return tfOp_gbp_255
 
