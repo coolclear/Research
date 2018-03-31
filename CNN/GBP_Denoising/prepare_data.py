@@ -9,6 +9,7 @@ import numpy as np
 import tensorflow as tf
 from Prepare_Model import prepare_GBP_shallow_CNN
 import pickle as pkl
+from Plot import grid_plot
 
 def GBP_Reconstruction(model, output_dim):
 
@@ -20,8 +21,9 @@ def GBP_Reconstruction(model, output_dim):
     tfOp_gbp_raw = tf.gradients(model.logits[:, random_index], model.layers_dic['images'])[0]
     tfOp_gbp_submin = tf.map_fn(lambda img : img - tf.reduce_min(img), tfOp_gbp_raw)
     tfOp_gbp_divmax = tf.map_fn(lambda img : img / tf.reduce_max(img), tfOp_gbp_submin)
+    tfOp_gbp_255 = tf.map_fn(lambda img : tf.cast(img * 255, tf.int32), tfOp_gbp_divmax)
 
-    return tfOp_gbp_divmax
+    return tfOp_gbp_255
 
 def Map(tfOp, ph, images, sess):
 
@@ -68,21 +70,25 @@ def main():
     # in terms of the GBP reconstruction, this model can be any as long as it's a ConvNet.
     model = prepare_GBP_shallow_CNN(sess, input_dim=32, output_dim=output_dim)
 
-    # tf operation for nomalized GBP reconstruction
-    tfOp_gbp_normalized = GBP_Reconstruction(model, output_dim)
+    # tf operation for GBP reconstruction
+    tfOp_gbp_reconstruction = GBP_Reconstruction(model, output_dim)
 
     # [num_examples, 32, 32, 3]
     (X_train_ori, y_train), (X_test_ori, y_test) = cifar10.load_data()
 
     # map each training example to its corresponding GBP reconstruction
-    X_train_gbp = Map(tfOp_gbp_normalized, model.layers_dic['images'], X_train_ori, sess)
-    X_test_gbp = Map(tfOp_gbp_normalized, model.layers_dic['images'], X_test_ori, sess)
+    X_train_gbp = Map(tfOp_gbp_reconstruction, model.layers_dic['images'], X_train_ori, sess)
+    X_test_gbp = Map(tfOp_gbp_reconstruction, model.layers_dic['images'], X_test_ori, sess)
 
     # save to pickle
     f = open('./{}.pkl'.format('CIFAR10_GBP'), 'wb')
     pkl.dump((X_train_gbp, y_train), f, -1)
     pkl.dump((X_test_gbp, y_test), f, -1)
     f.close()
+
+    # visualization
+    grid_plot([10, 10], X_train_ori[:100], 'Original_CIFAR10', './Visualization', 'Examples_Ori_CIFAR10.png')
+    grid_plot([10, 10], X_train_gbp[:100], 'GBP_CIFAR10', './Visualization', 'Examples_GBP_CIFAR10.png')
 
 if __name__ == '__main__':
     # setup the GPUs to use

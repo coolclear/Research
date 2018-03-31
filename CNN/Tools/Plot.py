@@ -61,11 +61,11 @@ def grid_plot(grid_shape, image_list, title, save_dir, save_name):
 
             image = image_list[i * columns + j]
 
-            # a very simple normalization
-            min = np.min(image)
-            image -= min
-            max = np.max(image)
-            image /= max
+            # # a very simple normalization
+            # min = np.min(image)
+            # image -= min
+            # max = np.max(image)
+            # image /= max
 
             ax.imshow(image)
             ax.tick_params(axis='both', which='major',  labelsize=6)
@@ -76,3 +76,4 @@ def grid_plot(grid_shape, image_list, title, save_dir, save_name):
         os.makedirs(save_dir)
 
     plt.savefig(os.path.join(save_dir, "{}.png".format(save_name)))
+
