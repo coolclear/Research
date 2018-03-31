@@ -23,6 +23,10 @@ def main():
 
     ######################### data pre-processing starts here ####################
 
+
+    x_train = x_train.astype('float32')
+    x_test = x_test.astype('float32')
+
     # subtract the mean
     mean = np.mean(x_train, axis=0)
     x_train -= mean
@@ -33,7 +37,7 @@ def main():
     # hyper-parameters
     batch_size = 32
     num_classes = 10
-    epochs = 50
+    epochs = 100
     save_dir = os.path.join(os.getcwd(), 'Saved_Models')
     model_name = 'CIFAR10_Trained_Model_GBP_{}.h5'.format(if_gbp_preprocess)
 
