@@ -57,6 +57,8 @@ class CIFARModel:
 
         self.model = model
 
+        return model
+
     def predict(self, data):
         return self.model(data)
         

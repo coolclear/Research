@@ -16,17 +16,20 @@ import os
 
 import tensorflow as tf
 
-def train(data, Model, file_name, num_epochs=50, batch_size=128, init=None):
 
-    def fn(correct, predicted):
-        return tf.nn.softmax_cross_entropy_with_logits(labels=correct,
-                                                       logits=predicted)
+def fn(correct, predicted):
+    return tf.nn.softmax_cross_entropy_with_logits(labels=correct,
+                                                   logits=predicted)
+def get_lr(epoch):
+    return 0.1*(.5**(epoch/300*10))
 
-    model = Model(None).model
-    print(model.summary())
+def main():
 
-    def get_lr(epoch):
-        return base_lr*(.5**(epoch/num_epochs*10))
+    batch_size = 128
+    tag = "ORI"
+
+    model = CIFARModel()
+    data = CIFAR(tag)
 
     sgd = SGD(lr=0.00, momentum=0.9, nesterov=False)
     schedule= LearningRateScheduler(get_lr)
@@ -40,25 +43,23 @@ def train(data, Model, file_name, num_epochs=50, batch_size=128, init=None):
         width_shift_range=0.1,
         height_shift_range=0.1,
         horizontal_flip=True)
-    base_lr = 0.1
 
     datagen.fit(data.train_data)
 
     model.fit_generator(datagen.flow(data.train_data, data.train_labels,
                                      batch_size=batch_size),
                         steps_per_epoch=data.train_data.shape[0] // batch_size,
-                        epochs=num_epochs,
+                        epochs=300,
                         verbose=1,
                         validation_data=(data.validation_data, data.validation_labels),
                         callbacks=[schedule])
 
     print('Test accuracy:', np.mean(np.argmax(model.predict(data.test_data),axis=1)==np.argmax(data.test_labels,axis=1)))
 
-    if file_name != None:
-        model.save_weights(file_name)
-
-    return model
+    model.save_weights('Models/{}'.format(tag))
 
 if __name__ == "__main__":
+    # setup the GPUs to use
     os.environ['CUDA_VISIBLE_DEVICES'] = '0'
-    train(CIFAR('ORI'), CIFARModel, "models/cifar", num_epochs=300)
+    main()
+    # train(CIFAR('ORI'), CIFARModel, "models/cifar", num_epochs=300)
