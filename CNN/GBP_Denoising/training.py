@@ -12,7 +12,7 @@ def main():
 
     # we could either train the model on original cifar10
     # or the one preprocessed by the GBP reconstruction
-    if_gbp_preprocess = False
+    if_gbp_preprocess = True
 
     if if_gbp_preprocess:
         with open('CIFAR10_GBP.pkl', 'rb') as file:
@@ -22,13 +22,6 @@ def main():
         (x_train, y_train), (x_test, y_test) = cifar10.load_data()
 
     ######################### data pre-processing starts here ####################
-
-    # for CIFAR10_ORI, we normalize it roughly in the same way as we do to CIFAR10_GBP
-    if not if_gbp_preprocess:
-        x_train = x_train.astype('float32')
-        x_test = x_test.astype('float32')
-        x_train /= 255.
-        x_test /= 255.
 
     # subtract the mean
     mean = np.mean(x_train, axis=0)
@@ -75,7 +68,7 @@ def main():
 
     ########################## model ends here ###################################
 
-    opt = keras.optimizers.Adagrad(lr=0.01)
+    opt = keras.optimizers.Adagrad(lr=0.001)
 
     model.compile(loss='categorical_crossentropy',
                   optimizer=opt,
@@ -100,5 +93,5 @@ def main():
 
 if __name__ == '__main__':
     # setup the GPUs to use
-    os.environ['CUDA_VISIBLE_DEVICES'] = '1'
+    os.environ['CUDA_VISIBLE_DEVICES'] = '0'
     main()
