@@ -28,7 +28,7 @@ def main():
     batch_size = 128
     tag = "ORI"
 
-    model = CIFARModel()
+    model = CIFARModel().model
     data = CIFAR(tag)
 
     sgd = SGD(lr=0.00, momentum=0.9, nesterov=False)
