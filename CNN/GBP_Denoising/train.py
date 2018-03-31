@@ -12,6 +12,7 @@ from keras.optimizers import SGD
 from keras.callbacks import LearningRateScheduler
 from keras.preprocessing.image import ImageDataGenerator
 import numpy as np
+import os
 
 import tensorflow as tf
 
@@ -59,4 +60,5 @@ def train(data, Model, file_name, num_epochs=50, batch_size=128, init=None):
     return model
 
 if __name__ == "__main__":
+    os.environ['CUDA_VISIBLE_DEVICES'] = '0'
     train(CIFAR('ORI'), CIFARModel, "models/cifar", num_epochs=300)
