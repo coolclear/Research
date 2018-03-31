@@ -5,6 +5,8 @@
 ## This program is licenced under the BSD 2-Clause licence,
 ## contained in the LICENCE file in this directory.
 
+## Modified by Yang Zhang <yz78@rice.edu>
+
 from setup_cifar import CIFAR, CIFARModel
 from keras.optimizers import SGD
 from keras.callbacks import LearningRateScheduler
@@ -57,4 +59,4 @@ def train(data, Model, file_name, num_epochs=50, batch_size=128, init=None):
     return model
 
 if __name__ == "__main__":
-    train(CIFAR(), CIFARModel, "models/cifar", num_epochs=300)
+    train(CIFAR('ORI'), CIFARModel, "models/cifar", num_epochs=300)
