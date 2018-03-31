@@ -15,14 +15,28 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Plot.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Plot.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/CNN/Tools/Plot.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="571">
-              <caret line="62" column="0" lean-forward="true" selection-start-line="62" selection-start-column="0" selection-end-line="62" selection-end-column="0" />
+            <state relative-caret-position="972">
+              <caret line="60" column="0" lean-forward="true" selection-start-line="60" selection-start-column="0" selection-end-line="60" selection-end-column="0" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
                 <element signature="e#173#733#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="shallow_CNN.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/CNN/Deep_Models/shallow_CNN.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="679">
+              <caret line="107" column="45" lean-forward="true" selection-start-line="107" selection-start-column="45" selection-end-line="107" selection-end-column="45" />
+              <folding>
+                <element signature="e#1223#1397#0" expanded="false" />
+                <element signature="e#1442#2010#0" expanded="false" />
+                <element signature="e#4992#5035#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -59,10 +73,10 @@
         <option value="$PROJECT_DIR$/CNN/Deep_Models/resnet.py" />
         <option value="$PROJECT_DIR$/CNN/Deep_Models/vgg16.py" />
         <option value="$PROJECT_DIR$/CNN/Deep_Models/small_CNN.py" />
-        <option value="$PROJECT_DIR$/CNN/Deep_Models/shallow_CNN.py" />
         <option value="$PROJECT_DIR$/CNN/Prepare_Model/__init__.py" />
         <option value="$PROJECT_DIR$/CNN/GBP_Denoising/prepare_data.py" />
         <option value="$PROJECT_DIR$/CNN/Tools/Plot.py" />
+        <option value="$PROJECT_DIR$/CNN/Deep_Models/shallow_CNN.py" />
       </list>
     </option>
   </component>
@@ -199,6 +213,24 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="CNN" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Research" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Research" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CNN" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Deep_Models" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -573,16 +605,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/CNN/Deep_Models/shallow_CNN.py">
+    <entry file="file://$PROJECT_DIR$/CNN/Tools/Plot.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="5" column="26" lean-forward="false" selection-start-line="5" selection-start-column="26" selection-end-line="5" selection-end-column="26" />
+        <state relative-caret-position="972">
+          <caret line="60" column="0" lean-forward="true" selection-start-line="60" selection-start-column="0" selection-end-line="60" selection-end-column="0" />
           <folding>
-            <element signature="e#1223#1397#0" expanded="false" />
-            <element signature="e#1442#2010#0" expanded="false" />
-            <element signature="e#2047#3607#0" expanded="false" />
-            <element signature="e#3643#4956#0" expanded="false" />
-            <element signature="e#4992#5035#0" expanded="false" />
+            <element signature="e#0#18#0" expanded="true" />
+            <element signature="e#173#733#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -597,13 +626,14 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/CNN/Tools/Plot.py">
+    <entry file="file://$PROJECT_DIR$/CNN/Deep_Models/shallow_CNN.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="571">
-          <caret line="62" column="0" lean-forward="true" selection-start-line="62" selection-start-column="0" selection-end-line="62" selection-end-column="0" />
+        <state relative-caret-position="679">
+          <caret line="107" column="45" lean-forward="true" selection-start-line="107" selection-start-column="45" selection-end-line="107" selection-end-column="45" />
           <folding>
-            <element signature="e#0#18#0" expanded="true" />
-            <element signature="e#173#733#0" expanded="false" />
+            <element signature="e#1223#1397#0" expanded="false" />
+            <element signature="e#1442#2010#0" expanded="false" />
+            <element signature="e#4992#5035#0" expanded="false" />
           </folding>
         </state>
       </provider>

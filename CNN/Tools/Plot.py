@@ -62,6 +62,7 @@ def grid_plot(grid_shape, image_list, title, save_dir, save_name):
             image = image_list[i * columns + j]
 
             ax.imshow(image)
+            ax.axis('off')
 
 
 
