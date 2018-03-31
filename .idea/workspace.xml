@@ -18,7 +18,7 @@
       <file leaf-file-name="Plot.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/CNN/Tools/Plot.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="972">
+            <state relative-caret-position="733">
               <caret line="60" column="0" lean-forward="true" selection-start-line="60" selection-start-column="0" selection-end-line="60" selection-end-column="0" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
@@ -32,11 +32,11 @@
         <entry file="file://$PROJECT_DIR$/CNN/Deep_Models/shallow_CNN.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="679">
-              <caret line="107" column="45" lean-forward="true" selection-start-line="107" selection-start-column="45" selection-end-line="107" selection-end-column="45" />
+              <caret line="140" column="44" lean-forward="true" selection-start-line="140" selection-start-column="44" selection-end-line="140" selection-end-column="44" />
               <folding>
                 <element signature="e#1223#1397#0" expanded="false" />
                 <element signature="e#1442#2010#0" expanded="false" />
-                <element signature="e#4992#5035#0" expanded="false" />
+                <element signature="e#4995#5038#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -45,7 +45,7 @@
       <file leaf-file-name="prepare_data.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/CNN/GBP_Denoising/prepare_data.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="813">
+            <state relative-caret-position="1299">
               <caret line="93" column="27" lean-forward="true" selection-start-line="93" selection-start-column="27" selection-end-line="93" selection-end-column="27" />
               <folding>
                 <element signature="e#1101#1843#0" expanded="false" />
@@ -406,8 +406,8 @@
             <element signature="e#1223#1397#0" expanded="false" />
             <element signature="e#1442#2010#0" expanded="false" />
             <element signature="e#2047#3607#0" expanded="false" />
-            <element signature="e#3643#4956#0" expanded="false" />
-            <element signature="e#4992#5035#0" expanded="false" />
+            <element signature="e#3643#4959#0" expanded="false" />
+            <element signature="e#4995#5038#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -430,8 +430,8 @@
             <element signature="e#1223#1397#0" expanded="false" />
             <element signature="e#1442#2010#0" expanded="false" />
             <element signature="e#2047#3607#0" expanded="false" />
-            <element signature="e#3643#4956#0" expanded="false" />
-            <element signature="e#4992#5035#0" expanded="false" />
+            <element signature="e#3643#4959#0" expanded="false" />
+            <element signature="e#4995#5038#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -465,8 +465,8 @@
             <element signature="e#1223#1397#0" expanded="false" />
             <element signature="e#1442#2010#0" expanded="false" />
             <element signature="e#2047#3607#0" expanded="false" />
-            <element signature="e#3643#4956#0" expanded="false" />
-            <element signature="e#4992#5035#0" expanded="false" />
+            <element signature="e#3643#4959#0" expanded="false" />
+            <element signature="e#4995#5038#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -486,8 +486,8 @@
             <element signature="e#1223#1397#0" expanded="false" />
             <element signature="e#1442#2010#0" expanded="false" />
             <element signature="e#2047#3607#0" expanded="false" />
-            <element signature="e#3643#4956#0" expanded="false" />
-            <element signature="e#4992#5035#0" expanded="false" />
+            <element signature="e#3643#4959#0" expanded="false" />
+            <element signature="e#4995#5038#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -607,7 +607,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/CNN/Tools/Plot.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="972">
+        <state relative-caret-position="733">
           <caret line="60" column="0" lean-forward="true" selection-start-line="60" selection-start-column="0" selection-end-line="60" selection-end-column="0" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
@@ -618,7 +618,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/CNN/GBP_Denoising/prepare_data.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="813">
+        <state relative-caret-position="1299">
           <caret line="93" column="27" lean-forward="true" selection-start-line="93" selection-start-column="27" selection-end-line="93" selection-end-column="27" />
           <folding>
             <element signature="e#1101#1843#0" expanded="false" />
@@ -629,11 +629,11 @@
     <entry file="file://$PROJECT_DIR$/CNN/Deep_Models/shallow_CNN.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="679">
-          <caret line="107" column="45" lean-forward="true" selection-start-line="107" selection-start-column="45" selection-end-line="107" selection-end-column="45" />
+          <caret line="140" column="44" lean-forward="true" selection-start-line="140" selection-start-column="44" selection-end-line="140" selection-end-column="44" />
           <folding>
             <element signature="e#1223#1397#0" expanded="false" />
             <element signature="e#1442#2010#0" expanded="false" />
-            <element signature="e#4992#5035#0" expanded="false" />
+            <element signature="e#4995#5038#0" expanded="false" />
           </folding>
         </state>
       </provider>
