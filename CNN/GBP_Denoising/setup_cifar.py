@@ -25,6 +25,8 @@ from keras.layers import Dropout
 class CIFAR:
     def __init__(self, tag):
 
+        num_classes = 10
+
         if tag == "ORI":
             (x_train, y_train), (x_test, y_test) = cifar10.load_data()
         elif tag == "GBP":
@@ -35,9 +37,9 @@ class CIFAR:
             print('Cannot recognize this indicator, initialization failed ... ')
 
         self.validation_data = x_test
-        self.validation_labels = y_test
+        self.validation_labels = keras.utils.to_categorical(y_test, num_classes)
         self.train_data = x_train
-        self.train_labels = y_train
+        self.train_labels = keras.utils.to_categorical(y_train, num_classes)
 
 class CIFARModel:
 
