@@ -25,6 +25,9 @@ def main():
               np.mean(np.argmax(model.predict(data_gbp.test_data), axis=1) == np.argmax(data_gbp.test_labels,
                                                                                         axis=1)))
 
+        print('Trained on GBP and Test on ORI(Train):',
+              np.mean(np.argmax(model.predict(data_ori.train_data), axis=1) == np.argmax(data_ori.train_labels,
+                                                                                         axis=1)))
         print('Trained on GBP and Test on ORI(Test):',
               np.mean(
                   np.argmax(model.predict(data_ori.test_data), axis=1) == np.argmax(data_ori.test_labels, axis=1)))
