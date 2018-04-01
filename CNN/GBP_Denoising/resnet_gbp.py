@@ -9,7 +9,7 @@
 ## Modified by Yang Zhang <yz78@rice.edu>
 
 import sys
-sys.path.append('/home/yang/Research/CNN/Prepare_Model/')
+sys.path.append('/home/yang/Research/CNN/Prepare_Model')
 
 import tensorflow as tf
 import numpy as np
