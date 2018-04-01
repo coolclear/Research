@@ -20,6 +20,7 @@ import numpy as np
 from keras.datasets import cifar10
 
 from resnet import ResnetBuilder
+from resnet_gbp import ResnetBuilder_gbp
 from keras.layers import Dropout
 
 class CIFAR:
@@ -43,14 +44,18 @@ class CIFAR:
 
 class CIFARModel:
 
-    def __init__(self, restore=None, session=None, Dropout=Dropout, num_labels=10):
+    def __init__(self, restore=None, session=None, Dropout=Dropout, num_labels=10, end2end=False):
 
         self.num_channels = 3
         self.image_size = 32
         self.num_labels = num_labels
 
-        model = ResnetBuilder.build_resnet_32((3, 32, 32), num_labels, activation=False,
-                                              Dropout=Dropout)
+        if end2end == False:
+            model = ResnetBuilder.build_resnet_32((3, 32, 32), num_labels, activation=False,
+                                                  Dropout=Dropout)
+        else:
+            model = ResnetBuilder_gbp.build_resnet_32((3, 32, 32), num_labels, activation=False,
+                                                  Dropout=Dropout)
 
         if restore != None:
             model.load_weights(restore)

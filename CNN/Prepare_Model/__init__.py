@@ -170,12 +170,12 @@ def prepare_keras_resnet50(sal_type, init, sess):
 
     return resnet50
 
-def prepare_GBP_shallow_CNN(sess, input_dim=224, output_dim=100):
+def prepare_GBP_shallow_CNN(inputPH=None, sess=None, input_dim=32, output_dim=100):
 
     eval_graph = tf.get_default_graph()
 
     with eval_graph.gradient_override_map({'Relu': 'GuidedRelu'}):
-        return Shallow_CNN(sess=sess, input_dim=input_dim, output_dim=output_dim)
+        return Shallow_CNN(inputPH=inputPH, sess=sess, input_dim=input_dim, output_dim=output_dim)
 
 
 

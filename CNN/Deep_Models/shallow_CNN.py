@@ -5,9 +5,9 @@ sys.path.append('/home/yang/Research/')
 
 class Shallow_CNN(object):
 
-    def __init__(self, sess=None,
+    def __init__(self, inputPH=None, sess=None,
                  act_type='relu', pool_type='maxpool', trainable=False,
-                 input_dim=224, output_dim=100):
+                 input_dim=32, output_dim=100):
 
         self.act_type = act_type
         self.pool_type = pool_type
@@ -20,8 +20,13 @@ class Shallow_CNN(object):
 
         # zero-mean input
         with tf.name_scope('input') as scope:
-            self.images = tf.placeholder(tf.float32, [None, self.input_dim, self.input_dim, 3])
-            self.layers_dic['images'] = self.images
+            if inputPH == None:
+                self.images = tf.placeholder(tf.float32, [None, self.input_dim, self.input_dim, 3])
+                self.layers_dic['images'] = self.images
+            else:
+                print('Using given input placeholder')
+                self.images = inputPH
+                self.layers_dic['images'] = self.images
 
         with tf.name_scope('output') as scope:
             self.labels = tf.placeholder(tf.float32, [None, self.output_dim])

@@ -5,6 +5,7 @@ def main():
 
     tag = "ORI"
     model = CIFARModel("Models/CIFAR10_{}".format(tag)).model
+
     data_gbp = CIFAR("GBP")
     data_ori = CIFAR("ORI")
 
