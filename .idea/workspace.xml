@@ -15,11 +15,51 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="prepare_data.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="__init__.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/CNN/Prepare_Model/__init__.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="378">
+              <caret line="15" column="30" lean-forward="true" selection-start-line="15" selection-start-column="30" selection-end-line="15" selection-end-column="30" />
+              <folding>
+                <element signature="e#0#23#0" expanded="true" />
+                <element signature="e#826#2279#0" expanded="false" />
+                <element signature="e#2350#3245#0" expanded="false" />
+                <element signature="e#3299#4336#0" expanded="false" />
+                <element signature="e#4393#5497#0" expanded="false" />
+                <element signature="e#5588#5790#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="resnet_gbp.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/CNN/GBP_Denoising/resnet_gbp.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="651">
+              <caret line="28" column="32" lean-forward="true" selection-start-line="28" selection-start-column="32" selection-end-line="28" selection-end-column="32" />
+              <folding>
+                <element signature="e#367#377#0" expanded="true" />
+                <element signature="e#1421#1558#0" expanded="false" />
+                <element signature="e#1582#1658#0" expanded="false" />
+                <element signature="e#1698#2421#0" expanded="false" />
+                <element signature="e#2458#3172#0" expanded="false" />
+                <element signature="e#3212#4029#0" expanded="false" />
+                <element signature="e#4067#5179#0" expanded="false" />
+                <element signature="e#5266#5785#0" expanded="false" />
+                <element signature="e#5875#6725#0" expanded="false" />
+                <element signature="e#6759#7001#0" expanded="false" />
+                <element signature="e#7035#7242#0" expanded="false" />
+                <element signature="e#10721#10936#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="prepare_data.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/CNN/GBP_Denoising/prepare_data.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="599">
-              <caret line="70" column="45" lean-forward="false" selection-start-line="70" selection-start-column="41" selection-end-line="70" selection-end-column="45" />
+            <state relative-caret-position="243">
+              <caret line="9" column="0" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="49" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
                 <element signature="e#398#1062#0" expanded="false" />
@@ -29,19 +69,12 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="__init__.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/CNN/Prepare_Model/__init__.py">
+      <file leaf-file-name="setup_cifar.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/CNN/GBP_Denoising/setup_cifar.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="11" column="23" lean-forward="false" selection-start-line="11" selection-start-column="23" selection-end-line="11" selection-end-column="23" />
-              <folding>
-                <element signature="e#0#23#0" expanded="true" />
-                <element signature="e#826#2279#0" expanded="false" />
-                <element signature="e#2350#3245#0" expanded="false" />
-                <element signature="e#3299#4336#0" expanded="false" />
-                <element signature="e#4393#5497#0" expanded="false" />
-                <element signature="e#5588#5790#0" expanded="false" />
-              </folding>
+            <state relative-caret-position="594">
+              <caret line="22" column="0" lean-forward="true" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -77,10 +110,10 @@
         <option value="$PROJECT_DIR$/CNN/Deep_Models/shallow_CNN.py" />
         <option value="$PROJECT_DIR$/CNN/Prepare_Model/__init__.py" />
         <option value="$PROJECT_DIR$/CNN/GBP_Denoising/train_end2end.py" />
-        <option value="$PROJECT_DIR$/CNN/GBP_Denoising/resnet_gbp.py" />
         <option value="$PROJECT_DIR$/CNN/GBP_Denoising/resnet_ori.py" />
         <option value="$PROJECT_DIR$/CNN/GBP_Denoising/setup_cifar.py" />
         <option value="$PROJECT_DIR$/CNN/GBP_Denoising/prepare_data.py" />
+        <option value="$PROJECT_DIR$/CNN/GBP_Denoising/resnet_gbp.py" />
       </list>
     </option>
   </component>
@@ -815,28 +848,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/CNN/GBP_Denoising/resnet_gbp.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="432">
-          <caret line="16" column="0" lean-forward="true" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
-          <folding>
-            <element signature="e#367#377#0" expanded="true" />
-            <element signature="e#1327#1464#0" expanded="false" />
-            <element signature="e#1488#1564#0" expanded="false" />
-            <element signature="e#1604#2327#0" expanded="false" />
-            <element signature="e#2364#3078#0" expanded="false" />
-            <element signature="e#3118#3935#0" expanded="false" />
-            <element signature="e#3973#5085#0" expanded="false" />
-            <element signature="e#5172#5691#0" expanded="false" />
-            <element signature="e#5781#6631#0" expanded="false" />
-            <element signature="e#6665#6907#0" expanded="false" />
-            <element signature="e#6941#7148#0" expanded="false" />
-            <element signature="e#7199#7971#0" expanded="false" />
-            <element signature="e#10627#10842#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/CNN/GBP_Denoising/resnet_ori.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="651">
@@ -859,20 +870,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/CNN/GBP_Denoising/setup_cifar.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1539">
-          <caret line="57" column="35" lean-forward="false" selection-start-line="57" selection-start-column="35" selection-end-line="57" selection-end-column="35" />
-          <folding>
-            <element signature="e#280#303#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/CNN/Prepare_Model/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="11" column="23" lean-forward="false" selection-start-line="11" selection-start-column="23" selection-end-line="11" selection-end-column="23" />
+        <state relative-caret-position="378">
+          <caret line="15" column="30" lean-forward="true" selection-start-line="15" selection-start-column="30" selection-end-line="15" selection-end-column="30" />
           <folding>
             <element signature="e#0#23#0" expanded="true" />
             <element signature="e#826#2279#0" expanded="false" />
@@ -884,14 +885,43 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/CNN/GBP_Denoising/setup_cifar.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="594">
+          <caret line="22" column="0" lean-forward="true" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/CNN/GBP_Denoising/prepare_data.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="599">
-          <caret line="70" column="45" lean-forward="false" selection-start-line="70" selection-start-column="41" selection-end-line="70" selection-end-column="45" />
+        <state relative-caret-position="243">
+          <caret line="9" column="0" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="49" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
             <element signature="e#398#1062#0" expanded="false" />
             <element signature="e#1102#1844#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CNN/GBP_Denoising/resnet_gbp.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="651">
+          <caret line="28" column="32" lean-forward="true" selection-start-line="28" selection-start-column="32" selection-end-line="28" selection-end-column="32" />
+          <folding>
+            <element signature="e#367#377#0" expanded="true" />
+            <element signature="e#1421#1558#0" expanded="false" />
+            <element signature="e#1582#1658#0" expanded="false" />
+            <element signature="e#1698#2421#0" expanded="false" />
+            <element signature="e#2458#3172#0" expanded="false" />
+            <element signature="e#3212#4029#0" expanded="false" />
+            <element signature="e#4067#5179#0" expanded="false" />
+            <element signature="e#5266#5785#0" expanded="false" />
+            <element signature="e#5875#6725#0" expanded="false" />
+            <element signature="e#6759#7001#0" expanded="false" />
+            <element signature="e#7035#7242#0" expanded="false" />
+            <element signature="e#10721#10936#0" expanded="false" />
           </folding>
         </state>
       </provider>
