@@ -213,7 +213,7 @@ def gbp_reconstruction(keras_input_tensor):
     tfOp_gbp_divmax = tf.map_fn(lambda img: img / tf.reduce_max(img), tfOp_gbp_submin)
     tfOp_gbp_255 = tf.map_fn(lambda img: tf.cast(img * 255, tf.int32), tfOp_gbp_divmax, dtype=tf.int32)
 
-    return tfOp_gbp_255
+    return tf.cast(tfOp_gbp_255, tf.float32)
 
 class ResnetBuilder_gbp(object):
     @staticmethod
