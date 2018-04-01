@@ -15,11 +15,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="train.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="train.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/CNN/GBP_Denoising/train.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="678">
-              <caret line="55" column="41" lean-forward="false" selection-start-line="55" selection-start-column="24" selection-end-line="55" selection-end-column="41" />
+              <caret line="55" column="40" lean-forward="false" selection-start-line="55" selection-start-column="40" selection-end-line="55" selection-end-column="40" />
               <folding>
                 <element signature="e#274#315#0" expanded="true" />
               </folding>
@@ -27,7 +27,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="interchangeability.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="interchangeability.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/CNN/GBP_Denoising/interchangeability.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="729">
@@ -103,8 +103,8 @@
         <option value="$PROJECT_DIR$/CNN/GBP_Denoising/LICENSE" />
         <option value="$PROJECT_DIR$/CNN/GBP_Denoising/setup_cifar.py" />
         <option value="$PROJECT_DIR$/CNN/GBP_Denoising/test_attack.py" />
-        <option value="$PROJECT_DIR$/CNN/GBP_Denoising/train.py" />
         <option value="$PROJECT_DIR$/CNN/GBP_Denoising/interchangeability.py" />
+        <option value="$PROJECT_DIR$/CNN/GBP_Denoising/train.py" />
       </list>
     </option>
   </component>
@@ -761,22 +761,22 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/CNN/GBP_Denoising/train.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="678">
-          <caret line="55" column="41" lean-forward="false" selection-start-line="55" selection-start-column="24" selection-end-line="55" selection-end-column="41" />
-          <folding>
-            <element signature="e#274#315#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/CNN/GBP_Denoising/interchangeability.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="729">
           <caret line="30" column="0" lean-forward="true" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CNN/GBP_Denoising/train.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="678">
+          <caret line="55" column="40" lean-forward="false" selection-start-line="55" selection-start-column="40" selection-end-line="55" selection-end-column="40" />
+          <folding>
+            <element signature="e#274#315#0" expanded="true" />
           </folding>
         </state>
       </provider>
