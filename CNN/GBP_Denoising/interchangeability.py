@@ -3,7 +3,7 @@ from setup_cifar import CIFAR, CIFARModel
 
 def main():
 
-    tag = "GBP"
+    tag = "ORI"
     model = CIFARModel("Models/CIFAR10_{}".format(tag)).model
     data_gbp = CIFAR("GBP")
     data_ori = CIFAR("ORI")
