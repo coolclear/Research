@@ -206,7 +206,7 @@ def gbp_reconstruction(keras_input_tensor):
 
     # random_index = np.random.choice(100, 1)  # not really random, will be fixed with the graph
 
-    index = tf.random_uniform([1], minval=0, maxval=100, dtype=tf.int32, name='random logit')
+    index = tf.random_uniform([1], minval=0, maxval=100, dtype=tf.int32)
 
     tfOp_gbp_raw = tf.gradients(logits[:, index[0]], tf_input)[0] # raw gbp reconstruction
 

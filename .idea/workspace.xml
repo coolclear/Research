@@ -18,8 +18,8 @@
       <file leaf-file-name="resnet_gbp.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/CNN/GBP_Denoising/resnet_gbp.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="579">
-              <caret line="211" column="0" lean-forward="true" selection-start-line="211" selection-start-column="0" selection-end-line="211" selection-end-column="0" />
+            <state relative-caret-position="498">
+              <caret line="208" column="71" lean-forward="false" selection-start-line="208" selection-start-column="71" selection-end-line="208" selection-end-column="71" />
               <folding>
                 <element signature="e#367#377#0" expanded="true" />
                 <element signature="e#1419#1556#0" expanded="false" />
@@ -432,7 +432,7 @@
         <state relative-caret-position="1299">
           <caret line="93" column="27" lean-forward="true" selection-start-line="93" selection-start-column="27" selection-end-line="93" selection-end-column="27" />
           <folding>
-            <element signature="e#0#10#0" expanded="true" />
+            <element signature="e#0#10#0" expanded="false" />
             <element signature="e#398#1062#0" expanded="false" />
             <element signature="e#1102#1844#0" expanded="false" />
           </folding>
@@ -457,7 +457,7 @@
         <state relative-caret-position="990">
           <caret line="93" column="27" lean-forward="false" selection-start-line="93" selection-start-column="27" selection-end-line="93" selection-end-column="27" />
           <folding>
-            <element signature="e#0#10#0" expanded="true" />
+            <element signature="e#0#10#0" expanded="false" />
             <element signature="e#398#1062#0" expanded="false" />
             <element signature="e#1102#1844#0" expanded="false" />
           </folding>
@@ -476,7 +476,7 @@
         <state relative-caret-position="990">
           <caret line="93" column="27" lean-forward="true" selection-start-line="93" selection-start-column="27" selection-end-line="93" selection-end-column="27" />
           <folding>
-            <element signature="e#0#10#0" expanded="true" />
+            <element signature="e#0#10#0" expanded="false" />
             <element signature="e#398#1062#0" expanded="false" />
             <element signature="e#1102#1844#0" expanded="false" />
           </folding>
@@ -501,7 +501,7 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#0#10#0" expanded="true" />
+            <element signature="e#0#10#0" expanded="false" />
             <element signature="e#398#1062#0" expanded="false" />
             <element signature="e#1102#1844#0" expanded="false" />
           </folding>
@@ -526,7 +526,7 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#0#10#0" expanded="true" />
+            <element signature="e#0#10#0" expanded="false" />
             <element signature="e#398#1062#0" expanded="false" />
             <element signature="e#1102#1844#0" expanded="false" />
           </folding>
@@ -748,7 +748,7 @@
         <state relative-caret-position="378">
           <caret line="15" column="30" lean-forward="false" selection-start-line="15" selection-start-column="30" selection-end-line="15" selection-end-column="30" />
           <folding>
-            <element signature="e#0#23#0" expanded="true" />
+            <element signature="e#0#23#0" expanded="false" />
             <element signature="e#826#2279#0" expanded="false" />
             <element signature="e#2350#3245#0" expanded="false" />
             <element signature="e#3299#4336#0" expanded="false" />
@@ -763,7 +763,7 @@
         <state relative-caret-position="216">
           <caret line="9" column="0" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="49" />
           <folding>
-            <element signature="e#0#10#0" expanded="true" />
+            <element signature="e#0#10#0" expanded="false" />
             <element signature="e#398#1062#0" expanded="false" />
             <element signature="e#1102#1844#0" expanded="false" />
           </folding>
@@ -832,8 +832,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/CNN/GBP_Denoising/resnet_gbp.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="579">
-          <caret line="211" column="0" lean-forward="true" selection-start-line="211" selection-start-column="0" selection-end-line="211" selection-end-column="0" />
+        <state relative-caret-position="498">
+          <caret line="208" column="71" lean-forward="false" selection-start-line="208" selection-start-column="71" selection-end-line="208" selection-end-column="71" />
           <folding>
             <element signature="e#367#377#0" expanded="true" />
             <element signature="e#1419#1556#0" expanded="false" />
