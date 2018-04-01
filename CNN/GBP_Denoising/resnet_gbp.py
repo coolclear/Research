@@ -204,9 +204,11 @@ def gbp_reconstruction(keras_input_tensor):
 
     logits = shallow_CNN.logits  # get the logits we need
 
-    random_index = np.random.choice(100, 1)  # not really random, will be fixed with the graph
+    # random_index = np.random.choice(100, 1)  # not really random, will be fixed with the graph
 
-    tfOp_gbp_raw = tf.gradients(logits[:, random_index], tf_input)[0] # raw gbp reconstruction
+    index = tf.random_uniform([1], minval=0, maxval=100, dtype=tf.int32, name='random logit')
+
+    tfOp_gbp_raw = tf.gradients(logits[:, index[0]], tf_input)[0] # raw gbp reconstruction
 
     # normalizations
     tfOp_gbp_submin = tf.map_fn(lambda img: img - tf.reduce_min(img), tfOp_gbp_raw)
