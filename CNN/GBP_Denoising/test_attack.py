@@ -5,30 +5,14 @@
 ## This program is licenced under the BSD 2-Clause licence,
 ## contained in the LICENCE file in this directory.
 
+## Modified by Yang Zhang <yz78@rice.edu>
+
 import tensorflow as tf
 import numpy as np
 import time
 
 from setup_cifar import CIFAR, CIFARModel
-from setup_mnist import MNIST, MNISTModel
-from setup_inception import ImageNet, InceptionModel
-
 from l2_attack import CarliniL2
-from l0_attack import CarliniL0
-from li_attack import CarliniLi
-
-
-def show(img):
-    """
-    Show MNSIT digits in the console.
-    """
-    remap = "  .*#" + "#" * 100
-    img = (img.flatten() + .5) * 3
-    if len(img) != 784: return
-    print("START")
-    for i in range(28):
-        print("".join([remap[int(round(x))] for x in img[i * 28:i * 28 + 28]]))
-
 
 def generate_data(data, samples, targeted=True, start=0, inception=False):
     """
@@ -64,11 +48,14 @@ def generate_data(data, samples, targeted=True, start=0, inception=False):
 
 
 if __name__ == "__main__":
+
     with tf.Session() as sess:
-        data, model = MNIST(), MNISTModel("models/mnist", sess)
+
+        data, model = CIFAR("ORI"), CIFARModel("Models/CIFAR10_ORI", sess)
+
         attack = CarliniL2(sess, model, batch_size=9, max_iterations=1000, confidence=0)
 
-        inputs, targets = generate_data(data, samples=1, targeted=True,
+        inputs, targets = generate_data(data, samples=100, targeted=True,
                                         start=0, inception=False)
         timestart = time.time()
         adv = attack.attack(inputs, targets)
@@ -77,10 +64,6 @@ if __name__ == "__main__":
         print("Took", timeend - timestart, "seconds to run", len(inputs), "samples.")
 
         for i in range(len(adv)):
-            print("Valid:")
-            show(inputs[i])
-            print("Adversarial:")
-            show(adv[i])
 
             print("Classification:", model.model.predict(adv[i:i + 1]))
 

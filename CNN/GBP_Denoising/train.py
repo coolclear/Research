@@ -16,7 +16,6 @@ import os
 
 import tensorflow as tf
 
-
 def fn(correct, predicted):
     return tf.nn.softmax_cross_entropy_with_logits(labels=correct,
                                                    logits=predicted)
@@ -26,7 +25,7 @@ def get_lr(epoch):
 def main():
 
     batch_size = 128
-    tag = "GBP"
+    tag = "ORI"
 
     model = CIFARModel().model
     data = CIFAR(tag)
