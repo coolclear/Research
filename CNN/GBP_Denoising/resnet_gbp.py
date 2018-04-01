@@ -281,6 +281,6 @@ class ResnetBuilder_gbp(object):
     @staticmethod
     def build_resnet_32(input_shape, num_outputs, with_detector=None,
                         activation=True, Dropout=Dropout):
-        return ResnetBuilder.build(input_shape, num_outputs, basic_block, [5, 5, 5],
+        return ResnetBuilder_gbp.build(input_shape, num_outputs, basic_block, [5, 5, 5],
                                    with_detector=with_detector, activation=activation,
                                    Dropout=Dropout)
