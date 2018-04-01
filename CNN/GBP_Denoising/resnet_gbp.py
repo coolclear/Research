@@ -19,8 +19,6 @@ import numpy as np
 from Prepare_Model import prepare_GBP_shallow_CNN
 
 
-
-
 from keras.preprocessing.image import ImageDataGenerator
 from keras.models import Model
 from keras.layers import Input, merge
