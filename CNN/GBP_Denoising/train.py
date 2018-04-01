@@ -24,7 +24,7 @@ def get_lr(epoch):
 
 def main():
 
-    batch_size = 256
+    batch_size = 128
     tag = "GBP"
 
     model = CIFARModel().model
