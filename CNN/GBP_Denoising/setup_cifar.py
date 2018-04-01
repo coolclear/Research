@@ -19,7 +19,7 @@ import pickle as pkl
 import numpy as np
 from keras.datasets import cifar10
 
-from resnet import ResnetBuilder
+from resnet_ori import ResnetBuilder_ori
 from resnet_gbp import ResnetBuilder_gbp
 from keras.layers import Dropout
 
@@ -51,7 +51,7 @@ class CIFARModel:
         self.num_labels = num_labels
 
         if end2end == False:
-            model = ResnetBuilder.build_resnet_32((3, 32, 32), num_labels, activation=False,
+            model = ResnetBuilder_ori.build_resnet_32((3, 32, 32), num_labels, activation=False,
                                                   Dropout=Dropout)
         else:
             model = ResnetBuilder_gbp.build_resnet_32((3, 32, 32), num_labels, activation=False,

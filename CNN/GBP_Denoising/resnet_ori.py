@@ -172,7 +172,7 @@ def _get_block(identifier):
     return identifier
 
 
-class ResnetBuilder(object):
+class ResnetBuilder_ori(object):
     @staticmethod
     def build(input_shape, num_outputs, block_fn, repetitions, with_detector=None, 
               activation=True, Dropout=Dropout):
