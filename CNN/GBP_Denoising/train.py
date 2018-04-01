@@ -49,11 +49,10 @@ def main():
     model.fit_generator(datagen.flow(data.train_data, data.train_labels,
                                      batch_size=batch_size),
                         steps_per_epoch=data.train_data.shape[0] // batch_size,
-                        epochs=10,
+                        epochs=5,
                         verbose=1,
+                        validation_data=(data.test_data, data.test_labels),
                         callbacks=[schedule])
-
-    print('Test accuracy:', np.mean(np.argmax(model.predict(data.test_data),axis=1)==np.argmax(data.test_labels,axis=1)))
 
     model.save_weights('Models/{}'.format(tag))
 
