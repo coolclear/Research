@@ -198,7 +198,7 @@ def _get_block(identifier):
 
 def gbp_reconstruction(keras_input_tensor):
 
-    tf_input = keras_input_tensor.output  # get the real tensor out of the keras layer wrap
+    tf_input = keras_input_tensor  # get the real tensor out of the keras layer wrap
 
     shallow_CNN = prepare_GBP_shallow_CNN(inputPH=tf_input)  # create a shallow CNN for the GBP reconstruction
 

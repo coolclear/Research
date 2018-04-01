@@ -32,11 +32,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="resnet_gbp.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="resnet_gbp.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/CNN/GBP_Denoising/resnet_gbp.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="838">
-              <caret line="283" column="32" lean-forward="false" selection-start-line="283" selection-start-column="32" selection-end-line="283" selection-end-column="32" />
+            <state relative-caret-position="627">
+              <caret line="200" column="33" lean-forward="true" selection-start-line="200" selection-start-column="33" selection-end-line="200" selection-end-column="33" />
               <folding>
                 <element signature="e#367#377#0" expanded="true" />
                 <element signature="e#1419#1556#0" expanded="false" />
@@ -49,14 +49,13 @@
                 <element signature="e#5873#6723#0" expanded="false" />
                 <element signature="e#6757#6999#0" expanded="false" />
                 <element signature="e#7033#7240#0" expanded="false" />
-                <element signature="e#7291#8063#0" expanded="false" />
-                <element signature="e#8257#10562#0" expanded="false" />
+                <element signature="e#8250#10555#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="interchangeability.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="interchangeability.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/CNN/GBP_Denoising/interchangeability.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="108">
@@ -148,8 +147,8 @@
         <option value="$PROJECT_DIR$/CNN/GBP_Denoising/setup_cifar.py" />
         <option value="$PROJECT_DIR$/CNN/GBP_Denoising/prepare_data.py" />
         <option value="$PROJECT_DIR$/CNN/GBP_Denoising/resnet_ori.py" />
-        <option value="$PROJECT_DIR$/CNN/GBP_Denoising/resnet_gbp.py" />
         <option value="$PROJECT_DIR$/CNN/GBP_Denoising/interchangeability.py" />
+        <option value="$PROJECT_DIR$/CNN/GBP_Denoising/resnet_gbp.py" />
       </list>
     </option>
   </component>
@@ -932,10 +931,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/CNN/GBP_Denoising/interchangeability.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="108">
+          <caret line="5" column="14" lean-forward="false" selection-start-line="5" selection-start-column="14" selection-end-line="5" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/CNN/GBP_Denoising/resnet_gbp.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="838">
-          <caret line="283" column="32" lean-forward="false" selection-start-line="283" selection-start-column="32" selection-end-line="283" selection-end-column="32" />
+        <state relative-caret-position="627">
+          <caret line="200" column="33" lean-forward="true" selection-start-line="200" selection-start-column="33" selection-end-line="200" selection-end-column="33" />
           <folding>
             <element signature="e#367#377#0" expanded="true" />
             <element signature="e#1419#1556#0" expanded="false" />
@@ -948,17 +955,8 @@
             <element signature="e#5873#6723#0" expanded="false" />
             <element signature="e#6757#6999#0" expanded="false" />
             <element signature="e#7033#7240#0" expanded="false" />
-            <element signature="e#7291#8063#0" expanded="false" />
-            <element signature="e#8257#10562#0" expanded="false" />
+            <element signature="e#8250#10555#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CNN/GBP_Denoising/interchangeability.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="108">
-          <caret line="5" column="14" lean-forward="false" selection-start-line="5" selection-start-column="14" selection-end-line="5" selection-end-column="14" />
-          <folding />
         </state>
       </provider>
     </entry>
