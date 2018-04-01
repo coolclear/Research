@@ -12,8 +12,8 @@ import tensorflow as tf
 import numpy as np
 import os
 import sys
-sys.path.append('/home/yang/Research/CNN/Prepare_Model')
-from Prepare_Model import prepare_GBP_shallow_CNN
+sys.path.append('/home/yang/Research/CNN/Prepare_Model/')
+
 
 from keras.preprocessing.image import ImageDataGenerator
 from keras.models import Model
@@ -22,6 +22,7 @@ from keras.layers import Dense, Activation, Flatten, BatchNormalization, Dropout
 from keras.layers import Convolution2D, MaxPooling2D, ZeroPadding2D, AveragePooling2D
 from keras.optimizers import SGD
 from keras.callbacks import LearningRateScheduler
+from Prepare_Model import prepare_GBP_shallow_CNN
 
 import six
 from keras.models import Model
