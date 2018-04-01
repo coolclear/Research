@@ -36,8 +36,8 @@ class CIFAR:
         else:
             print('Cannot recognize this indicator, initialization failed ... ')
 
-        self.validation_data = x_test
-        self.validation_labels = keras.utils.to_categorical(y_test, num_classes)
+        self.test_data = x_test
+        self.test_labels = keras.utils.to_categorical(y_test, num_classes)
         self.train_data = x_train
         self.train_labels = keras.utils.to_categorical(y_train, num_classes)
 
