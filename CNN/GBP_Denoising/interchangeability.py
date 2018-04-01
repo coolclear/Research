@@ -3,7 +3,7 @@ from setup_cifar import CIFAR, CIFARModel
 
 def main():
 
-    tag = "GBP"
+    tag = "End2End"
     model = CIFARModel("Models/CIFAR10_{}".format(tag)).model
 
     data_gbp = CIFAR("GBP")
@@ -44,6 +44,25 @@ def main():
         print('Trained on GBP and Test on ORI(Test):',
               np.mean(
                   np.argmax(model.predict(data_ori.test_data), axis=1) == np.argmax(data_ori.test_labels, axis=1)))
+
+    # trained on ORI, our End2End system
+    if tag == "End2End":
+
+        print('End2End Training Accuracy on ORI:',
+              np.mean(np.argmax(model.predict(data_ori.train_data), axis=1) == np.argmax(data_ori.train_labels,
+                                                                                         axis=1)))
+
+        print('End2End Testing Accuracy on ORI:',
+              np.mean(np.argmax(model.predict(data_ori.test_data), axis=1) == np.argmax(data_ori.test_labels,
+                                                                                        axis=1)))
+
+        print('End2End Accuracy on GBP(Train):',
+              np.mean(np.argmax(model.predict(data_gbp.train_data), axis=1) == np.argmax(data_gbp.train_labels,
+                                                                                         axis=1)))
+        print('End2End Accuracy on GBP(Test):',
+              np.mean(
+                  np.argmax(model.predict(data_gbp.test_data), axis=1) == np.argmax(data_gbp.test_labels, axis=1)))
+
 
 if __name__ == "__main__":
     main()
