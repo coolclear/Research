@@ -68,7 +68,7 @@ def main():
 
     # prepare a randomly initialized shallow CNN with the gradient has been overwritten to "GBP"
     # in terms of the GBP reconstruction, this model can be any as long as it's a ConvNet.
-    model = prepare_GBP_shallow_CNN(sess, input_dim=32, output_dim=output_dim)
+    model = prepare_GBP_shallow_CNN(sess=sess, output_dim=output_dim)
 
     # tf operation for GBP reconstruction
     tfOp_gbp_reconstruction = GBP_Reconstruction(model, output_dim)
