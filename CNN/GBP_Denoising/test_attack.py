@@ -53,7 +53,7 @@ if __name__ == "__main__":
 
         data, model = CIFAR("ORI"), CIFARModel(restore="Models/CIFAR10_End2End", end2end=True)
 
-        attack = CarliniL2(sess, model, batch_size=16, max_iterations=1000, confidence=0)
+        attack = CarliniL2(sess, model, batch_size=9, max_iterations=1000, confidence=0)
 
         inputs, targets = generate_data(data, samples=1, targeted=True,
                                         start=0, inception=False)
