@@ -25,7 +25,7 @@ def get_lr(epoch):
 def main():
 
     batch_size = 128
-    iterations = 100
+    iterations = 10
 
     data = CIFAR("ORI")
 
@@ -45,8 +45,6 @@ def main():
         print("Iterations = {}".format(iterations))
 
         model = CIFARModel(restore="Models/CIFAR10_End2End", end2end=True).model
-
-        print(tf.get_variable("lambda_1"))
 
         model.compile(loss=fn,
                       optimizer=sgd,
