@@ -27,7 +27,7 @@ def main():
     batch_size = 128
 
     model = CIFARModel(restore="Models/CIFAR10_End2End", end2end=True).model
-    print(model.layers)
+    print([layer.name] for layer in model.layers)
     data = CIFAR("ORI")
 
     sgd = SGD(lr=0.00, momentum=0.9, nesterov=False)
