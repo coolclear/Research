@@ -196,7 +196,7 @@ def _get_block(identifier):
         return res
     return identifier
 
-def gbp_reconstruction(keras_input_tensor, sess=None):
+def gbp_reconstruction(keras_input_tensor, sess):
 
     tf_input = keras_input_tensor  # get the real tensor out of the keras layer wrap
 
