@@ -45,8 +45,6 @@ from keras.layers.normalization import BatchNormalization
 from keras.regularizers import l2
 from keras import backend as K
 
-glo_sess = None
-
 def _bn_relu(input):
     """Helper to build a BN -> relu block
     """
@@ -202,7 +200,7 @@ def gbp_reconstruction(keras_input_tensor):
 
     tf_input = keras_input_tensor  # get the real tensor out of the keras layer wrap
 
-    shallow_CNN = prepare_GBP_shallow_CNN(inputPH=tf_input, sess=glo_sess)  # create a shallow CNN for the GBP reconstruction
+    shallow_CNN = prepare_GBP_shallow_CNN(inputPH=tf_input)  # create a shallow CNN for the GBP reconstruction
 
     logits = shallow_CNN.logits  # get the logits we need
 
@@ -222,7 +220,7 @@ def gbp_reconstruction(keras_input_tensor):
 class ResnetBuilder_gbp(object):
     @staticmethod
     def build(input_shape, num_outputs, block_fn, repetitions, with_detector=None, 
-              activation=True, Dropout=Dropout, sess=None):
+              activation=True, Dropout=Dropout):
         """Builds a custom ResNet like architecture.
 
         Args:
@@ -236,8 +234,6 @@ class ResnetBuilder_gbp(object):
         Returns:
             The keras `Model`.
         """
-
-        glo_sess = sess
 
         _handle_dim_ordering()
         if len(input_shape) != 3:
@@ -290,4 +286,4 @@ class ResnetBuilder_gbp(object):
                         activation=True, Dropout=Dropout, sess=None):
         return ResnetBuilder_gbp.build(input_shape, num_outputs, basic_block, [5, 5, 5],
                                    with_detector=with_detector, activation=activation,
-                                   Dropout=Dropout, sess=sess)
+                                   Dropout=Dropout)
