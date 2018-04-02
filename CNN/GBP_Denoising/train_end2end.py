@@ -46,7 +46,7 @@ def main():
 
         model = CIFARModel(restore="Models/CIFAR10_End2End", end2end=True).model
 
-        print([n.name for n in tf.get_default_graph().as_graph_def().node])
+        print(tf.all_variables())
 
         model.compile(loss=fn,
                       optimizer=sgd,
