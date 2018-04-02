@@ -13,7 +13,6 @@ import os
 import pickle
 import gzip
 import pickle
-import urllib.request
 import keras
 import pickle as pkl
 import numpy as np
