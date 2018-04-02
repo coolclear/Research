@@ -4,7 +4,7 @@ from setup_cifar import CIFAR, CIFARModel
 def main():
 
     tag = "End2End"
-    model = CIFARModel("Models/CIFAR10_{}".format(tag)).model
+    model = CIFARModel(restore="Models/CIFAR10_{}".format(tag), end2end=True).model
 
     data_gbp = CIFAR("GBP")
     data_ori = CIFAR("ORI")

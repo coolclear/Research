@@ -51,12 +51,13 @@ if __name__ == "__main__":
 
     with tf.Session() as sess:
 
-        data, model = CIFAR("ORI"), CIFARModel("Models/CIFAR10_ORI", sess)
+        data, model = CIFAR("ORI"), CIFARModel(restore="Models/CIFAR10_End2End", end2end=True)
 
-        attack = CarliniL2(sess, model, batch_size=9, max_iterations=1000, confidence=0)
+        attack = CarliniL2(sess, model, batch_size=16, max_iterations=1000, confidence=0)
 
-        inputs, targets = generate_data(data, samples=100, targeted=True,
+        inputs, targets = generate_data(data, samples=1, targeted=True,
                                         start=0, inception=False)
+
         timestart = time.time()
         adv = attack.attack(inputs, targets)
         timeend = time.time()
@@ -65,6 +66,8 @@ if __name__ == "__main__":
 
         for i in range(len(adv)):
 
-            print("Classification:", model.model.predict(adv[i:i + 1]))
+            print("Originally Prediction : ", model.model.predict(inputs[i]))
 
-            print("Total distortion:", np.sum((adv[i] - inputs[i]) ** 2) ** .5)
+            print("Adversarial Prediction : ", model.model.predict(adv[i]))
+
+            print("Total Distortion : ", np.sum((adv[i] - inputs[i]) ** 2) ** .5)
