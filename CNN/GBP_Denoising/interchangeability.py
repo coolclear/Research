@@ -48,10 +48,6 @@ def main():
     # trained on ORI, our End2End system
     if tag == "End2End":
 
-        print('End2End Training Accuracy on ORI:',
-              np.mean(np.argmax(model.predict(data_ori.train_data), axis=1) == np.argmax(data_ori.train_labels,
-                                                                                         axis=1)))
-
         print('End2End Testing Accuracy on ORI:',
               np.mean(np.argmax(model.predict(data_ori.test_data), axis=1) == np.argmax(data_ori.test_labels,
                                                                                         axis=1)))
