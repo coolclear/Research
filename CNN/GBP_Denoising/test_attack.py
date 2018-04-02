@@ -53,11 +53,7 @@ if __name__ == "__main__":
 
         data = CIFAR("ORI")
 
-        model = CIFARModel(restore="Models/CIFAR10_End2End", session=sess, end2end=True)
-
-        print('End2End Training Accuracy on ORI:',
-              np.mean(np.argmax(model.predict(data.train_data), axis=1) == np.argmax(data.train_labels,
-                                                                                         axis=1)))
+        model = CIFARModel(restore="Models/CIFAR10_End2End", end2end=True).model
 
         print('End2End Testing Accuracy on ORI:',
               np.mean(np.argmax(model.predict(data.test_data), axis=1) == np.argmax(data.test_labels,
