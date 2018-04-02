@@ -56,13 +56,5 @@ def main():
               np.mean(np.argmax(model.predict(data_ori.test_data), axis=1) == np.argmax(data_ori.test_labels,
                                                                                         axis=1)))
 
-        print('End2End Accuracy on GBP(Train):',
-              np.mean(np.argmax(model.predict(data_gbp.train_data), axis=1) == np.argmax(data_gbp.train_labels,
-                                                                                         axis=1)))
-        print('End2End Accuracy on GBP(Test):',
-              np.mean(
-                  np.argmax(model.predict(data_gbp.test_data), axis=1) == np.argmax(data_gbp.test_labels, axis=1)))
-
-
 if __name__ == "__main__":
     main()

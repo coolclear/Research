@@ -19,7 +19,7 @@ INITIAL_CONST = 1e-3  # the initial constant c to pick as a first guess
 
 
 class CarliniL2:
-    def __init__(self, sess, model, batch_size=1, confidence=CONFIDENCE,
+    def __init__(self, sess, Model, batch_size=1, confidence=CONFIDENCE,
                  targeted=TARGETED, learning_rate=LEARNING_RATE,
                  binary_search_steps=BINARY_SEARCH_STEPS, max_iterations=MAX_ITERATIONS,
                  abort_early=ABORT_EARLY,
@@ -49,7 +49,8 @@ class CarliniL2:
         boxmax: Maximum pixel value (default 0.5).
         """
 
-        image_size, num_channels, num_labels = model.image_size, model.num_channels, model.num_labels
+        image_size, num_channels, num_labels = Model.image_size, Model.num_channels, Model.num_labels
+
         self.sess = sess
         self.TARGETED = targeted
         self.LEARNING_RATE = learning_rate
@@ -83,7 +84,7 @@ class CarliniL2:
         self.newimg = tf.tanh(modifier + self.timg) * self.boxmul + self.boxplus
 
         # prediction BEFORE-SOFTMAX of the model
-        self.output = model.model.predict(self.newimg)
+        self.output = Model.model.predict(self.newimg)
 
         # distance to the input data
         self.l2dist = tf.reduce_sum(tf.square(self.newimg - (tf.tanh(self.timg) * self.boxmul + self.boxplus)),
