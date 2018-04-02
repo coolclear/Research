@@ -25,41 +25,35 @@ def get_lr(epoch):
 def main():
 
     batch_size = 128
-    iterations = 100
 
-    while iterations != 0:
+    model = CIFARModel(restore="Models/CIFAR10_End2End", end2end=True).model
+    print(model.layers)
+    data = CIFAR("ORI")
 
-        print("Iterations = {}".format(iterations))
+    sgd = SGD(lr=0.00, momentum=0.9, nesterov=False)
+    schedule= LearningRateScheduler(get_lr)
 
-        model = CIFARModel(restore="Models/CIFAR10_End2End", end2end=True).model
-        data = CIFAR("ORI")
+    model.compile(loss=fn,
+                  optimizer=sgd,
+                  metrics=['accuracy'])
 
-        sgd = SGD(lr=0.00, momentum=0.9, nesterov=False)
-        schedule= LearningRateScheduler(get_lr)
+    datagen = ImageDataGenerator(
+        rotation_range=10,
+        width_shift_range=0.1,
+        height_shift_range=0.1,
+        horizontal_flip=True)
 
-        model.compile(loss=fn,
-                      optimizer=sgd,
-                      metrics=['accuracy'])
+    datagen.fit(data.train_data)
 
-        datagen = ImageDataGenerator(
-            rotation_range=10,
-            width_shift_range=0.1,
-            height_shift_range=0.1,
-            horizontal_flip=True)
+    model.fit_generator(datagen.flow(data.train_data, data.train_labels,
+                                     batch_size=batch_size),
+                        steps_per_epoch=data.train_data.shape[0] // batch_size,
+                        epochs=10,
+                        verbose=1,
+                        validation_data=(data.test_data, data.test_labels),
+                        callbacks=[schedule])
 
-        datagen.fit(data.train_data)
-
-        model.fit_generator(datagen.flow(data.train_data, data.train_labels,
-                                         batch_size=batch_size),
-                            steps_per_epoch=data.train_data.shape[0] // batch_size,
-                            epochs=10,
-                            verbose=1,
-                            validation_data=(data.test_data, data.test_labels),
-                            callbacks=[schedule])
-
-        model.save_weights('Models/CIFAR10_End2End')
-
-        iterations -= 1
+    model.save_weights('Models/CIFAR10_End2End')
 
 if __name__ == "__main__":
     # setup the GPUs to use
