@@ -63,7 +63,7 @@ class CarliniL2:
 
         self.repeat = binary_search_steps >= 10
 
-        shape = (None, image_size, image_size, num_channels)
+        shape = (batch_size, image_size, image_size, num_channels)
 
         # the variable we're going to optimize over
         modifier = tf.Variable(np.zeros(shape, dtype=np.float32))
@@ -75,8 +75,8 @@ class CarliniL2:
 
         # and here's what we use to assign them
         self.assign_timg = tf.placeholder(tf.float32, shape)
-        self.assign_tlab = tf.placeholder(tf.float32, (None, num_labels))
-        self.assign_const = tf.placeholder(tf.float32, [None])
+        self.assign_tlab = tf.placeholder(tf.float32, (batch_size, num_labels))
+        self.assign_const = tf.placeholder(tf.float32, [batch_size])
 
         # the resulting image, tanh'd to keep bounded from boxmin to boxmax
         self.boxmul = (boxmax - boxmin) / 2.
