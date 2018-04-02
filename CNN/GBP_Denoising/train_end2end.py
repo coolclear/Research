@@ -46,7 +46,7 @@ def main():
 
         model = CIFARModel(restore="Models/CIFAR10_End2End", end2end=True).model
 
-        print(tf.all_variables("lambda_1"))
+        print(tf.get_variable("lambda_1"))
 
         model.compile(loss=fn,
                       optimizer=sgd,
