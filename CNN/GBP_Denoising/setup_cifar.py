@@ -57,7 +57,6 @@ class CIFARModel:
                                                   Dropout=Dropout)
 
         if restore != None:
-            session.run(tf.global_variables_initializer())
             model.load_weights(restore)
 
         self.model = model

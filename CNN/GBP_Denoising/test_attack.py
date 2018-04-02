@@ -52,7 +52,16 @@ if __name__ == "__main__":
     with tf.Session() as sess:
 
         data = CIFAR("ORI")
+
         model = CIFARModel(restore="Models/CIFAR10_End2End", session=sess, end2end=True)
+
+        print('End2End Training Accuracy on ORI:',
+              np.mean(np.argmax(model.predict(data.train_data), axis=1) == np.argmax(data.train_labels,
+                                                                                         axis=1)))
+
+        print('End2End Testing Accuracy on ORI:',
+              np.mean(np.argmax(model.predict(data.test_data), axis=1) == np.argmax(data.test_labels,
+                                                                                        axis=1)))
 
         attack = CarliniL2(sess, model, batch_size=9, max_iterations=1000, confidence=0)
 
