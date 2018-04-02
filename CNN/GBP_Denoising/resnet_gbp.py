@@ -45,6 +45,8 @@ from keras.layers.normalization import BatchNormalization
 from keras.regularizers import l2
 from keras import backend as K
 
+sess = None
+
 def _bn_relu(input):
     """Helper to build a BN -> relu block
     """
@@ -234,6 +236,9 @@ class ResnetBuilder_gbp(object):
         Returns:
             The keras `Model`.
         """
+
+        sess = sess
+
         _handle_dim_ordering()
         if len(input_shape) != 3:
             raise Exception("Input shape should be a tuple (nb_channels, nb_rows, nb_cols)")
@@ -250,7 +255,7 @@ class ResnetBuilder_gbp(object):
 
         ################################ where different ###########################################
 
-        input_gbp = Lambda(gbp_reconstruction)(input, sess)
+        input_gbp = Lambda(gbp_reconstruction)(input)
 
         ################################ where different ###########################################
 
