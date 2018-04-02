@@ -15,11 +15,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="test_attack.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="test_attack.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/CNN/GBP_Denoising/test_attack.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="405">
-              <caret line="60" column="0" lean-forward="true" selection-start-line="60" selection-start-column="0" selection-end-line="60" selection-end-column="0" />
+            <state relative-caret-position="327">
+              <caret line="55" column="74" lean-forward="false" selection-start-line="55" selection-start-column="74" selection-end-line="55" selection-end-column="74" />
               <folding>
                 <element signature="e#284#307#0" expanded="true" />
                 <element signature="e#494#1552#0" expanded="false" />
@@ -60,14 +60,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="l2_attack.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="l2_attack.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/CNN/GBP_Denoising/l2_attack.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="621">
-              <caret line="91" column="27" lean-forward="true" selection-start-line="91" selection-start-column="27" selection-end-line="91" selection-end-column="27" />
+            <state relative-caret-position="-1023">
+              <caret line="21" column="34" lean-forward="false" selection-start-line="21" selection-start-column="29" selection-end-line="21" selection-end-column="34" />
               <folding>
-                <element signature="e#6511#10626#0" expanded="false" />
-                <element signature="e#6623#6984#0" expanded="false" />
+                <element signature="e#6517#10632#0" expanded="false" />
+                <element signature="e#6629#6990#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -76,8 +76,8 @@
       <file leaf-file-name="setup_cifar.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/CNN/GBP_Denoising/setup_cifar.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="675">
-              <caret line="58" column="27" lean-forward="false" selection-start-line="58" selection-start-column="27" selection-end-line="58" selection-end-column="27" />
+            <state relative-caret-position="756">
+              <caret line="61" column="0" lean-forward="false" selection-start-line="61" selection-start-column="0" selection-end-line="61" selection-end-column="26" />
               <folding>
                 <element signature="e#280#303#0" expanded="true" />
               </folding>
@@ -128,7 +128,6 @@
         <option value="$PROJECT_DIR$/CNN/Deep_Models/small_CNN.py" />
         <option value="$PROJECT_DIR$/CNN/Tools/Plot.py" />
         <option value="$PROJECT_DIR$/CNN/GBP_Denoising/training.py" />
-        <option value="$PROJECT_DIR$/CNN/GBP_Denoising/l2_attack.py" />
         <option value="$PROJECT_DIR$/CNN/GBP_Denoising/LICENSE" />
         <option value="$PROJECT_DIR$/CNN/GBP_Denoising/train.py" />
         <option value="$PROJECT_DIR$/CNN/GBP_Denoising/mydatagenerator.py" />
@@ -142,6 +141,7 @@
         <option value="$PROJECT_DIR$/CNN/GBP_Denoising/interchangeability.py" />
         <option value="$PROJECT_DIR$/CNN/GBP_Denoising/setup_cifar.py" />
         <option value="$PROJECT_DIR$/CNN/GBP_Denoising/test_attack.py" />
+        <option value="$PROJECT_DIR$/CNN/GBP_Denoising/l2_attack.py" />
       </list>
     </option>
   </component>
@@ -861,16 +861,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/CNN/GBP_Denoising/train_end2end.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="822">
-          <caret line="58" column="43" lean-forward="false" selection-start-line="58" selection-start-column="43" selection-end-line="58" selection-end-column="43" />
-          <folding>
-            <element signature="e#274#315#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/CNN/GBP_Denoising/resnet_gbp.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1021">
@@ -899,34 +889,44 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/CNN/GBP_Denoising/test_attack.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="327">
+          <caret line="55" column="74" lean-forward="false" selection-start-line="55" selection-start-column="74" selection-end-line="55" selection-end-column="74" />
+          <folding>
+            <element signature="e#284#307#0" expanded="true" />
+            <element signature="e#494#1552#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/CNN/GBP_Denoising/setup_cifar.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="675">
-          <caret line="58" column="27" lean-forward="false" selection-start-line="58" selection-start-column="27" selection-end-line="58" selection-end-column="27" />
+        <state relative-caret-position="756">
+          <caret line="61" column="0" lean-forward="false" selection-start-line="61" selection-start-column="0" selection-end-line="61" selection-end-column="26" />
           <folding>
             <element signature="e#280#303#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/CNN/GBP_Denoising/l2_attack.py">
+    <entry file="file://$PROJECT_DIR$/CNN/GBP_Denoising/train_end2end.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="621">
-          <caret line="91" column="27" lean-forward="true" selection-start-line="91" selection-start-column="27" selection-end-line="91" selection-end-column="27" />
+        <state relative-caret-position="822">
+          <caret line="58" column="43" lean-forward="false" selection-start-line="58" selection-start-column="43" selection-end-line="58" selection-end-column="43" />
           <folding>
-            <element signature="e#6511#10626#0" expanded="false" />
-            <element signature="e#6623#6984#0" expanded="false" />
+            <element signature="e#274#315#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/CNN/GBP_Denoising/test_attack.py">
+    <entry file="file://$PROJECT_DIR$/CNN/GBP_Denoising/l2_attack.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="60" column="0" lean-forward="true" selection-start-line="60" selection-start-column="0" selection-end-line="60" selection-end-column="0" />
+        <state relative-caret-position="-1023">
+          <caret line="21" column="34" lean-forward="false" selection-start-line="21" selection-start-column="29" selection-end-line="21" selection-end-column="34" />
           <folding>
-            <element signature="e#284#307#0" expanded="true" />
-            <element signature="e#494#1552#0" expanded="false" />
+            <element signature="e#6517#10632#0" expanded="false" />
+            <element signature="e#6629#6990#0" expanded="false" />
           </folding>
         </state>
       </provider>
