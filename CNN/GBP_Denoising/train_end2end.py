@@ -54,7 +54,7 @@ def main():
         # this could prevent the model overfitting a specific random initialization
         sess = K.get_session()
         layer = model.layers[1]
-        layer.kernel.initializer.run(session=sess)
+        layer.initializer.run(session=sess)
 
         model.fit_generator(datagen.flow(data.train_data, data.train_labels,
                                          batch_size=batch_size),
