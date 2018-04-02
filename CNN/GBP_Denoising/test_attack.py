@@ -53,7 +53,7 @@ if __name__ == "__main__":
 
         data = CIFAR("ORI")
 
-        Model = CIFARModel(restore="Models/CIFAR10_End2End", end2end=True)
+        Model = CIFARModel(restore="Models/CIFAR10_End2End_Trainable", end2end=True)
 
         attack = CarliniL2(sess, Model, batch_size=9, max_iterations=1000, confidence=0)
 
@@ -68,8 +68,8 @@ if __name__ == "__main__":
 
         for i in range(len(adv)):
 
-            print("Originally Prediction : ", model.model.predict(inputs[i]))
+            print("Originally Prediction : ", Model.model.predict(inputs[i]))
 
-            print("Adversarial Prediction : ", model.model.predict(adv[i]))
+            print("Adversarial Prediction : ", Model.model.predict(adv[i]))
 
             print("Total Distortion : ", np.sum((adv[i] - inputs[i]) ** 2) ** .5)
