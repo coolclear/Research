@@ -60,8 +60,8 @@
       <file leaf-file-name="resnet_gbp.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/CNN/GBP_Denoising/resnet_gbp.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="383">
-              <caret line="204" column="64" lean-forward="false" selection-start-line="204" selection-start-column="60" selection-end-line="204" selection-end-column="64" />
+            <state relative-caret-position="275">
+              <caret line="200" column="41" lean-forward="false" selection-start-line="200" selection-start-column="41" selection-end-line="200" selection-end-column="41" />
               <folding>
                 <element signature="e#1432#1569#0" expanded="false" />
                 <element signature="e#1593#1669#0" expanded="false" />
@@ -889,8 +889,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/CNN/GBP_Denoising/resnet_gbp.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="383">
-          <caret line="204" column="64" lean-forward="false" selection-start-line="204" selection-start-column="60" selection-end-line="204" selection-end-column="64" />
+        <state relative-caret-position="275">
+          <caret line="200" column="41" lean-forward="false" selection-start-line="200" selection-start-column="41" selection-end-line="200" selection-end-column="41" />
           <folding>
             <element signature="e#1432#1569#0" expanded="false" />
             <element signature="e#1593#1669#0" expanded="false" />
