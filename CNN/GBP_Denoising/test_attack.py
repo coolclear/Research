@@ -53,11 +53,7 @@ if __name__ == "__main__":
 
         data = CIFAR("ORI")
 
-        Model = CIFARModel(restore="Models/CIFAR10_End2End", end2end=True)
-
-        print('End2End Testing Accuracy on ORI:',
-              np.mean(np.argmax(Model.model.predict(data.test_data), axis=1) == np.argmax(data.test_labels,
-                                                                                        axis=1)))
+        Model = CIFARModel(restore="Models/CIFAR10_End2End", session=sess, end2end=True)
 
         attack = CarliniL2(sess, Model, batch_size=9, max_iterations=1000, confidence=0)
 

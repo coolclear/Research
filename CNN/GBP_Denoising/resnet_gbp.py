@@ -196,11 +196,11 @@ def _get_block(identifier):
         return res
     return identifier
 
-def gbp_reconstruction(keras_input_tensor):
+def gbp_reconstruction(keras_input_tensor, sess=None):
 
     tf_input = keras_input_tensor  # get the real tensor out of the keras layer wrap
 
-    shallow_CNN = prepare_GBP_shallow_CNN(inputPH=tf_input)  # create a shallow CNN for the GBP reconstruction
+    shallow_CNN = prepare_GBP_shallow_CNN(inputPH=tf_input, sess=sess)  # create a shallow CNN for the GBP reconstruction
 
     logits = shallow_CNN.logits  # get the logits we need
 
@@ -220,7 +220,7 @@ def gbp_reconstruction(keras_input_tensor):
 class ResnetBuilder_gbp(object):
     @staticmethod
     def build(input_shape, num_outputs, block_fn, repetitions, with_detector=None, 
-              activation=True, Dropout=Dropout):
+              activation=True, Dropout=Dropout, sess=None):
         """Builds a custom ResNet like architecture.
 
         Args:
@@ -250,7 +250,7 @@ class ResnetBuilder_gbp(object):
 
         ################################ where different ###########################################
 
-        input_gbp = Lambda(gbp_reconstruction)(input)
+        input_gbp = Lambda(gbp_reconstruction)(input, sess)
 
         ################################ where different ###########################################
 
@@ -282,7 +282,7 @@ class ResnetBuilder_gbp(object):
 
     @staticmethod
     def build_resnet_32(input_shape, num_outputs, with_detector=None,
-                        activation=True, Dropout=Dropout):
+                        activation=True, Dropout=Dropout, sess=None):
         return ResnetBuilder_gbp.build(input_shape, num_outputs, basic_block, [5, 5, 5],
                                    with_detector=with_detector, activation=activation,
-                                   Dropout=Dropout)
+                                   Dropout=Dropout, sess=sess)

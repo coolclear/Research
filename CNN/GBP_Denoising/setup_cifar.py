@@ -54,7 +54,7 @@ class CIFARModel:
                                                   Dropout=Dropout)
         else:
             model = ResnetBuilder_gbp.build_resnet_32((3, 32, 32), num_labels, activation=False,
-                                                  Dropout=Dropout)
+                                                  Dropout=Dropout, sess=session)
 
         if restore != None:
             model.load_weights(restore)
