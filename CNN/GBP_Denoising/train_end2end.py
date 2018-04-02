@@ -25,7 +25,6 @@ def get_lr(epoch):
 def main():
 
     batch_size = 128
-    iterations = 10
 
     data = CIFAR("ORI")
 
@@ -40,27 +39,21 @@ def main():
 
     datagen.fit(data.train_data)
 
-    while iterations != 0:
+    model = CIFARModel(end2end=True).model
 
-        print("Iterations = {}".format(iterations))
+    model.compile(loss=fn,
+                  optimizer=sgd,
+                  metrics=['accuracy'])
 
-        model = CIFARModel(restore="Models/CIFAR10_End2End", end2end=True).model
+    model.fit_generator(datagen.flow(data.train_data, data.train_labels,
+                                     batch_size=batch_size),
+                        steps_per_epoch=data.train_data.shape[0] // batch_size,
+                        epochs=200,
+                        verbose=1,
+                        validation_data=(data.test_data, data.test_labels),
+                        callbacks=[schedule])
 
-        model.compile(loss=fn,
-                      optimizer=sgd,
-                      metrics=['accuracy'])
-
-        model.fit_generator(datagen.flow(data.train_data, data.train_labels,
-                                         batch_size=batch_size),
-                            steps_per_epoch=data.train_data.shape[0] // batch_size,
-                            epochs=10,
-                            verbose=1,
-                            validation_data=(data.test_data, data.test_labels),
-                            callbacks=[schedule])
-
-        model.save_weights('Models/CIFAR10_End2End')
-
-        iterations -= 1
+    model.save_weights('Models/CIFAR10_End2End_Trainable')
 
 if __name__ == "__main__":
     # setup the GPUs to use
