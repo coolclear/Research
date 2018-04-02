@@ -12,7 +12,6 @@ from keras.optimizers import SGD
 from keras.callbacks import LearningRateScheduler
 from keras.preprocessing.image import ImageDataGenerator
 import numpy as np
-from keras import backend as K
 import os
 
 import tensorflow as tf
@@ -26,17 +25,12 @@ def get_lr(epoch):
 def main():
 
     batch_size = 128
-    iterations = 200
+    iterations = 100
 
-    model = CIFARModel(restore="Models/CIFAR10_End2End", end2end=True).model
     data = CIFAR("ORI")
 
     sgd = SGD(lr=0.00, momentum=0.9, nesterov=False)
-    schedule= LearningRateScheduler(get_lr)
-
-    model.compile(loss=fn,
-                  optimizer=sgd,
-                  metrics=['accuracy'])
+    schedule = LearningRateScheduler(get_lr)
 
     datagen = ImageDataGenerator(
         rotation_range=10,
@@ -46,25 +40,27 @@ def main():
 
     datagen.fit(data.train_data)
 
-    for step in range(iterations):
+    while iterations != 0:
 
-        print("{}/{}".format(step, iterations))
+        print("Iterations = {}".format(iterations))
 
-        # for each step we need to re-initialize the lambda layer
-        # this could prevent the model overfitting a specific random initialization
-        sess = K.get_session()
-        layer = model.layers[1]
-        layer.initializer.run(session=sess)
+        model = CIFARModel(restore="Models/CIFAR10_End2End", end2end=True).model
+
+        model.compile(loss=fn,
+                      optimizer=sgd,
+                      metrics=['accuracy'])
 
         model.fit_generator(datagen.flow(data.train_data, data.train_labels,
                                          batch_size=batch_size),
                             steps_per_epoch=data.train_data.shape[0] // batch_size,
-                            epochs=5,
+                            epochs=10,
                             verbose=1,
                             validation_data=(data.test_data, data.test_labels),
                             callbacks=[schedule])
 
-    model.save_weights('Models/CIFAR10_End2End')
+        model.save_weights('Models/CIFAR10_End2End')
+
+        iterations -= 1
 
 if __name__ == "__main__":
     # setup the GPUs to use
