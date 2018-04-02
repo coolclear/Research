@@ -51,7 +51,8 @@ if __name__ == "__main__":
 
     with tf.Session() as sess:
 
-        data, model = CIFAR("ORI"), CIFARModel(restore="Models/CIFAR10_End2End", end2end=True)
+        data = CIFAR("ORI")
+        model = CIFARModel(restore="Models/CIFAR10_End2End", session=sess, end2end=True)
 
         attack = CarliniL2(sess, model, batch_size=9, max_iterations=1000, confidence=0)
 
