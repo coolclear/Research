@@ -45,7 +45,7 @@ from keras.layers.normalization import BatchNormalization
 from keras.regularizers import l2
 from keras import backend as K
 
-sess = None
+glo_sess = None
 
 def _bn_relu(input):
     """Helper to build a BN -> relu block
@@ -202,7 +202,7 @@ def gbp_reconstruction(keras_input_tensor):
 
     tf_input = keras_input_tensor  # get the real tensor out of the keras layer wrap
 
-    shallow_CNN = prepare_GBP_shallow_CNN(inputPH=tf_input, sess=sess)  # create a shallow CNN for the GBP reconstruction
+    shallow_CNN = prepare_GBP_shallow_CNN(inputPH=tf_input, sess=glo_sess)  # create a shallow CNN for the GBP reconstruction
 
     logits = shallow_CNN.logits  # get the logits we need
 
@@ -237,7 +237,7 @@ class ResnetBuilder_gbp(object):
             The keras `Model`.
         """
 
-        sess = sess
+        glo_sess = sess
 
         _handle_dim_ordering()
         if len(input_shape) != 3:

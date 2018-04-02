@@ -60,19 +60,19 @@
       <file leaf-file-name="resnet_gbp.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/CNN/GBP_Denoising/resnet_gbp.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="275">
-              <caret line="200" column="41" lean-forward="false" selection-start-line="200" selection-start-column="41" selection-end-line="200" selection-end-column="41" />
+            <state relative-caret-position="381">
+              <caret line="204" column="73" lean-forward="false" selection-start-line="204" selection-start-column="73" selection-end-line="204" selection-end-column="73" />
               <folding>
-                <element signature="e#1432#1569#0" expanded="false" />
-                <element signature="e#1593#1669#0" expanded="false" />
-                <element signature="e#1709#2432#0" expanded="false" />
-                <element signature="e#2469#3183#0" expanded="false" />
-                <element signature="e#3223#4040#0" expanded="false" />
-                <element signature="e#4078#5190#0" expanded="false" />
-                <element signature="e#5277#5796#0" expanded="false" />
-                <element signature="e#5886#6736#0" expanded="false" />
-                <element signature="e#6770#7012#0" expanded="false" />
-                <element signature="e#7046#7253#0" expanded="false" />
+                <element signature="e#1436#1573#0" expanded="false" />
+                <element signature="e#1597#1673#0" expanded="false" />
+                <element signature="e#1713#2436#0" expanded="false" />
+                <element signature="e#2473#3187#0" expanded="false" />
+                <element signature="e#3227#4044#0" expanded="false" />
+                <element signature="e#4082#5194#0" expanded="false" />
+                <element signature="e#5281#5800#0" expanded="false" />
+                <element signature="e#5890#6740#0" expanded="false" />
+                <element signature="e#6774#7016#0" expanded="false" />
+                <element signature="e#7050#7257#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -889,19 +889,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/CNN/GBP_Denoising/resnet_gbp.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="275">
-          <caret line="200" column="41" lean-forward="false" selection-start-line="200" selection-start-column="41" selection-end-line="200" selection-end-column="41" />
+        <state relative-caret-position="381">
+          <caret line="204" column="73" lean-forward="false" selection-start-line="204" selection-start-column="73" selection-end-line="204" selection-end-column="73" />
           <folding>
-            <element signature="e#1432#1569#0" expanded="false" />
-            <element signature="e#1593#1669#0" expanded="false" />
-            <element signature="e#1709#2432#0" expanded="false" />
-            <element signature="e#2469#3183#0" expanded="false" />
-            <element signature="e#3223#4040#0" expanded="false" />
-            <element signature="e#4078#5190#0" expanded="false" />
-            <element signature="e#5277#5796#0" expanded="false" />
-            <element signature="e#5886#6736#0" expanded="false" />
-            <element signature="e#6770#7012#0" expanded="false" />
-            <element signature="e#7046#7253#0" expanded="false" />
+            <element signature="e#1436#1573#0" expanded="false" />
+            <element signature="e#1597#1673#0" expanded="false" />
+            <element signature="e#1713#2436#0" expanded="false" />
+            <element signature="e#2473#3187#0" expanded="false" />
+            <element signature="e#3227#4044#0" expanded="false" />
+            <element signature="e#4082#5194#0" expanded="false" />
+            <element signature="e#5281#5800#0" expanded="false" />
+            <element signature="e#5890#6740#0" expanded="false" />
+            <element signature="e#6774#7016#0" expanded="false" />
+            <element signature="e#7050#7257#0" expanded="false" />
           </folding>
         </state>
       </provider>
