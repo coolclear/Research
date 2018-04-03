@@ -206,9 +206,9 @@ def gbp_reconstruction(keras_input_tensor):
 
     # random_index = np.random.choice(100, 1)  # not really random, will be fixed with the graph
 
-    index = tf.random_uniform([1], minval=0, maxval=100, dtype=tf.int32)
+    # index = tf.random_uniform([1], minval=0, maxval=100, dtype=tf.int32)
 
-    tfOp_gbp_raw = tf.gradients(logits[:, index[0]], tf_input)[0] # raw gbp reconstruction
+    tfOp_gbp_raw = tf.gradients(logits[:, 13], tf_input)[0] # raw gbp reconstruction
 
     # normalizations
     tfOp_gbp_submin = tf.map_fn(lambda img: img - tf.reduce_min(img), tfOp_gbp_raw)
