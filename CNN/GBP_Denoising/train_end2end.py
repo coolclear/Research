@@ -57,7 +57,7 @@ def main():
                         validation_data=(data.test_data, data.test_labels),
                         callbacks=[schedule])
 
-    model.save_weights('Models/CIFAR10_End2End_Trainable')
+    model.save_weights('Models/CIFAR10_End2End_NOTTrainable')
 
 if __name__ == "__main__":
     # setup the GPUs to use
