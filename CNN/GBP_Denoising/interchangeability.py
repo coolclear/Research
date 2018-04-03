@@ -1,6 +1,9 @@
 import numpy as np
 from setup_cifar import CIFAR, CIFARModel
 
+np.random.seed(13)
+tf.set_random_seed(13)
+
 def main():
 
     tag = "End2End"
