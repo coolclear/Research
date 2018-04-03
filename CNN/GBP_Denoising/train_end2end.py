@@ -16,7 +16,6 @@ import os
 
 import tensorflow as tf
 
-
 np.random.seed(13)
 tf.set_random_seed(13)
 
@@ -57,7 +56,7 @@ def main():
                         validation_data=(data.test_data, data.test_labels),
                         callbacks=[schedule])
 
-    model.save_weights('Models/CIFAR10_End2End_NOTTrainable')
+    model.save_weights('Models/CIFAR10_End2End_Trainable')
 
 if __name__ == "__main__":
     # setup the GPUs to use
