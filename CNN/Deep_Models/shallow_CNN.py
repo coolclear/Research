@@ -6,7 +6,7 @@ sys.path.append('/home/yang/Research/')
 class Shallow_CNN(object):
 
     def __init__(self, inputPH=None, sess=None,
-                 act_type='relu', pool_type='maxpool', trainable=True,
+                 act_type='relu', pool_type='maxpool', trainable=False,
                  input_dim=32, output_dim=100):
 
         self.act_type = act_type

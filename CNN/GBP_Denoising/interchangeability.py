@@ -1,6 +1,6 @@
 import numpy as np
 from setup_cifar import CIFAR, CIFARModel
-import tensorflow as tf 
+import tensorflow as tf
 
 np.random.seed(13)
 tf.set_random_seed(13)

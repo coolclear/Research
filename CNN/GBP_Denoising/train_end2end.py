@@ -52,7 +52,7 @@ def main():
     model.fit_generator(datagen.flow(data.train_data, data.train_labels,
                                      batch_size=batch_size),
                         steps_per_epoch=data.train_data.shape[0] // batch_size,
-                        epochs=2,
+                        epochs=400,
                         verbose=1,
                         validation_data=(data.test_data, data.test_labels),
                         callbacks=[schedule])
