@@ -42,19 +42,12 @@ def main():
                 train_y_batch = y_train[batch_size * b: batch_size * b + batch_size]
 
                 # train
-                sess.run([train_step],feed_dict={input_pl: train_X_batch, label_pl: train_y_batch})
+                _, train_accu = \
+                    sess.run([train_step, accuracy],feed_dict={input_pl: train_X_batch, label_pl: train_y_batch})
 
-                # print the test accuracy at the end of each epoch
-                if b == int(len(x_train) / batch_size) - 1:
+                msg = "epoch = {}, batch = {}, accu = {:.4f}".format(epoch, b, train_accu)
 
-                    # testing
-                    _, test_accu = \
-                        sess.run(accuracy,
-                                 feed_dict={input_pl: x_test, label_pl: y_test})
-
-                    msg = "epoch = {}, test accu = {:.4f}".format(epoch, test_accu)
-
-                    print(msg)
+                print(msg)
 
         saver.save(sess, 'Models/Pure_TF.ckpt')
 
