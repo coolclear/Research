@@ -62,7 +62,7 @@ def main():
     keras_input = Lambda(identical)(tf_model.input)
     keras_output = Lambda(identical)(tf_model.output)
 
-    keras_model = Model(inputs=tf_model.input, outputs=tf_model.output)
+    keras_model = Model(inputs=keras_input, outputs=keras_output)
 
     keras_model.compile(loss=fn,
                   optimizer=sgd,
