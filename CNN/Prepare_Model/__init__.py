@@ -4,6 +4,7 @@ sys.path.append('/home/yang/Research/CNN/Deep_Models/')
 from vgg16 import Vgg16
 from resnet import Resnet
 from shallow_CNN import Shallow_CNN
+from gbp_end2end import GBP_End2End
 
 from keras import backend as K
 from keras.applications.vgg16 import VGG16
@@ -177,6 +178,11 @@ def prepare_GBP_shallow_CNN(inputPH=None, sess=None, input_dim=32, output_dim=10
     with eval_graph.gradient_override_map({'Relu': 'GuidedRelu'}):
         return Shallow_CNN(inputPH=inputPH, sess=sess, input_dim=input_dim, output_dim=output_dim)
 
+def prepare_GBPdenoising_end2end(sess=None):
 
+    model = GBP_End2End()
+    if sess != None:
+        model.init(sess)
+    return model
 
 

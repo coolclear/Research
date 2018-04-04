@@ -5,7 +5,7 @@ sys.path.append('/home/yang/Research/')
 
 class Resnet(object):
 
-    def __init__(self, act_type='relu', pool_type='maxpool', res_blocks=5, reuse=False, num_labels=1000):
+    def __init__(self, inputPH=None, input_dim=32, act_type='relu', pool_type='maxpool', res_blocks=5, reuse=False, num_labels=1000):
 
         """
         Construct a Resnet object.
@@ -20,6 +20,7 @@ class Resnet(object):
         :param resue: To build a train graph, reuse = False. To build a validation graph resue = True (default True)
         """
 
+        self.input_dim = input_dim
         self.act_type = act_type
         self.pool_type = pool_type
         self.res_blocks = res_blocks
@@ -28,20 +29,23 @@ class Resnet(object):
 
         self.layers_dic = {}
 
-        # Placeholders
+
+        # zero-mean input
         with tf.name_scope('input') as scope:
-            self.images = tf.placeholder(tf.float32, [None, 224, 224, 3])
-            mean = tf.constant([123.68, 116.779, 103.939], dtype=tf.float32, shape=[1, 1, 1, 3], name='img_mean')
-            self.imgs = self.images - mean
-            self.layers_dic['imgs'] = self.imgs
+            if inputPH == None:
+                self.images = tf.placeholder(tf.float32, [None, self.input_dim, self.input_dim, 3])
+                self.layers_dic['images'] = self.images
+            else:
+                print('Using given input placeholder')
+                self.images = inputPH
+                self.layers_dic['images'] = self.images
 
         with tf.name_scope('output') as scope:
             self.labels = tf.placeholder(tf.float32, [None, self.num_labels])
 
         # Build the TF computational graph for the ResNet architecture
         self.logits = self.build()
-        self.probs = tf.nn.softmax(self.logits)
-        self.cost = tf.reduce_sum((self.probs - self.labels) ** 2)
+        self.cost = tf.nn.softmax_cross_entropy_with_logits(labels=self.labels, logits=self.logits)
         self.maxlogit = tf.reduce_max(self.logits, axis=1)
 
     def build(self):
