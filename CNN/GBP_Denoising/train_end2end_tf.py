@@ -12,7 +12,7 @@ from keras.datasets import cifar10
 
 def main():
 
-    num_epochs = 100
+    num_epochs = 200
     batch_size = 128
     (x_train, y_train), (x_test, y_test) = cifar10.load_data()
 
@@ -23,7 +23,7 @@ def main():
     input_pl = tf_model.inputs
     label_pl = tf_model.labels
     cross_entropy = tf_model.cost
-    train_step = tf.train.AdamOptimizer(1e-3).minimize(cross_entropy)
+    train_step = tf.train.AdamOptimizer(1e-4).minimize(cross_entropy)
     accuracy = tf_model.accuracy
     init = tf.global_variables_initializer()
 
@@ -48,6 +48,25 @@ def main():
                 msg = "epoch = {}, batch = {}, accu = {:.4f}".format(epoch, b, train_accu)
 
                 print(msg)
+
+                test_accu = 0
+
+                # evaluate the test set at the end of each epoch
+                if b == int(len(x_train) / batch_size) - 1:
+
+                    for i in range(int(len(x_test) / batch_size)):
+
+                        # prepare batch
+                        test_X_batch = x_test[batch_size * i: batch_size * i + batch_size]
+                        test_y_batch = y_test[batch_size * i: batch_size * i + batch_size]
+
+                        # accumulate
+                        test_accu += \
+                            sess.run(accuracy, feed_dict={input_pl: test_X_batch, label_pl: test_y_batch}) * batch_size
+
+                    msg = "Epoch = {}, Test Accuracy = {:.4f}".format(epoch, test_accu / len(x_test))
+
+                    print(msg)
 
         saver.save(sess, 'Models/Pure_TF.ckpt')
 
