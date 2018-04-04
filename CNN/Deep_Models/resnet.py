@@ -34,11 +34,11 @@ class Resnet(object):
         with tf.name_scope('input') as scope:
             if inputPH == None:
                 self.images = tf.placeholder(tf.float32, [None, self.input_dim, self.input_dim, 3])
-                self.layers_dic['images'] = self.images
+                self.layers_dic['images'] = self.imgs
             else:
                 print('Using given input placeholder')
                 self.images = inputPH
-                self.layers_dic['images'] = self.images
+                self.layers_dic['images'] = self.imgs
 
         with tf.name_scope('output') as scope:
             self.labels = tf.placeholder(tf.float32, [None, self.num_labels])
