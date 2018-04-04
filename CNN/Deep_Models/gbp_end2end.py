@@ -3,7 +3,7 @@ import tensorflow as tf
 import sys
 sys.path.append('/home/yang/Research/')
 from shallow_CNN import Shallow_CNN
-from resnet import ResNet
+from resnet import Resnet
 
 class GBP_End2End(object):
 
