@@ -60,7 +60,7 @@ def main():
 
     # wrap the tf tensor into keras tensor
     keras_input = Input(tensor=tf_model.input)
-    keras_output = Lambda(identical)(tf_model.output)
+    keras_output = tf_model.output
 
     keras_model = Model(inputs=keras_input, outputs=keras_output)
 
