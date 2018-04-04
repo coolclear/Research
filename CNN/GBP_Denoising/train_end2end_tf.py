@@ -13,6 +13,7 @@ import tensorflow as tf
 import numpy as np
 
 from keras.models import Model
+from keras.layers import Lambda
 from keras.optimizers import SGD
 from keras.callbacks import LearningRateScheduler
 from keras.preprocessing.image import ImageDataGenerator
@@ -30,6 +31,9 @@ def fn(correct, predicted):
                                                    logits=predicted)
 def get_lr(epoch):
     return 0.1*(.5**(epoch/300*10))
+
+def identical(x):
+    return x
 
 def main():
 
@@ -53,6 +57,10 @@ def main():
     saver = tf.train.Saver()
 
     ########################### we just borrow Keras to help us train the model ##############################
+
+    # wrap the tf tensor into keras tensor
+    keras_input = Lambda(identical)(tf_model.input)
+    keras_output = Lambda(identical)(tf_model.output)
 
     keras_model = Model(inputs=tf_model.input, outputs=tf_model.output)
 
