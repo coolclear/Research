@@ -2,10 +2,13 @@
 
 import os
 import sys
+sys.path.append('/home/yang/Research/CNN/')
+from Prepare_Model import prepare_GBPdenoising_end2end
+
+
 import tensorflow as tf
 from keras.datasets import cifar10
-sys.path.append('/home/yang/Research/CNN/Prepare_Model')
-from Prepare_Model import prepare_GBPdenoising_end2end
+
 
 def main():
 
