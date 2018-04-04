@@ -25,10 +25,13 @@ def main():
     cross_entropy = tf_model.cost
     train_step = tf.train.AdamOptimizer(1e-3).minimize(cross_entropy)
     accuracy = tf_model.accuracy
+    init = tf.global_variables_initializer()
 
     saver = tf.train.Saver()
 
     with tf.Session() as sess:
+
+        sess.run(init)
 
         for epoch in range(num_epochs):
 
