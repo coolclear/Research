@@ -16,6 +16,8 @@ class GBP_End2End(object):
         with eval_graph.gradient_override_map({'Relu': 'GuidedRelu'}):
             NN1 = Shallow_CNN(trainable=False)
 
+        ##################################### GBP Reconstruction ###############################################
+
         logits = NN1.logits  # get the logits
         self.input = NN1.images # get the input
 
@@ -26,10 +28,16 @@ class GBP_End2End(object):
         tfOp_gbp_divmax = tf.map_fn(lambda img: img / tf.reduce_max(img), tfOp_gbp_submin)
         tfOp_gbp_255 = tf.map_fn(lambda img: tf.cast(img * 255, tf.int32), tfOp_gbp_divmax, dtype=tf.int32)
 
+        ##################################### GBP Reconstruction ###############################################
+
+        # now use a Resnet to classify these GBP reconstructions
         NN2 = Resnet(inputPH=tf.cast(tfOp_gbp_255, dtype=tf.float32), num_labels=10)
 
+        self.inputs = NN1.images
+        self.labels = NN2.labels
         self.output = NN2.logits
         self.cost = NN2.cost
+        self.accuracy = NN2.accuracy
 
     def init(self, sess):
         sess.run(tf.global_variables_initializer())

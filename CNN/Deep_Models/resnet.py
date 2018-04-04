@@ -45,8 +45,12 @@ class Resnet(object):
 
         # Build the TF computational graph for the ResNet architecture
         self.logits = self.build()
-        self.cost = tf.nn.softmax_cross_entropy_with_logits(labels=self.labels, logits=self.logits)
+        self.cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(labels=self.labels, logits=self.logits))
         self.maxlogit = tf.reduce_max(self.logits, axis=1)
+        self.accuracy = tf.reduce_mean(
+            tf.cast(tf.equal(tf.argmax(self.logits, 1), tf.argmax(self.labels, 1)),
+                    tf.float32))
+
 
     def build(self):
 

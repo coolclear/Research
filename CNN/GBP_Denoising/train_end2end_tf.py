@@ -1,84 +1,53 @@
-## train.py -- train the MNIST and CIFAR models
-##
-## Copyright (C) 2017, Nicholas Carlini <nicholas@carlini.com>.
-##
-## This program is licenced under the BSD 2-Clause licence,
-## contained in the LICENCE file in this directory.
-
 ## Modified by Yang Zhang <yz78@rice.edu>
 
 import os
 import sys
 import tensorflow as tf
-import numpy as np
-
-from keras.models import Model
-from keras.layers import Lambda, Input, Dense
-from keras.optimizers import SGD
-from keras.callbacks import LearningRateScheduler
-from keras.preprocessing.image import ImageDataGenerator
-from keras import backend as K
-
-from setup_cifar import CIFAR
+from keras.datasets import cifar10
 sys.path.append('/home/yang/Research/CNN/Prepare_Model')
 from Prepare_Model import prepare_GBPdenoising_end2end
 
-# np.random.seed(13)
-# tf.set_random_seed(13)
-
-def fn(correct, predicted):
-    return tf.nn.softmax_cross_entropy_with_logits(labels=correct,
-                                                   logits=predicted)
-def get_lr(epoch):
-    return 0.1*(.5**(epoch/300*10))
-
-def identical(x):
-    return x
-
 def main():
 
+    num_epochs = 100
     batch_size = 128
-
-    data = CIFAR("ORI")
-
-    sgd = SGD(lr=0.00, momentum=0.9, nesterov=False)
-    schedule = LearningRateScheduler(get_lr)
-
-    datagen = ImageDataGenerator(
-        rotation_range=10,
-        width_shift_range=0.1,
-        height_shift_range=0.1,
-        horizontal_flip=True)
-
-    datagen.fit(data.train_data)
+    (x_train, y_train), (x_test, y_test) = cifar10.load_data()
 
     tf_model = prepare_GBPdenoising_end2end()
+    input_pl = tf_model.inputs
+    label_pl = tf_model.labels
+    cross_entropy = tf_model.cost
+    train_step = tf.train.AdamOptimizer(1e-3).minimize(cross_entropy)
+    accuracy = tf_model.accuracy
 
     saver = tf.train.Saver()
 
-    ########################### we just borrow Keras to help us train the model ##############################
+    with tf.Session() as sess:
 
-    # wrap the tf tensor into keras tensor
-    keras_input = Input(tensor=tf_model.input)
-    keras_output = Dense(10)(tf_model.output)
+        for epoch in range(num_epochs):
 
-    keras_model = Model(inputs=keras_input, outputs=keras_output)
+            for b in range(int(len(x_train) / batch_size)):
 
-    keras_model.compile(loss=fn,
-                  optimizer=sgd,
-                  metrics=['accuracy'])
+                # prepare batch
+                train_X_batch = x_train[batch_size * b: batch_size * b + batch_size]
+                train_y_batch = y_train[batch_size * b: batch_size * b + batch_size]
 
-    keras_model.fit_generator(datagen.flow(data.train_data, data.train_labels,
-                                     batch_size=batch_size),
-                        steps_per_epoch=data.train_data.shape[0] // batch_size,
-                        epochs=1,
-                        verbose=1,
-                        validation_data=(data.test_data, data.test_labels),
-                        callbacks=[schedule])
+                # train
+                sess.run([train_step],feed_dict={input_pl: train_X_batch, label_pl: train_y_batch})
 
-    ########################### we just borrow Keras to help us train the model ##############################
-    sess = K.get_session()
-    saver.save(sess, 'Models/TEST.ckpt')
+                # print the test accuracy at the end of each epoch
+                if b == int(len(x_train) / batch_size) - 1:
+
+                    # testing
+                    _, test_accu = \
+                        sess.run(accuracy,
+                                 feed_dict={input_pl: x_test, label_pl: y_test})
+
+                    msg = "epoch = {}, test accu = {:.4f}".format(epoch, test_accu)
+
+                    print(msg)
+
+        saver.save(sess, 'Models/Pure_TF.ckpt')
 
 if __name__ == "__main__":
     # setup the GPUs to use
