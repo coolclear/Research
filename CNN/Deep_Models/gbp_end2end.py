@@ -21,7 +21,7 @@ class GBP_End2End(object):
         logits = NN1.logits  # get the logits
         self.input = NN1.images # get the input
 
-        index = tf.random_uniform([1], minval=0, maxval=100, dtype=tf.int32,)[0]
+        index = tf.random_uniform([1], minval=0, maxval=100, dtype=tf.int32)[0]
 
         tfOp_gbp_raw = tf.gradients(logits[:, index], self.input)[0]  # raw gbp reconstruction
 

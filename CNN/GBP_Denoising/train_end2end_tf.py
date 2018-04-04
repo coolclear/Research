@@ -23,7 +23,7 @@ def main():
     input_pl = tf_model.inputs
     label_pl = tf_model.labels
     cross_entropy = tf_model.cost
-    train_step = tf.train.AdamOptimizer(1e-3).minimize(cross_entropy)
+    train_step = tf.train.AdamOptimizer(1e-4).minimize(cross_entropy)
     accuracy = tf_model.accuracy
     init = tf.global_variables_initializer()
 
