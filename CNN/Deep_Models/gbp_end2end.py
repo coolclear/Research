@@ -26,7 +26,7 @@ class GBP_End2End(object):
         tfOp_gbp_divmax = tf.map_fn(lambda img: img / tf.reduce_max(img), tfOp_gbp_submin)
         tfOp_gbp_255 = tf.map_fn(lambda img: tf.cast(img * 255, tf.int32), tfOp_gbp_divmax, dtype=tf.int32)
 
-        NN2 = Resnet(inputPH=tfOp_gbp_255, num_labels=10)
+        NN2 = Resnet(inputPH=tf.cast(tfOp_gbp_255, dtype=tf.float32), num_labels=10)
 
         self.output = NN2.logits
         self.cost = NN2.cost
