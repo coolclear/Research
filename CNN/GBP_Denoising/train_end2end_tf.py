@@ -53,11 +53,10 @@ def main():
     cross_entropy = tf_model.cost # model cost
 
     global_step = tf.Variable(0, trainable=False)
-    learning_rate = tf.train.exponential_decay(1e-2,
+    learning_rate = tf.train.exponential_decay(1e-3,
                                                global_step=global_step,
-                                               decay_steps=10000,
-                                               decay_rate=0.9,
-                                               staircase=True)
+                                               decay_steps=8000,
+                                               decay_rate=0.96)
     train_step = tf.train.AdamOptimizer(learning_rate)\
         .minimize(cross_entropy, global_step=global_step) # training operation
 
