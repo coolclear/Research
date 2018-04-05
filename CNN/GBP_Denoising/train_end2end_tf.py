@@ -1,7 +1,9 @@
 import os
 import sys
 sys.path.append('/home/yang/Research/CNN/')
+sys.path.append('/home/yang/Research/CNN/Tools')
 from Prepare_Model import prepare_GBPdenoising_end2end
+from Plot import grid_plot
 
 import tensorflow as tf
 import keras
@@ -11,6 +13,7 @@ from keras.preprocessing.image import ImageDataGenerator
 
 def main():
 
+    trainable = False
     num_classes = 10
     num_epochs = 300
     batch_size = 128
@@ -20,6 +23,8 @@ def main():
     (x_train, y_train), (x_test, y_test) = cifar10.load_data()
     y_train = keras.utils.to_categorical(y_train, num_classes)
     y_test = keras.utils.to_categorical(y_test, num_classes)
+
+    samples = x_test[:100]
 
     datagen = ImageDataGenerator(
         featurewise_center=True,
@@ -38,10 +43,12 @@ def main():
 
     ################################## Tensor Operations for the Training ##############################################
 
-    tf_model = prepare_GBPdenoising_end2end() # build up the computational graph
+    tf_model = prepare_GBPdenoising_end2end(trainable=trainable) # build up the computational graph
 
     input_pl = tf_model.inputs # get the input placeholder
     label_pl = tf_model.labels # get the label placeholder
+
+    gbp_reconstruction = tf_model.gbp_reconstruction # the gbp reconstruction output port
 
     cross_entropy = tf_model.cost # model cost
 
@@ -92,9 +99,19 @@ def main():
 
                     print(msg)
 
+                    # calculate the gbp reconstruction on the samples
+
+                    reconstructions = sess.run(gbp_reconstruction,
+                                               feed_dict={input_pl: samples})
+
+                    grid_plot([10, 10], reconstructions,
+                              'GBP_Reconstruction_Epoch_{}'.format(e),
+                              './Visualization/Trainable_{}/'.format(trainable),
+                              'Epoch_{}'.format(e))
+
                     break
 
-        saver.save(sess, 'Models/Pure_TF.ckpt')
+        saver.save(sess, 'Models/End2End_Trainable_{}.ckpt'.format(trainable))
 
 if __name__ == "__main__":
     # setup the GPUs to use

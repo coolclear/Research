@@ -7,14 +7,14 @@ from resnet import Resnet
 
 class GBP_End2End(object):
 
-    def __init__(self, sess=None):
+    def __init__(self, trainable=False):
 
         eval_graph = tf.get_default_graph() # get the graph
 
         # construct the shallow CNN used for GBP reconstruction
         # the gradient has to be overwritten
         with eval_graph.gradient_override_map({'Relu': 'GuidedRelu'}):
-            NN1 = Shallow_CNN(trainable=False)
+            NN1 = Shallow_CNN(trainable=trainable)
 
         ##################################### GBP Reconstruction ###############################################
 
@@ -37,6 +37,7 @@ class GBP_End2End(object):
 
         self.inputs = NN1.images
         self.labels = NN2.labels
+        self.gbp_reconstruction = tfOp_gbp_255
         self.output = NN2.logits
         self.cost = NN2.cost
         self.accuracy = NN2.accuracy
