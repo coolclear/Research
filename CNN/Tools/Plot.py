@@ -70,4 +70,5 @@ def grid_plot(grid_shape, image_list, title, save_dir, save_name):
         os.makedirs(save_dir)
 
     plt.savefig(os.path.join(save_dir, "{}.png".format(save_name)))
+    plt.close() # don't forget to close
 

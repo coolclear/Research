@@ -5,6 +5,8 @@
 ## This program is licenced under the BSD 2-Clause licence,
 ## contained in the LICENCE file in this directory.
 
+## Modified by Yang Zhang <yz78@rice.edu>
+
 import sys
 import tensorflow as tf
 import numpy as np
@@ -49,7 +51,9 @@ class CarliniL2:
         boxmax: Maximum pixel value (default 0.5).
         """
 
-        image_size, num_channels, num_labels = Model.image_size, Model.num_channels, Model.num_labels
+        self.image_size = 32
+        self.num_channels = 3
+        self.num_labels = 10
 
         self.sess = sess
         self.TARGETED = targeted
