@@ -52,7 +52,14 @@ def main():
 
     cross_entropy = tf_model.cost # model cost
 
-    train_step = tf.train.AdamOptimizer(1e-3).minimize(cross_entropy) # training operation
+    global_step = tf.Variable(0, trainable=False)
+    learning_rate = tf.train.exponential_decay(1e-3,
+                                               global_step=global_step,
+                                               decay_steps=10000,
+                                               decay_rate=0.9,
+                                               staircase=True)
+    train_step = tf.train.AdamOptimizer(learning_rate)\
+        .minimize(cross_entropy, global_step=global_step) # training operation
 
     accuracy = tf_model.accuracy # model prediction accuracy
 
@@ -74,9 +81,11 @@ def main():
                 _, train_accu = \
                     sess.run([train_step, accuracy], feed_dict={input_pl: x_batch, label_pl: y_batch})
 
-                msg = "Epoch = {}, Batch = {}, Accu = {:.4f}".format(e, b, train_accu)
+                if b % 50 == 0: # print less message
 
-                print(msg)
+                    msg = "Epoch = {}, Batch = {}, Accu = {:.4f}".format(e, b, train_accu)
+
+                    print(msg)
 
                 b += 1
 
