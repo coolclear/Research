@@ -31,7 +31,7 @@
         <entry file="file://$PROJECT_DIR$/CNN/GBP_Denoising/train_end2end_tf.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="621">
-              <caret line="59" column="61" lean-forward="true" selection-start-line="59" selection-start-column="61" selection-end-line="59" selection-end-column="61" />
+              <caret line="59" column="62" lean-forward="true" selection-start-line="59" selection-start-column="62" selection-end-line="59" selection-end-column="62" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -664,7 +664,7 @@
         <state relative-caret-position="39">
           <caret line="95" column="3" lean-forward="true" selection-start-line="95" selection-start-column="3" selection-end-line="95" selection-end-column="3" />
           <folding>
-            <element signature="e#0#18#0" expanded="true" />
+            <element signature="e#0#18#0" expanded="false" />
             <element signature="e#5036#5758#0" expanded="false" />
             <element signature="e#5837#6612#0" expanded="false" />
             <element signature="e#6692#7493#0" expanded="false" />
@@ -702,7 +702,7 @@
     <entry file="file://$PROJECT_DIR$/CNN/GBP_Denoising/train_end2end_tf.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="621">
-          <caret line="59" column="61" lean-forward="true" selection-start-line="59" selection-start-column="61" selection-end-line="59" selection-end-column="61" />
+          <caret line="59" column="62" lean-forward="true" selection-start-line="59" selection-start-column="62" selection-end-line="59" selection-end-column="62" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>
