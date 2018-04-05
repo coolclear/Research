@@ -27,11 +27,9 @@ def main():
     samples = x_test[:100]
 
     datagen = ImageDataGenerator(
-        featurewise_center=True,
-        featurewise_std_normalization=True,
-        rotation_range=20,
-        width_shift_range=0.2,
-        height_shift_range=0.2,
+        rotation_range=10,
+        width_shift_range=0.1,
+        height_shift_range=0.1,
         horizontal_flip=True)
 
     # compute quantities required for featurewise normalization
