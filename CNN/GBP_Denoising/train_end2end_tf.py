@@ -55,7 +55,7 @@ def main():
     global_step = tf.Variable(0, trainable=False)
     learning_rate = tf.train.exponential_decay(1e-3,
                                                global_step=global_step,
-                                               decay_steps=10000,
+                                               decay_steps=4000,
                                                decay_rate=0.9,
                                                staircase=True)
     train_step = tf.train.AdamOptimizer(learning_rate)\
