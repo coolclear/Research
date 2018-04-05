@@ -53,7 +53,7 @@ def main():
     cross_entropy = tf_model.cost # model cost
 
     global_step = tf.Variable(0, trainable=False)
-    learning_rate = tf.train.exponential_decay(1e-4,
+    learning_rate = tf.train.exponential_decay(1e-2,
                                                global_step=global_step,
                                                decay_steps=10000,
                                                decay_rate=0.9,
