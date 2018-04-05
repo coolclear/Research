@@ -110,6 +110,8 @@ class Resnet(object):
                 self.layers_dic[name] = conv3
                 last_layer = conv3
 
+        last_layer = tf.nn.dropout(last_layer, 0.5)
+
         with tf.variable_scope('fc', reuse=self.reuse):
 
             num_channels = last_layer.get_shape().as_list()[-1]
