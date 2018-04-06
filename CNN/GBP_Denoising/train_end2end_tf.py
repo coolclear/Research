@@ -54,7 +54,7 @@ def main():
     learning_rate = tf.train.exponential_decay(1e-3,
                                                global_step=global_step,
                                                decay_steps=8000,
-                                               decay_rate=0.96)
+                                               decay_rate=0.9)
     train_step = tf.train.AdamOptimizer(learning_rate)\
         .minimize(cross_entropy, global_step=global_step) # training operation
 
