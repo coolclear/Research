@@ -13,6 +13,8 @@ class Shallow_CNN(object):
         self.pool_type = pool_type
         self.trainable = trainable
 
+        print("Shallow CNN Trainable? {}".format(trainable))
+
         self.input_dim = input_dim
         self.output_dim = output_dim
 
