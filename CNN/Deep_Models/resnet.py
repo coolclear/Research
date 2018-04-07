@@ -110,7 +110,7 @@ class Resnet(object):
                 self.layers_dic[name] = conv3
                 last_layer = conv3
 
-        last_layer = tf.nn.dropout(last_layer, 0.8)
+        # last_layer = tf.nn.dropout(last_layer, 0.8)
 
         with tf.variable_scope('fc', reuse=self.reuse):
 
