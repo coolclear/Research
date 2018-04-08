@@ -62,7 +62,7 @@ def main():
 
     init = tf.global_variables_initializer() # initializer
 
-    saver = tf.train.Saver(tf.global_variables()) # model saver
+    saver = tf.train.Saver(tf.all_variables()) # model saver
 
     ################################## Tensor Operations for the Training ##############################################
 
