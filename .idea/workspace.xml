@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a407c93b-3742-4ae8-b810-e1066bea3e55" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/CNN/Deep_Models/gbp_end2end.py" afterPath="$PROJECT_DIR$/CNN/Deep_Models/gbp_end2end.py" />
+      <change beforePath="$PROJECT_DIR$/CNN/Prepare_Model/__init__.py" afterPath="$PROJECT_DIR$/CNN/Prepare_Model/__init__.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -19,33 +19,11 @@
       <file leaf-file-name="train_end2end_tf.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/CNN/GBP_Denoising/train_end2end_tf.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="134">
+            <state relative-caret-position="135">
               <caret line="9" column="0" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="34" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="gbp_end2end.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/CNN/Deep_Models/gbp_end2end.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="432">
-              <caret line="46" column="12" lean-forward="false" selection-start-line="46" selection-start-column="12" selection-end-line="46" selection-end-column="12" />
-              <folding>
-                <element signature="e#0#18#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="shallow_CNN.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/CNN/Deep_Models/shallow_CNN.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1463">
-              <caret line="8" column="70" lean-forward="false" selection-start-line="8" selection-start-column="65" selection-end-line="8" selection-end-column="70" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -63,11 +41,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="__init__.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="__init__.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/CNN/Prepare_Model/__init__.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="222">
-              <caret line="182" column="9" lean-forward="false" selection-start-line="182" selection-start-column="4" selection-end-line="182" selection-end-column="9" />
+            <state relative-caret-position="372">
+              <caret line="192" column="0" lean-forward="true" selection-start-line="192" selection-start-column="0" selection-end-line="192" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -109,8 +87,8 @@
         <option value="$PROJECT_DIR$/CNN/GBP_Denoising/train_end2end_tf.py" />
         <option value="$PROJECT_DIR$/CNN/Deep_Models/resnet.py" />
         <option value="$PROJECT_DIR$/CNN/GBP_Denoising/attack.py" />
-        <option value="$PROJECT_DIR$/CNN/Prepare_Model/__init__.py" />
         <option value="$PROJECT_DIR$/CNN/Deep_Models/gbp_end2end.py" />
+        <option value="$PROJECT_DIR$/CNN/Prepare_Model/__init__.py" />
       </list>
     </option>
   </component>
@@ -581,19 +559,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/CNN/Deep_Models/resnet.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1099">
-          <caret line="139" column="50" lean-forward="true" selection-start-line="139" selection-start-column="50" selection-end-line="139" selection-end-column="50" />
-          <folding>
-            <element signature="e#5038#5760#0" expanded="false" />
-            <element signature="e#5839#6614#0" expanded="false" />
-            <element signature="e#6694#7495#0" expanded="false" />
-            <element signature="e#7584#9774#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/CNN/Tools/Plot.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
@@ -613,9 +578,40 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/CNN/Deep_Models/shallow_CNN.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="432">
+          <caret line="154" column="16" lean-forward="false" selection-start-line="154" selection-start-column="13" selection-end-line="154" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CNN/Deep_Models/resnet.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="432">
+          <caret line="248" column="12" lean-forward="false" selection-start-line="248" selection-start-column="8" selection-end-line="248" selection-end-column="12" />
+          <folding>
+            <element signature="e#5038#5760#0" expanded="false" />
+            <element signature="e#5839#6614#0" expanded="false" />
+            <element signature="e#6694#7495#0" expanded="false" />
+            <element signature="e#7584#9774#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CNN/Deep_Models/gbp_end2end.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="417">
+          <caret line="45" column="0" lean-forward="false" selection-start-line="45" selection-start-column="0" selection-end-line="46" selection-end-column="27" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/CNN/GBP_Denoising/train_end2end_tf.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="134">
+        <state relative-caret-position="135">
           <caret line="9" column="0" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="34" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
@@ -625,27 +621,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/CNN/Prepare_Model/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="222">
-          <caret line="182" column="9" lean-forward="false" selection-start-line="182" selection-start-column="4" selection-end-line="182" selection-end-column="9" />
+        <state relative-caret-position="372">
+          <caret line="192" column="0" lean-forward="true" selection-start-line="192" selection-start-column="0" selection-end-line="192" selection-end-column="0" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CNN/Deep_Models/shallow_CNN.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1463">
-          <caret line="8" column="70" lean-forward="false" selection-start-line="8" selection-start-column="65" selection-end-line="8" selection-end-column="70" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CNN/Deep_Models/gbp_end2end.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="432">
-          <caret line="46" column="12" lean-forward="false" selection-start-line="46" selection-start-column="12" selection-end-line="46" selection-end-column="12" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>

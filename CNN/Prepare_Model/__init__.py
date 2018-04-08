@@ -187,7 +187,6 @@ def prepare_GBPdenoising_end2end(sess=None, trainable=False, saved=None):
         model.init(sess)
 
     if saved != None and sess != None:
-        model.init(sess)
         saver = tf.train.Saver()
         saver.restore(sess, saved)
         print('Trained weights are restored ... ')
