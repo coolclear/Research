@@ -178,13 +178,18 @@ def prepare_GBP_shallow_CNN(inputPH=None, sess=None, input_dim=32, output_dim=10
     with eval_graph.gradient_override_map({'Relu': 'GuidedRelu'}):
         return Shallow_CNN(inputPH=inputPH, sess=sess, input_dim=input_dim, output_dim=output_dim)
 
-def prepare_GBPdenoising_end2end(sess=None, trainable=False):
+def prepare_GBPdenoising_end2end(sess=None, trainable=False, saved=None):
 
     model = GBP_End2End(trainable=trainable)
 
     if sess != None:
         print('Model initialized ... ')
         model.init(sess)
+
+    if saved != None and sess != None:
+        saver = tf.train.Saver()
+        saver.restore(sess, saved)
+        print('Trained weights are restored ... ')
 
     return model
 
