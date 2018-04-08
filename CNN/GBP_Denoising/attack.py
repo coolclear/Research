@@ -7,6 +7,7 @@ from Plot import simple_plot
 from logging import warning
 import numpy as np
 import tensorflow as tf
+import keras
 from keras.datasets import cifar10
 
 import foolbox
