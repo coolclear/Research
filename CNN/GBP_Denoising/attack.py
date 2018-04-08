@@ -42,7 +42,7 @@ def main():
         fool_model = TensorFlowModel(tf_model.inputs, tf_model.output, bounds=(0, 255))
 
         # calculate the adversarial examples on some testing images
-        for index, image in enumerate(x_test[:10]):
+        for index, image in enumerate(x_test[:30]):
 
             # define the criterion
             # criterion = TargetClass((y_test[index] + 3) % 10) # target on a wrong label
@@ -70,23 +70,23 @@ def attack_one_image(image, name, label, attack_type, criterion, fool_model):
             print('Ok, let us attack this image ... ')
 
             if attack_type == "FGSM":
-                attack = foolbox.attacks.FGSM(fool_model, criterion)
+                attack = foolbox.attacks.FGSM(fool_model)
 
             elif attack_type == "IterGS":
-                attack = foolbox.attacks.IterativeGradientSignAttack(fool_model, criterion)
+                attack = foolbox.attacks.IterativeGradientSignAttack(fool_model)
 
             elif attack_type == "SalMap":
-                attack = foolbox.attacks.SaliencyMapAttack(fool_model, criterion)
+                attack = foolbox.attacks.SaliencyMapAttack(fool_model)
 
             elif attack_type == "LBFG":
-                attack = foolbox.attacks.LBFGSAttack(fool_model, criterion)
+                attack = foolbox.attacks.LBFGSAttack(fool_model)
 
             else:
                 print("Unknown attack type! Using FGSM")
                 attack = foolbox.attacks.FGSM(fool_model)
 
             # attack happens here
-            adversarial = attack(image, int(label))
+            adversarial = attack(image, label)
 
             if adversarial != None:
 
