@@ -88,24 +88,22 @@ def attack_one_image(image, name, label, attack_type, criterion, fool_model):
             # attack happens here
             adversarial = attack(image, label)
 
-            if adversarial != None:
+            preds_adv = fool_model.predictions(adversarial)
+            label_pre_adv = np.argmax(preds_adv)
+            prob_pre_adv = np.max(softmax_np(preds_adv))
+            print('(ADV) Prediction : {} ({:.2f})'.format(label_pre_adv, prob_pre_adv))
 
-                preds_adv = fool_model.predictions(adversarial)
-                label_pre_adv = np.argmax(preds_adv)
-                prob_pre_adv = np.max(softmax_np(preds_adv))
-                print('(ADV) Prediction : {} ({:.2f})'.format(label_pre_adv, prob_pre_adv))
+            if label_pre_adv != label:
 
-                if label_pre_adv != label:
+                print('The attack is successed!')
 
-                    print('The attack is successed!')
+                simple_plot(adversarial, 'ADV' + name, './Adversarial_Examples/')
 
-                    simple_plot(adversarial, 'ADV' + name, './Adversarial_Examples/')
+                print('Saved!')
 
-                    print('Saved!')
+            else:
 
-                else:
-
-                    print('The attack failed!')
+                print('The attack failed!')
 
 
 
