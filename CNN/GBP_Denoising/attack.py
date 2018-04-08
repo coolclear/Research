@@ -19,6 +19,7 @@ from foolbox.criteria import\
     TargetClassProbability
 
 trainable = False
+batch_size = 128
 
 def softmax_np(x, axis=None):
     return np.exp(x) / np.sum(np.exp(x), axis=axis)
@@ -35,6 +36,21 @@ def main():
     tf_model = prepare_GBPdenoising_end2end(sess=sess,
                                             trainable=trainable,
                                             saved='./Models/End2End_Trainable_{}.ckpt'.format(trainable))
+
+    # what's the testing accuracy?
+    test_accu = 0.
+    for i in range(int(len(x_test) / batch_size)):
+
+        # prepare batch
+        test_X_batch = x_test[batch_size * i: batch_size * i + batch_size]
+        test_y_batch = y_test[batch_size * i: batch_size * i + batch_size]
+
+        # accumulate
+        test_accu += \
+            sess.run(tf_model.accuracy, feed_dict={input_pl: test_X_batch, label_pl: test_y_batch}) * batch_size
+
+    msg = "Test Accuracy = {:.4f}".format(test_accu / len(x_test))
+    print(msg)
 
     # foolbox - construct a tensorflow model
     fool_model = TensorFlowModel(tf_model.inputs, tf_model.output, bounds=(0, 255))
