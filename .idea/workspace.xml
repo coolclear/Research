@@ -31,8 +31,8 @@
       <file leaf-file-name="attack.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/CNN/GBP_Denoising/attack.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="185">
-              <caret line="32" column="47" lean-forward="true" selection-start-line="32" selection-start-column="47" selection-end-line="32" selection-end-column="47" />
+            <state relative-caret-position="-304">
+              <caret line="56" column="36" lean-forward="true" selection-start-line="56" selection-start-column="36" selection-end-line="56" selection-end-column="36" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
                 <element signature="e#575#622#0" expanded="false" />
@@ -598,8 +598,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/CNN/GBP_Denoising/attack.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="185">
-          <caret line="32" column="47" lean-forward="true" selection-start-line="32" selection-start-column="47" selection-end-line="32" selection-end-column="47" />
+        <state relative-caret-position="-304">
+          <caret line="56" column="36" lean-forward="true" selection-start-line="56" selection-start-column="36" selection-end-line="56" selection-end-column="36" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
             <element signature="e#575#622#0" expanded="false" />

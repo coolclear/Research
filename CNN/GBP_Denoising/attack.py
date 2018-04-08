@@ -29,6 +29,16 @@ def main():
     # load in the data
     (x_train, y_train), (x_test, y_test) = cifar10.load_data()
 
+    sess = tf.Session()
+
+    # load in the trained model
+    tf_model = prepare_GBPdenoising_end2end(sess=sess,
+                                            trainable=trainable,
+                                            saved='./Models/End2End_Trainable_{}.ckpt'.format(trainable))
+
+    # foolbox - construct a tensorflow model
+    fool_model = TensorFlowModel(tf_model.inputs, tf_model.output, bounds=(0, 255))
+
     # calculate the adversarial examples on some testing images
     for index, image in enumerate(x_test[:10]):
 
@@ -36,21 +46,10 @@ def main():
         criterion = TargetClass((y_test[index] + 3) % 10) # target on a wrong label
         # criterion1 = Misclassification() # as long as misclassify
 
-        attack_one_image(image, 'TEST_{}'.format(index), y_test[index], 'FGSM', criterion)
+        attack_one_image(image, 'TEST_{}'.format(index), y_test[index], 'FGSM', criterion, fool_model)
 
 
-def attack_one_image(image, name, label, attack_type, criterion):
-
-    # tf session
-    with tf.Session() as sess:
-
-        # load in the trained model
-        tf_model = prepare_GBPdenoising_end2end(sess=sess,
-                                                trainable=trainable,
-                                                saved='./Models/End2End_Trainable_{}.ckpt'.format(trainable))
-
-        # foolbox - construct a tensorflow model
-        fool_model = TensorFlowModel(tf_model.inputs, tf_model.output, bounds=(0, 255))
+def attack_one_image(image, name, label, attack_type, criterion, fool_model):
 
         print('True Label: {}'.format(label))
 
