@@ -48,7 +48,7 @@ def main():
             # criterion = TargetClass((y_test[index] + 3) % 10) # target on a wrong label
             criterion = Misclassification() # as long as misclassify
 
-            attack_one_image(image, 'TEST_{}'.format(index), y_test[index], 'FGSM', criterion, fool_model)
+            attack_one_image(image, 'TEST_{}'.format(index), y_test[index], 'LBFG', criterion, fool_model)
 
 
 def attack_one_image(image, name, label, attack_type, criterion, fool_model):
@@ -70,20 +70,23 @@ def attack_one_image(image, name, label, attack_type, criterion, fool_model):
             print('Ok, let us attack this image ... ')
 
             if attack_type == "FGSM":
-                attack = foolbox.attacks.FGSM(fool_model, criterion=criterion)
+                attack = foolbox.attacks.FGSM(fool_model, criterion)
 
             elif attack_type == "IterGS":
-                attack = foolbox.attacks.IterativeGradientSignAttack(fool_model, criterion=criterion)
+                attack = foolbox.attacks.IterativeGradientSignAttack(fool_model, criterion)
 
             elif attack_type == "SalMap":
-                attack = foolbox.attacks.SaliencyMapAttack(fool_model, criterion=criterion)
+                attack = foolbox.attacks.SaliencyMapAttack(fool_model, criterion)
+
+            elif attack_type == "LBFG":
+                attack = foolbox.attacks.LBFGSAttack(fool_model, criterion)
 
             else:
                 print("Unknown attack type! Using FGSM")
-                attack = foolbox.attacks.FGSM(fool_model, criterion=criterion)
+                attack = foolbox.attacks.FGSM(fool_model)
 
             # attack happens here
-            adversarial = attack(image, label=label)
+            adversarial = attack(image, int(label))
 
             preds_adv = fool_model.predictions(adversarial)
             label_pre_adv = np.argmax(preds_adv)
