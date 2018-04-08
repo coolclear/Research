@@ -30,7 +30,7 @@ def main():
     (x_train, y_train), (x_test, y_test) = cifar10.load_data()
 
     # calculate the adversarial examples on some testing images
-    for index, image in enumerate(x_text[:10]):
+    for index, image in enumerate(x_test[:10]):
 
         # define the criterion
         criterion = TargetClass((y_test[index] + 3) % 10) # target on a wrong label
