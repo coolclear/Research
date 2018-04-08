@@ -31,8 +31,8 @@
       <file leaf-file-name="attack.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/CNN/GBP_Denoising/attack.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="342">
-              <caret line="91" column="37" lean-forward="false" selection-start-line="91" selection-start-column="37" selection-end-line="91" selection-end-column="37" />
+            <state relative-caret-position="316">
+              <caret line="95" column="26" lean-forward="true" selection-start-line="95" selection-start-column="26" selection-end-line="95" selection-end-column="26" />
               <folding>
                 <element signature="e#605#652#0" expanded="false" />
               </folding>
@@ -284,7 +284,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1280" height="694" extended-state="6" />
+    <frame x="0" y="23" width="1280" height="694" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -620,8 +620,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/CNN/GBP_Denoising/attack.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="91" column="37" lean-forward="false" selection-start-line="91" selection-start-column="37" selection-end-line="91" selection-end-column="37" />
+        <state relative-caret-position="316">
+          <caret line="95" column="26" lean-forward="true" selection-start-line="95" selection-start-column="26" selection-end-line="95" selection-end-column="26" />
           <folding>
             <element signature="e#605#652#0" expanded="false" />
           </folding>
