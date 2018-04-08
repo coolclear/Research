@@ -15,7 +15,7 @@ def main():
 
     trainable = False
     num_classes = 10
-    num_epochs = 300
+    num_epochs = 5
     batch_size = 64
 
     ########################################## Prepare the Data ########################################################
@@ -62,7 +62,7 @@ def main():
 
     init = tf.global_variables_initializer() # initializer
 
-    saver = tf.train.Saver() # model saver
+    saver = tf.train.Saver(tf.global_variables()) # model saver
 
     ################################## Tensor Operations for the Training ##############################################
 

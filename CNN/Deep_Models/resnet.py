@@ -247,4 +247,3 @@ class Resnet(object):
 
     def init(self, sess):
         sess.run(tf.global_variables_initializer())
-        sess.run(tf.local_variables_initializer())
