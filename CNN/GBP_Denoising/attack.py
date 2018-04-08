@@ -45,8 +45,8 @@ def main():
         for index, image in enumerate(x_test[:10]):
 
             # define the criterion
-            criterion = TargetClass((y_test[index] + 3) % 10) # target on a wrong label
-            # criterion1 = Misclassification() # as long as misclassify
+            # criterion = TargetClass((y_test[index] + 3) % 10) # target on a wrong label
+            criterion = Misclassification() # as long as misclassify
 
             attack_one_image(image, 'TEST_{}'.format(index), y_test[index], 'FGSM', criterion, fool_model)
 
@@ -73,14 +73,14 @@ def attack_one_image(image, name, label, attack_type, criterion, fool_model):
                 attack = foolbox.attacks.FGSM(fool_model, criterion=criterion)
 
             elif attack_type == "IterGS":
-                attack = foolbox.attacks.IterativeGradientSignAttack(fmodel, criterion=criterion)
+                attack = foolbox.attacks.IterativeGradientSignAttack(fool_model, criterion=criterion)
 
             elif attack_type == "SalMap":
-                attack = foolbox.attacks.SaliencyMapAttack(fmodel, criterion=criterion)
+                attack = foolbox.attacks.SaliencyMapAttack(fool_model, criterion=criterion)
 
             else:
                 print("Unknown attack type! Using FGSM")
-                attack = foolbox.attacks.FGSM(fmodel, criterion=criterion)
+                attack = foolbox.attacks.FGSM(fool_model, criterion=criterion)
 
             # attack happens here
             adversarial = attack(image, label)
