@@ -86,6 +86,7 @@ def attack_one_image(image, name, label, attack_type, criterion, fool_model):
                 attack = foolbox.attacks.FGSM(fool_model)
 
             # attack happens here
+            print(type(label))
             adversarial = attack(image, int(label))
 
             preds_adv = fool_model.predictions(adversarial)
