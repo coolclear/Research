@@ -60,51 +60,43 @@ def attack_one_image(image, name, label, attack_type, criterion, fool_model):
         prob_pre = np.max(softmax_np(preds))
         print('Prediction : {} ({:.2f})'.format(label_pre, prob_pre))
 
-        if label_pre != label:
+        print('Ok, let us attack this image ... ')
 
-            print('The model predicts wrong. No need to attack.')
-            return None
+        if attack_type == "FGSM":
+            attack = foolbox.attacks.FGSM(fool_model)
+
+        elif attack_type == "IterGS":
+            attack = foolbox.attacks.IterativeGradientSignAttack(fool_model)
+
+        elif attack_type == "SalMap":
+            attack = foolbox.attacks.SaliencyMapAttack(fool_model)
+
+        elif attack_type == "LBFG":
+            attack = foolbox.attacks.LBFGSAttack(fool_model)
+
+        else:
+            print("Unknown attack type! Using FGSM")
+            attack = foolbox.attacks.FGSM(fool_model)
+
+        # attack happens here
+        adversarial = attack(image, int(label))
+
+        preds_adv = fool_model.predictions(adversarial)
+        label_pre_adv = np.argmax(preds_adv)
+        prob_pre_adv = np.max(softmax_np(preds_adv))
+        print('(ADV) Prediction : {} ({:.2f})'.format(label_pre_adv, prob_pre_adv))
+
+        if label_pre_adv != label:
+
+            print('The attack is successed!')
+
+            simple_plot(adversarial, 'ADV' + name, './Adversarial_Examples/')
+
+            print('Saved!')
 
         else:
 
-            print('Ok, let us attack this image ... ')
-
-            if attack_type == "FGSM":
-                attack = foolbox.attacks.FGSM(fool_model)
-
-            elif attack_type == "IterGS":
-                attack = foolbox.attacks.IterativeGradientSignAttack(fool_model)
-
-            elif attack_type == "SalMap":
-                attack = foolbox.attacks.SaliencyMapAttack(fool_model)
-
-            elif attack_type == "LBFG":
-                attack = foolbox.attacks.LBFGSAttack(fool_model)
-
-            else:
-                print("Unknown attack type! Using FGSM")
-                attack = foolbox.attacks.FGSM(fool_model)
-
-            # attack happens here
-            print(type(label))
-            adversarial = attack(image, int(label))
-
-            preds_adv = fool_model.predictions(adversarial)
-            label_pre_adv = np.argmax(preds_adv)
-            prob_pre_adv = np.max(softmax_np(preds_adv))
-            print('(ADV) Prediction : {} ({:.2f})'.format(label_pre_adv, prob_pre_adv))
-
-            if label_pre_adv != label:
-
-                print('The attack is successed!')
-
-                simple_plot(adversarial, 'ADV' + name, './Adversarial_Examples/')
-
-                print('Saved!')
-
-            else:
-
-                print('The attack failed!')
+            print('The attack failed!')
 
 
 
