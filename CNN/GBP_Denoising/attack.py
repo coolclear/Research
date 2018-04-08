@@ -31,41 +31,24 @@ def main():
     # load in the data
     (x_train, y_train), (x_test, y_test) = cifar10.load_data()
 
-    sess = tf.Session()
+    with tf.Session() as sess:
 
-    # load in the trained model
-    tf_model = prepare_GBPdenoising_end2end(sess=sess,
-                                            trainable=trainable,
-                                            saved='./Models/End2End_Trainable_{}.ckpt'.format(trainable))
+        # load in the trained model
+        tf_model = prepare_GBPdenoising_end2end(sess=sess,
+                                                trainable=trainable,
+                                                saved='./Models/End2End_Trainable_{}.ckpt'.format(trainable))
 
-    # what's the testing accuracy?
-    test_accu = 0.
-    for i in range(int(len(x_test) / batch_size)):
+        # foolbox - construct a tensorflow model
+        fool_model = TensorFlowModel(tf_model.inputs, tf_model.output, bounds=(0, 255))
 
-        # prepare batch
-        test_X_batch = x_test[batch_size * i: batch_size * i + batch_size]
-        test_y_batch = y_test[batch_size * i: batch_size * i + batch_size]
+        # calculate the adversarial examples on some testing images
+        for index, image in enumerate(x_test[:10]):
 
-        # accumulate
-        test_accu += \
-            sess.run(tf_model.accuracy,
-                     feed_dict={tf_model.inputs: test_X_batch,
-                                tf_model.labels: keras.utils.to_categorical(test_y_batch, 10)}) * batch_size
+            # define the criterion
+            criterion = TargetClass((y_test[index] + 3) % 10) # target on a wrong label
+            # criterion1 = Misclassification() # as long as misclassify
 
-    msg = "Test Accuracy = {:.4f}".format(test_accu / len(x_test))
-    print(msg)
-
-    # foolbox - construct a tensorflow model
-    fool_model = TensorFlowModel(tf_model.inputs, tf_model.output, bounds=(0, 255))
-
-    # calculate the adversarial examples on some testing images
-    for index, image in enumerate(x_test[:10]):
-
-        # define the criterion
-        criterion = TargetClass((y_test[index] + 3) % 10) # target on a wrong label
-        # criterion1 = Misclassification() # as long as misclassify
-
-        attack_one_image(image, 'TEST_{}'.format(index), y_test[index], 'FGSM', criterion, fool_model)
+            attack_one_image(image, 'TEST_{}'.format(index), y_test[index], 'FGSM', criterion, fool_model)
 
 
 def attack_one_image(image, name, label, attack_type, criterion, fool_model):
