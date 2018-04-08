@@ -48,7 +48,8 @@ def main():
         # accumulate
         test_accu += \
             sess.run(tf_model.accuracy,
-                     feed_dict={tf_model.inputs: test_X_batch, tf_model.labels: test_y_batch}) * batch_size
+                     feed_dict={tf_model.inputs: test_X_batch,
+                                tf_model.labels: keras.utils.to_categorical(test_y_batch, 10)}) * batch_size
 
     msg = "Test Accuracy = {:.4f}".format(test_accu / len(x_test))
     print(msg)
