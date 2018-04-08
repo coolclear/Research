@@ -14,12 +14,12 @@ class GBP_End2End(object):
         # construct the shallow CNN used for GBP reconstruction
         # the gradient has to be overwritten
         with eval_graph.gradient_override_map({'Relu': 'GuidedRelu'}):
-            NN1 = Shallow_CNN(trainable=trainable)
+            self.NN1 = Shallow_CNN(trainable=trainable)
 
         ##################################### GBP Reconstruction ###############################################
 
-        logits = NN1.logits  # get the logits
-        self.input = NN1.images # get the input
+        logits = self.NN1.logits  # get the logits
+        self.input = self.NN1.images # get the input
 
         index = tf.random_uniform([1], minval=0, maxval=100, dtype=tf.int32)[0]
 
@@ -33,15 +33,15 @@ class GBP_End2End(object):
         ##################################### GBP Reconstruction ###############################################
 
         # now use a Resnet to classify these GBP reconstructions
-        NN2 = Resnet(inputPH=tf.cast(tfOp_gbp_255, dtype=tf.float32), num_labels=10)
+        self.NN2 = Resnet(inputPH=tf.cast(tfOp_gbp_255, dtype=tf.float32), num_labels=10)
 
-        self.inputs = NN1.images
-        self.labels = NN2.labels
+        self.inputs = self.NN1.images
+        self.labels = self.NN2.labels
         self.gbp_reconstruction = tfOp_gbp_255
-        self.output = NN2.logits
-        self.cost = NN2.cost
-        self.accuracy = NN2.accuracy
+        self.output = self.NN2.logits
+        self.cost = self.NN2.cost
+        self.accuracy = self.NN2.accuracy
 
     def init(self, sess):
-        NN1.init(sess)
-        NN2.init(sess)
+        self.NN1.init(sess)
+        self.NN2.init(sess)
