@@ -43,4 +43,5 @@ class GBP_End2End(object):
         self.accuracy = NN2.accuracy
 
     def init(self, sess):
-        sess.run(tf.global_variables_initializer())
+        NN1.init(sess)
+        NN2.init(sess)
