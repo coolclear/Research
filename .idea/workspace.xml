@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a407c93b-3742-4ae8-b810-e1066bea3e55" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/CNN/GBP_Denoising/attack.py" afterPath="$PROJECT_DIR$/CNN/GBP_Denoising/attack.py" />
+      <change beforePath="$PROJECT_DIR$/CNN/GBP_Denoising/train_end2end_tf.py" afterPath="$PROJECT_DIR$/CNN/GBP_Denoising/train_end2end_tf.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -16,11 +16,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="train_end2end_tf.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="train_end2end_tf.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/CNN/GBP_Denoising/train_end2end_tf.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-534">
-              <caret line="17" column="19" lean-forward="false" selection-start-line="17" selection-start-column="19" selection-end-line="17" selection-end-column="19" />
+            <state relative-caret-position="255">
+              <caret line="17" column="20" lean-forward="false" selection-start-line="17" selection-start-column="20" selection-end-line="17" selection-end-column="20" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -28,11 +28,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="attack.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="attack.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/CNN/GBP_Denoising/attack.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="274">
-              <caret line="88" column="47" lean-forward="false" selection-start-line="88" selection-start-column="47" selection-end-line="88" selection-end-column="47" />
+            <state relative-caret-position="121">
+              <caret line="31" column="31" lean-forward="false" selection-start-line="31" selection-start-column="25" selection-end-line="31" selection-end-column="31" />
               <folding>
                 <element signature="e#605#652#0" expanded="false" />
               </folding>
@@ -88,8 +88,8 @@
         <option value="$PROJECT_DIR$/CNN/Deep_Models/gbp_end2end.py" />
         <option value="$PROJECT_DIR$/CNN/Prepare_Model/__init__.py" />
         <option value="$PROJECT_DIR$/CNN/Deep_Models/resnet.py" />
-        <option value="$PROJECT_DIR$/CNN/GBP_Denoising/train_end2end_tf.py" />
         <option value="$PROJECT_DIR$/CNN/GBP_Denoising/attack.py" />
+        <option value="$PROJECT_DIR$/CNN/GBP_Denoising/train_end2end_tf.py" />
       </list>
     </option>
   </component>
@@ -608,22 +608,22 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/CNN/GBP_Denoising/train_end2end_tf.py">
+    <entry file="file://$PROJECT_DIR$/CNN/GBP_Denoising/attack.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-534">
-          <caret line="17" column="19" lean-forward="false" selection-start-line="17" selection-start-column="19" selection-end-line="17" selection-end-column="19" />
+        <state relative-caret-position="121">
+          <caret line="31" column="31" lean-forward="false" selection-start-line="31" selection-start-column="25" selection-end-line="31" selection-end-column="31" />
           <folding>
-            <element signature="e#0#9#0" expanded="true" />
+            <element signature="e#605#652#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/CNN/GBP_Denoising/attack.py">
+    <entry file="file://$PROJECT_DIR$/CNN/GBP_Denoising/train_end2end_tf.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="274">
-          <caret line="88" column="47" lean-forward="false" selection-start-line="88" selection-start-column="47" selection-end-line="88" selection-end-column="47" />
+        <state relative-caret-position="255">
+          <caret line="17" column="20" lean-forward="false" selection-start-line="17" selection-start-column="20" selection-end-line="17" selection-end-column="20" />
           <folding>
-            <element signature="e#605#652#0" expanded="false" />
+            <element signature="e#0#9#0" expanded="true" />
           </folding>
         </state>
       </provider>
