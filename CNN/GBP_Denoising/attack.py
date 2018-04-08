@@ -70,7 +70,7 @@ def attack_one_image(image, name, label, attack_type, criterion, fool_model):
             print('Ok, let us attack this image ... ')
 
             if attack_type == "FGSM":
-                attack = foolbox.attacks.FGSM(fmodel, criterion=criterion)
+                attack = foolbox.attacks.FGSM(fool_model, criterion=criterion)
 
             elif attack_type == "IterGS":
                 attack = foolbox.attacks.IterativeGradientSignAttack(fmodel, criterion=criterion)
