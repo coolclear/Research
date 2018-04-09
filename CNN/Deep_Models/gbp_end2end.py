@@ -33,7 +33,8 @@ class GBP_End2End(object):
         ##################################### GBP Reconstruction ###############################################
 
         # now use a Resnet to classify these GBP reconstructions
-        self.NN2 = Resnet(inputPH=tf.cast(tfOp_gbp_255, dtype=tf.float32), num_labels=10)
+        # self.NN2 = Resnet(inputPH=tf.cast(tfOp_gbp_255, dtype=tf.float32), num_labels=10)
+        self.NN2 = Resnet(inputPH=tfOp_gbp_divmax, num_labels=10)
 
         self.inputs = self.NN1.images
         self.labels = self.NN2.labels
