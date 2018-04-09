@@ -65,7 +65,7 @@ def main():
             # criterion = TargetClass((y_test[index] + 3) % 10) # target on a wrong label
             criterion = Misclassification() # as long as misclassify
 
-            attack_one_image(np.array(image), 'TEST_{}'.format(index), y_test[index], 'FGSM', criterion, fool_model)
+            attack_one_image(np.array(image), 'TEST_{}'.format(index), y_test[index], 'IterGS', criterion, fool_model)
 
 
 def attack_one_image(image, name, label, attack_type, criterion, fool_model):
