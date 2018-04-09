@@ -37,11 +37,30 @@ def main():
                                                 trainable=trainable,
                                                 saved='./Models/End2End_Trainable_{}.ckpt'.format(trainable))
 
+        # double check the testing accuracy
+        test_accu = 0.
+        for i in range(int(len(x_test) / batch_size)):
+
+            # prepare batch
+            test_X_batch = x_test[batch_size * i: batch_size * i + batch_size]
+            test_y_batch = y_test[batch_size * i: batch_size * i + batch_size]
+            test_y_batch = keras.utils.to_categorical(test_y_batch, 10)
+
+            # accumulate
+            test_accu += \
+                sess.run(tf_model.accuracy,
+                         feed_dict={tf_model.inputs: test_X_batch,
+                                    tf_model.labels: test_y_batch}) * batch_size
+
+        msg = "Test Accuracy = {:.4f}".format(test_accu / len(x_test))
+
+        print(msg)
+
         # foolbox - construct a tensorflow model
         fool_model = TensorFlowModel(tf_model.inputs, tf_model.output, bounds=(0, 255))
 
         # calculate the adversarial examples on some testing images
-        stop = 30
+        stop = 10
         for index, image in enumerate(x_test):
 
             if index >= stop:
