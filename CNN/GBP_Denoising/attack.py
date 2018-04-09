@@ -39,17 +39,17 @@ def main():
         input_pl = tf_model.inputs
         logits = tf_model.output
 
-        # predict one by one
-        # double check the testing accuracy
-        # comment out this part if necessary
-        test_accu = 0.
-        for index, image in enumerate(x_test):
-            batch_image = np.expand_dims(image, 0)
-            logits_val = sess.run(logits, feed_dict={input_pl: batch_image})
-            if np.argmax(logits_val) == y_test[index]:
-                test_accu += 1
-        msg = "Test Accuracy = {:.4f}".format(test_accu / len(x_test))
-        print(msg)
+        # # predict one by one
+        # # double check the testing accuracy
+        # # comment out this part if necessary
+        # test_accu = 0.
+        # for index, image in enumerate(x_test):
+        #     batch_image = np.expand_dims(image, 0)
+        #     logits_val = sess.run(logits, feed_dict={input_pl: batch_image})
+        #     if np.argmax(logits_val) == y_test[index]:
+        #         test_accu += 1
+        # msg = "Test Accuracy = {:.4f}".format(test_accu / len(x_test))
+        # print(msg)
 
         # foolbox - construct a tensorflow model
         fool_model = TensorFlowModel(input_pl, logits, bounds=(0, 255))
@@ -105,22 +105,24 @@ def attack_one_image(image, name, label, attack_type, criterion, fool_model):
             # attack happens here
             adversarial = attack(image, label[0])
 
-            preds_adv = fool_model.predictions(adversarial)
-            label_pre_adv = np.argmax(preds_adv)
-            prob_pre_adv = np.max(softmax_np(preds_adv))
-            print('(ADV) Prediction : {} ({:.2f})'.format(label_pre_adv, prob_pre_adv))
+            if adversarial != None:
 
-            if label_pre_adv != label:
+                preds_adv = fool_model.predictions(adversarial)
+                label_pre_adv = np.argmax(preds_adv)
+                prob_pre_adv = np.max(softmax_np(preds_adv))
+                print('(ADV) Prediction : {} ({:.2f})'.format(label_pre_adv, prob_pre_adv))
+    
+                if label_pre_adv != label:
 
-                print('The attack is successed!')
+                    print('The attack is successed!')
 
-                simple_plot(adversarial, 'ADV' + name, './Adversarial_Examples/')
+                    simple_plot(adversarial, 'ADV' + name, './Adversarial_Examples/')
 
-                print('Saved!')
+                    print('Saved!')
 
-            else:
+                else:
 
-                print('The attack failed!')
+                    print('The attack failed!')
 
 
 
