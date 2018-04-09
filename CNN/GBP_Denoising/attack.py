@@ -39,17 +39,17 @@ def main():
         input_pl = tf_model.inputs
         logits = tf_model.output
 
-        # # predict one by one
-        # # double check the testing accuracy
-        # # comment out this part if necessary
-        # test_accu = 0.
-        # for index, image in enumerate(x_test):
-        #     batch_image = np.expand_dims(image, 0)
-        #     logits_val = sess.run(logits, feed_dict={input_pl: batch_image})
-        #     if np.argmax(logits_val) == y_test[index]:
-        #         test_accu += 1
-        # msg = "Test Accuracy = {:.4f}".format(test_accu / len(x_test))
-        # print(msg)
+        # predict one by one
+        # double check the testing accuracy
+        # comment out this part if necessary
+        test_accu = 0.
+        for index, image in enumerate(x_test):
+            batch_image = np.expand_dims(image, 0)
+            logits_val = sess.run(logits, feed_dict={input_pl: batch_image})
+            if np.argmax(logits_val) == y_test[index]:
+                test_accu += 1
+        msg = "Test Accuracy = {:.4f}".format(test_accu / len(x_test))
+        print(msg)
 
         # foolbox - construct a tensorflow model
         fool_model = TensorFlowModel(input_pl, logits, bounds=(0, 255))
