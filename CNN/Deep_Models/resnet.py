@@ -63,7 +63,7 @@ class Resnet(object):
 
         with tf.variable_scope('conv0', reuse=self.reuse):
 
-            conv0 = self.conv_bn_relu_layer(last_layer, [3, 3, 3, 16], 1)
+            conv0 = self.conv_bn_relu_layer(last_layer, [3, 3, 3, 16], 1, phase)
 
             self.layers_dic['conv0'] = conv0
             last_layer = conv0
