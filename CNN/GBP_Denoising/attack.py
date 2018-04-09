@@ -25,7 +25,6 @@ batch_size = 128
 def softmax_np(x, axis=None):
     return np.exp(x) / np.sum(np.exp(x), axis=axis)
 
-
 def main():
 
     # load in the data
@@ -42,7 +41,11 @@ def main():
         fool_model = TensorFlowModel(tf_model.inputs, tf_model.output, bounds=(0, 255))
 
         # calculate the adversarial examples on some testing images
-        for index, image in enumerate(x_test[:30]):
+        stop = 30
+        for index, image in enumerate(x_test):
+
+            if index >= stop:
+                break
 
             # define the criterion
             # criterion = TargetClass((y_test[index] + 3) % 10) # target on a wrong label
