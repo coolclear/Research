@@ -20,7 +20,6 @@ from foolbox.criteria import\
     TargetClassProbability
 
 trainable = False
-batch_size = 1
 
 def softmax_np(x, axis=None):
     return np.exp(x) / np.sum(np.exp(x), axis=axis)
@@ -37,30 +36,26 @@ def main():
                                                 trainable=trainable,
                                                 saved='./Models/End2End_Trainable_{}.ckpt'.format(trainable))
 
+        input_pl = tf_model.inputs
+        logits = tf_model.output
+
+        # predict one by one
         # double check the testing accuracy
+        # comment out this part if necessary
         test_accu = 0.
-        for i in range(int(len(x_test) / batch_size)):
-
-            # prepare batch
-            test_X_batch = x_test[batch_size * i: batch_size * i + batch_size]
-            test_y_batch = y_test[batch_size * i: batch_size * i + batch_size]
-            test_y_batch = keras.utils.to_categorical(test_y_batch, 10)
-
-            # accumulate
-            test_accu += \
-                sess.run(tf_model.accuracy,
-                         feed_dict={tf_model.inputs: test_X_batch,
-                                    tf_model.labels: test_y_batch}) * batch_size
-
+        for index, image in enumerate(x_test):
+            batch_image = np.expand_dims(image, 0)
+            logits_val = sess.run(logits, feed_dict={input_pl: batch_image})
+            if np.argmax(logits_val) == y_test[index]:
+                test_accu += 1
         msg = "Test Accuracy = {:.4f}".format(test_accu / len(x_test))
-
         print(msg)
 
         # foolbox - construct a tensorflow model
-        fool_model = TensorFlowModel(tf_model.inputs, tf_model.output, bounds=(0, 255))
+        fool_model = TensorFlowModel(input_pl, logits, bounds=(0, 255))
 
         # calculate the adversarial examples on some testing images
-        stop = 10
+        stop = 20
         for index, image in enumerate(x_test):
 
             if index >= stop:
