@@ -150,17 +150,17 @@ class Resnet(object):
         :return: the 4D tensor after being normalized
         '''
 
-        mean, variance = tf.nn.moments(input_layer, axes=[0, 1, 2])
+        # mean, variance = tf.nn.moments(input_layer, axes=[0, 1, 2])
+        #
+        # beta = tf.get_variable('beta', dimension, tf.float32,
+        #                        initializer=tf.constant_initializer(0.0, tf.float32))
+        #
+        # gamma = tf.get_variable('gamma', dimension, tf.float32,
+        #                         initializer=tf.constant_initializer(1.0, tf.float32))
+        #
+        # bn_layer = tf.nn.batch_normalization(input_layer, mean, variance, beta, gamma, 1e-3)
 
-        beta = tf.get_variable('beta', dimension, tf.float32,
-                               initializer=tf.constant_initializer(0.0, tf.float32))
-
-        gamma = tf.get_variable('gamma', dimension, tf.float32,
-                                initializer=tf.constant_initializer(1.0, tf.float32))
-
-        bn_layer = tf.nn.batch_normalization(input_layer, mean, variance, beta, gamma, 1e-3)
-
-        return bn_layer
+        return input_layer
 
     def conv_bn_relu_layer(self, input_layer, filter_shape, stride):
         '''
