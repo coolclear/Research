@@ -15,7 +15,7 @@ def main():
 
     trainable = False
     num_classes = 10
-    num_epochs = 10
+    num_epochs = 1
     batch_size = 64
 
     ########################################## Prepare the Data ########################################################
@@ -45,6 +45,7 @@ def main():
 
     input_pl = tf_model.inputs # get the input placeholder
     label_pl = tf_model.labels # get the label placeholder
+    phase_pl = tf_model.phase # get the phase placeholder
 
     gbp_reconstruction = tf_model.gbp_reconstruction # the gbp reconstruction output port
 
@@ -76,7 +77,10 @@ def main():
             for x_batch, y_batch in datagen.flow(x_train, y_train, batch_size=batch_size):
 
                 _, train_accu = \
-                    sess.run([train_step, accuracy], feed_dict={input_pl: x_batch, label_pl: y_batch})
+                    sess.run([train_step, accuracy],
+                             feed_dict={input_pl: x_batch,
+                                        label_pl: y_batch,
+                                        phase_pl: 1})
 
                 if b % 50 == 0: # print less message
 
@@ -99,7 +103,10 @@ def main():
 
                         # accumulate
                         test_accu += \
-                            sess.run(accuracy, feed_dict={input_pl: test_X_batch, label_pl: test_y_batch}) * batch_size
+                            sess.run(accuracy,
+                                     feed_dict={input_pl: test_X_batch,
+                                                label_pl: test_y_batch,
+                                                phase_pl: 0}) * batch_size
 
                     msg = "Epoch = {}, Test Accuracy = {:.4f}".format(e, test_accu / len(x_test))
 
