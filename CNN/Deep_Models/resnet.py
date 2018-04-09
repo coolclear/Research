@@ -78,9 +78,9 @@ class Resnet(object):
             with tf.variable_scope(name, reuse=self.reuse):
 
                 if i == 0:
-                    conv1 = self.residual_block(last_layer, 16, first_block=True)
+                    conv1 = self.residual_block(last_layer, 16, phase, first_block=True)
                 else:
-                    conv1 = self.residual_block(last_layer, 16)
+                    conv1 = self.residual_block(last_layer, 16, phase)
 
                 self.layers_dic[name] = conv1
                 last_layer = conv1
@@ -94,7 +94,7 @@ class Resnet(object):
 
             with tf.variable_scope(name, reuse=self.reuse):
 
-                conv2 = self.residual_block(last_layer, 32)
+                conv2 = self.residual_block(last_layer, 32, phase)
 
                 self.layers_dic[name] = conv2
                 last_layer = conv2
@@ -108,7 +108,7 @@ class Resnet(object):
 
             with tf.variable_scope(name, reuse=self.reuse):
 
-                conv3 = self.residual_block(last_layer, 64)
+                conv3 = self.residual_block(last_layer, 64, phase)
 
                 self.layers_dic[name] = conv3
                 last_layer = conv3
@@ -206,7 +206,7 @@ class Resnet(object):
         conv_layer = tf.nn.conv2d(relu_layer, filter, strides=[1, stride, stride, 1], padding='SAME')
         return conv_layer
 
-    def residual_block(self, input_layer, output_channel, first_block=False):
+    def residual_block(self, input_layer, output_channel, phase, first_block=False):
 
         '''
         A Residual Block
@@ -236,10 +236,10 @@ class Resnet(object):
                                                          stddev=1e-1), name='weights')
                 conv1 = tf.nn.conv2d(input_layer, filter=filter, strides=[1, 1, 1, 1], padding='SAME')
             else:
-                conv1 = self.bn_relu_conv_layer(input_layer, [3, 3, input_channel, output_channel], stride)
+                conv1 = self.bn_relu_conv_layer(input_layer, [3, 3, input_channel, output_channel], stride, phase)
 
         with tf.variable_scope('conv2_in_block'):
-            conv2 = self.bn_relu_conv_layer(conv1, [3, 3, output_channel, output_channel], 1)
+            conv2 = self.bn_relu_conv_layer(conv1, [3, 3, output_channel, output_channel], 1, phase)
 
         # When the channels of input layer and conv2 does not match, we add zero pads to increase the
         #  depth of input layers
