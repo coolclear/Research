@@ -105,7 +105,7 @@ def attack_one_image(image, name, label, attack_type, criterion, fool_model):
             # attack happens here
             adversarial = attack(image, label[0])
 
-            if adversarial == None:
+            if adversarial is None:
                 print('The attack failed!')
             else :
 
