@@ -20,7 +20,7 @@ from foolbox.criteria import\
     TargetClassProbability
 
 trainable = False
-batch_size = 128
+batch_size = 1
 
 def softmax_np(x, axis=None):
     return np.exp(x) / np.sum(np.exp(x), axis=axis)
