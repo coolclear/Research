@@ -14,7 +14,7 @@ from keras.preprocessing.image import ImageDataGenerator
 def main():
 
     trainable = False
-    num_classes = 10
+    num_classes = 5
     num_epochs = 100
     batch_size = 64
 
@@ -79,8 +79,7 @@ def main():
                 _, train_accu = \
                     sess.run([train_step, accuracy],
                              feed_dict={input_pl: x_batch,
-                                        label_pl: y_batch,
-                                        phase_pl: 1})
+                                        label_pl: y_batch})
 
                 if b % 50 == 0: # print less message
 
@@ -105,8 +104,7 @@ def main():
                         test_accu += \
                             sess.run(accuracy,
                                      feed_dict={input_pl: test_X_batch,
-                                                label_pl: test_y_batch,
-                                                phase_pl: 0}) * batch_size
+                                                label_pl: test_y_batch}) * batch_size
 
                     msg = "Epoch = {}, Test Accuracy = {:.4f}".format(e, test_accu / len(x_test))
 

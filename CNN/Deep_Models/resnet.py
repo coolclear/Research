@@ -43,11 +43,8 @@ class Resnet(object):
         with tf.name_scope('output') as scope:
             self.labels = tf.placeholder(tf.float32, [None, self.num_labels])
 
-        # specify the learning phase for the batch_normalization
-        self.phase = tf.placeholder(tf.bool, name='phase')
-
         # Build the TF computational graph for the ResNet architecture
-        self.logits = self.build(self.phase)
+        self.logits = self.build()
         self.cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(labels=self.labels, logits=self.logits))
         self.maxlogit = tf.reduce_max(self.logits, axis=1)
         self.accuracy = tf.reduce_mean(
@@ -55,7 +52,7 @@ class Resnet(object):
                     tf.float32))
 
 
-    def build(self, phase):
+    def build(self):
 
         # we are stacking the layers
         # and thus we need an easy reference to the last layer of the current graph
@@ -63,7 +60,7 @@ class Resnet(object):
 
         with tf.variable_scope('conv0', reuse=self.reuse):
 
-            conv0 = self.conv_bn_relu_layer(last_layer, [3, 3, 3, 16], 1, phase)
+            conv0 = self.conv_bn_relu_layer(last_layer, [3, 3, 3, 16], 1)
 
             self.layers_dic['conv0'] = conv0
             last_layer = conv0
@@ -78,9 +75,9 @@ class Resnet(object):
             with tf.variable_scope(name, reuse=self.reuse):
 
                 if i == 0:
-                    conv1 = self.residual_block(last_layer, 16, phase, first_block=True)
+                    conv1 = self.residual_block(last_layer, 16, first_block=True)
                 else:
-                    conv1 = self.residual_block(last_layer, 16, phase)
+                    conv1 = self.residual_block(last_layer, 16)
 
                 self.layers_dic[name] = conv1
                 last_layer = conv1
@@ -94,7 +91,7 @@ class Resnet(object):
 
             with tf.variable_scope(name, reuse=self.reuse):
 
-                conv2 = self.residual_block(last_layer, 32, phase)
+                conv2 = self.residual_block(last_layer, 32)
 
                 self.layers_dic[name] = conv2
                 last_layer = conv2
@@ -108,7 +105,7 @@ class Resnet(object):
 
             with tf.variable_scope(name, reuse=self.reuse):
 
-                conv3 = self.residual_block(last_layer, 64, phase)
+                conv3 = self.residual_block(last_layer, 64)
 
                 self.layers_dic[name] = conv3
                 last_layer = conv3
@@ -119,7 +116,7 @@ class Resnet(object):
 
             num_channels = last_layer.get_shape().as_list()[-1]
 
-            bn_layer = self.batch_normalization_layer(last_layer, phase) # batch normalization
+            bn_layer = self.batch_normalization_layer(last_layer, num_channels) # batch normalization
 
             relu_layer = tf.nn.relu(bn_layer)
 
@@ -144,7 +141,7 @@ class Resnet(object):
 
         return last_layer
 
-    def batch_normalization_layer(self, input_layer, phase):
+    def batch_normalization_layer(self, input_layer, dimension):
 
         '''
         Helper: batch normalziation
@@ -153,25 +150,19 @@ class Resnet(object):
         :return: the 4D tensor after being normalized
         '''
 
-        # mean, variance = tf.nn.moments(input_layer, axes=[0, 1, 2])
-        #
-        # beta = tf.get_variable('beta', dimension, tf.float32,
-        #                        initializer=tf.constant_initializer(0.0, tf.float32))
-        #
-        # gamma = tf.get_variable('gamma', dimension, tf.float32,
-        #                         initializer=tf.constant_initializer(1.0, tf.float32))
-        #
-        # bn_layer = tf.nn.batch_normalization(input_layer, mean, variance, beta, gamma, 1e-3)
+        mean, variance = tf.nn.moments(input_layer, axes=[0, 1, 2])
 
+        beta = tf.get_variable('beta', dimension, tf.float32,
+                               initializer=tf.constant_initializer(0.0, tf.float32))
 
-        bn_layer = tf.contrib.layers.batch_norm(input_layer,
-                                          center=True,
-                                          scale=True,
-                                          is_training=phase)
+        gamma = tf.get_variable('gamma', dimension, tf.float32,
+                                initializer=tf.constant_initializer(1.0, tf.float32))
+
+        bn_layer = tf.nn.batch_normalization(input_layer, mean, variance, beta, gamma, 1e-3)
 
         return bn_layer
 
-    def conv_bn_relu_layer(self, input_layer, filter_shape, stride, phase):
+    def conv_bn_relu_layer(self, input_layer, filter_shape, stride):
         '''
         Helper: conv, batch normalize and relu the input tensor sequentially
         :param input_layer: 4D tensor
@@ -184,11 +175,11 @@ class Resnet(object):
         filter = tf.Variable(tf.truncated_normal(shape=filter_shape, dtype=tf.float32,
                                                  stddev=1e-1), name='weights')
         conv_layer = tf.nn.conv2d(input_layer, filter, strides=[1, stride, stride, 1], padding='SAME')
-        bn_layer = self.batch_normalization_layer(conv_layer, phase)
+        bn_layer = self.batch_normalization_layer(conv_layer, out_channel)
         output = tf.nn.relu(bn_layer)
         return output
 
-    def bn_relu_conv_layer(self, input_layer, filter_shape, stride, phase):
+    def bn_relu_conv_layer(self, input_layer, filter_shape, stride):
 
         '''
         Helper: batch normalize, relu and conv the input layer sequentially
@@ -199,14 +190,14 @@ class Resnet(object):
         '''
 
         in_channel = input_layer.get_shape().as_list()[-1]
-        bn_layer = self.batch_normalization_layer(input_layer, phase)
+        bn_layer = self.batch_normalization_layer(input_layer, in_channel)
         relu_layer = tf.nn.relu(bn_layer)
         filter = tf.Variable(tf.truncated_normal(shape=filter_shape, dtype=tf.float32,
                                                  stddev=1e-1), name='weights')
         conv_layer = tf.nn.conv2d(relu_layer, filter, strides=[1, stride, stride, 1], padding='SAME')
         return conv_layer
 
-    def residual_block(self, input_layer, output_channel, phase, first_block=False):
+    def residual_block(self, input_layer, output_channel, first_block=False):
 
         '''
         A Residual Block
@@ -236,10 +227,10 @@ class Resnet(object):
                                                          stddev=1e-1), name='weights')
                 conv1 = tf.nn.conv2d(input_layer, filter=filter, strides=[1, 1, 1, 1], padding='SAME')
             else:
-                conv1 = self.bn_relu_conv_layer(input_layer, [3, 3, input_channel, output_channel], stride, phase)
+                conv1 = self.bn_relu_conv_layer(input_layer, [3, 3, input_channel, output_channel], stride)
 
         with tf.variable_scope('conv2_in_block'):
-            conv2 = self.bn_relu_conv_layer(conv1, [3, 3, output_channel, output_channel], 1, phase)
+            conv2 = self.bn_relu_conv_layer(conv1, [3, 3, output_channel, output_channel], 1)
 
         # When the channels of input layer and conv2 does not match, we add zero pads to increase the
         #  depth of input layers
