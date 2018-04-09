@@ -84,7 +84,7 @@ def main():
                     sess.run([train_step, accuracy],
                              feed_dict={input_pl: x_batch,
                                         label_pl: y_batch,
-                                        phase_pl: 1})
+                                        phase_pl: True})
 
                 if b % 50 == 0: # print less message
 
