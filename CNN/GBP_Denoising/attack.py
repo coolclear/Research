@@ -105,13 +105,15 @@ def attack_one_image(image, name, label, attack_type, criterion, fool_model):
             # attack happens here
             adversarial = attack(image, label[0])
 
-            if adversarial != None:
+            if adversarial == None:
+                print('The attack failed!')
+            else :
 
                 preds_adv = fool_model.predictions(adversarial)
                 label_pre_adv = np.argmax(preds_adv)
                 prob_pre_adv = np.max(softmax_np(preds_adv))
                 print('(ADV) Prediction : {} ({:.2f})'.format(label_pre_adv, prob_pre_adv))
-    
+
                 if label_pre_adv != label:
 
                     print('The attack is successed!')
@@ -120,9 +122,7 @@ def attack_one_image(image, name, label, attack_type, criterion, fool_model):
 
                     print('Saved!')
 
-                else:
 
-                    print('The attack failed!')
 
 
 
