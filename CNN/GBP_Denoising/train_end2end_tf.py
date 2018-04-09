@@ -15,7 +15,7 @@ def main():
 
     trainable = False
     num_classes = 10
-    num_epochs = 20
+    num_epochs = 10
     batch_size = 128
 
     ########################################## Prepare the Data ########################################################
