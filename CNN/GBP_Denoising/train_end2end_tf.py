@@ -45,7 +45,6 @@ def main():
 
     input_pl = tf_model.inputs # get the input placeholder
     label_pl = tf_model.labels # get the label placeholder
-    phase_pl = tf_model.phase # get the phase placeholder
 
     gbp_reconstruction = tf_model.gbp_reconstruction # the gbp reconstruction output port
 
