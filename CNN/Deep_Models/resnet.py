@@ -43,6 +43,10 @@ class Resnet(object):
         with tf.name_scope('output') as scope:
             self.labels = tf.placeholder(tf.float32, [None, self.num_labels])
 
+        with tf.name_scope('phase') as scope:
+            # by default we are in the testing phase
+            self.phase = tf.placeholder_with_default(tf.constant(0), [1], name='phase')
+
         # Build the TF computational graph for the ResNet architecture
         self.logits = self.build()
         self.cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(labels=self.labels, logits=self.logits))
@@ -160,7 +164,12 @@ class Resnet(object):
         #
         # bn_layer = tf.nn.batch_normalization(input_layer, mean, variance, beta, gamma, 1e-3)
 
-        return input_layer
+        bn_layer = tf.contrib.layers.batch_norm(input_layer,
+                                          center=True,
+                                          scale=True,
+                                          is_training=self.phase)
+
+        return bn_layer
 
     def conv_bn_relu_layer(self, input_layer, filter_shape, stride):
         '''

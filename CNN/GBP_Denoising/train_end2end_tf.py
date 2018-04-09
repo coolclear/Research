@@ -15,8 +15,8 @@ def main():
 
     trainable = False
     num_classes = 10
-    num_epochs = 150
-    batch_size = 64
+    num_epochs = 200
+    batch_size = 128
 
     ########################################## Prepare the Data ########################################################
 
@@ -45,6 +45,7 @@ def main():
 
     input_pl = tf_model.inputs # get the input placeholder
     label_pl = tf_model.labels # get the label placeholder
+    phase_pl = tf_model.phase # get the phase placeholder
 
     gbp_reconstruction = tf_model.gbp_reconstruction # the gbp reconstruction output port
 
@@ -55,8 +56,12 @@ def main():
                                                global_step=global_step,
                                                decay_steps=20000,
                                                decay_rate=0.9)
-    train_step = tf.train.AdamOptimizer(learning_rate)\
-        .minimize(cross_entropy, global_step=global_step) # training operation
+
+    # notice that we have the batch_normalization, the training op will be different
+    update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS)
+    with tf.control_dependencies(update_ops):
+        train_step = tf.train.AdamOptimizer(learning_rate)\
+            .minimize(cross_entropy, global_step=global_step) # training operation
 
     accuracy = tf_model.accuracy # model prediction accuracy
 
@@ -78,7 +83,8 @@ def main():
                 _, train_accu = \
                     sess.run([train_step, accuracy],
                              feed_dict={input_pl: x_batch,
-                                        label_pl: y_batch})
+                                        label_pl: y_batch,
+                                        phase_pl: 1})
 
                 if b % 50 == 0: # print less message
 
