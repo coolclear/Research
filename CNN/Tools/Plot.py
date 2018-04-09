@@ -15,10 +15,10 @@ def simple_plot(image, name, save_dir, cmap=None):
     """
 
     # a very simple normalization
-    min = np.min(image)
-    image -= min
-    max = np.max(image)
-    image /= max
+    # min = np.min(image)
+    # image -= min
+    # max = np.max(image)
+    # image /= max
 
     plt.imshow(image, cmap=cmap)
 
