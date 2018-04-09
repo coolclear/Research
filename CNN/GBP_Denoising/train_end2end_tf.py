@@ -15,8 +15,8 @@ def main():
 
     trainable = False
     num_classes = 10
-    num_epochs = 200
-    batch_size = 128
+    num_epochs = 300
+    batch_size = 64
 
     ########################################## Prepare the Data ########################################################
 
@@ -54,7 +54,7 @@ def main():
     global_step = tf.Variable(0, trainable=False)
     learning_rate = tf.train.exponential_decay(1e-3,
                                                global_step=global_step,
-                                               decay_steps=20000,
+                                               decay_steps=50000,
                                                decay_rate=0.9)
 
     # notice that we have the batch_normalization, the training op will be different
@@ -127,7 +127,7 @@ def main():
 
                     break
 
-        saver.save(sess, 'Models/End2End_Trainable_{}.ckpt'.format(trainable))
+        saver.save(sess, 'Models/New_End2End_Trainable_{}.ckpt'.format(trainable))
 
 if __name__ == "__main__":
     # setup the GPUs to use
