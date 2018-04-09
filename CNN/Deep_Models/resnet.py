@@ -45,8 +45,7 @@ class Resnet(object):
 
         with tf.name_scope('phase') as scope:
             # by default we are in the testing phase
-            print(tf.constant(1).get_shape().as_list())
-            self.phase = tf.placeholder_with_default(tf.constant(0), [1], name='phase')
+            self.phase = tf.placeholder_with_default(tf.constant(0), [], name='phase')
 
         # Build the TF computational graph for the ResNet architecture
         self.logits = self.build()
