@@ -13,7 +13,7 @@ from keras.preprocessing.image import ImageDataGenerator
 
 def main():
 
-    trainable = True
+    trainable = False
     num_classes = 10
     num_epochs = 300
     batch_size = 32
@@ -55,7 +55,7 @@ def main():
     learning_rate = tf.train.exponential_decay(1e-3,
                                                global_step=global_step,
                                                decay_steps=30000,
-                                               decay_rate=0.9)
+                                               decay_rate=0.96)
 
     # notice that we have the batch_normalization, the training op will be different
     update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS)
@@ -127,7 +127,7 @@ def main():
 
                     break
 
-        saver.save(sess, 'Models/New_End2End_Trainable_{}.ckpt'.format(trainable))
+        saver.save(sess, 'Models/New1_End2End_Trainable_{}.ckpt'.format(trainable))
 
 if __name__ == "__main__":
     # setup the GPUs to use
