@@ -16,7 +16,7 @@ def main():
     trainable = False
     num_classes = 10
     num_epochs = 300
-    batch_size = 64
+    batch_size = 32
 
     ########################################## Prepare the Data ########################################################
 
@@ -54,13 +54,13 @@ def main():
     global_step = tf.Variable(0, trainable=False)
     learning_rate = tf.train.exponential_decay(1e-3,
                                                global_step=global_step,
-                                               decay_steps=50000,
+                                               decay_steps=30000,
                                                decay_rate=0.9)
 
     # notice that we have the batch_normalization, the training op will be different
     update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS)
     with tf.control_dependencies(update_ops):
-        train_step = tf.train.GradientDescentOptimizer(learning_rate)\
+        train_step = tf.train.AdamOptimizer(learning_rate)\
             .minimize(cross_entropy, global_step=global_step) # training operation
 
     accuracy = tf_model.accuracy # model prediction accuracy
