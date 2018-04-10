@@ -89,22 +89,22 @@ def attack_one_image(image, name, label, attack_type, criterion, fool_model):
             ############################################################################################################
 
             if attack_type == "FGSM":
-                attack = foolbox.attacks.FGSM(fool_model, criterion)
+                attack = foolbox.attacks.FGSM(fool_model)
 
             elif attack_type == "IterGS":
-                attack = foolbox.attacks.IterativeGradientSignAttack(fool_model, criterion)
+                attack = foolbox.attacks.IterativeGradientSignAttack(fool_model)
 
             elif attack_type == "IterG":
-                attack = foolbox.attacks.IterativeGradientAttack(fool_model, criterion)
+                attack = foolbox.attacks.IterativeGradientAttack(fool_model)
 
             elif attack_type == "LBFG":
-                attack = foolbox.attacks.LBFGSAttack(fool_model, criterion)
+                attack = foolbox.attacks.LBFGSAttack(fool_model)
 
             elif attack_type == "DeepFool":
-                attack = foolbox.attacks.DeepFoolAttack(fool_model, criterion)
+                attack = foolbox.attacks.DeepFoolAttack(fool_model)
 
             elif attack_type == "SalMap":
-                attack = foolbox.attacks.SaliencyMapAttack(fool_model, criterion)
+                attack = foolbox.attacks.SaliencyMapAttack(fool_model)
 
             ############################################################################################################
             ############################ Gradient-based Attacks ########################################################
@@ -115,10 +115,10 @@ def attack_one_image(image, name, label, attack_type, criterion, fool_model):
             ############################################################################################################
 
             elif attack_type == "SinPix":
-                attack = foolbox.attacks.SinglePixelAttack(fool_model, criterion)
+                attack = foolbox.attacks.SinglePixelAttack(fool_model)
 
             elif attack_type == "LocalSearch":
-                attack = foolbox.attacks.LocalSearchAttack(fool_model, criterion)
+                attack = foolbox.attacks.LocalSearchAttack(fool_model)
 
             ############################################################################################################
             ############################ Score-based Attacks ###########################################################
@@ -129,16 +129,16 @@ def attack_one_image(image, name, label, attack_type, criterion, fool_model):
             ############################################################################################################
 
             elif attack_type == "Boundary":
-                attack = foolbox.attacks.BoundaryAttack(fool_model, criterion)
+                attack = foolbox.attacks.BoundaryAttack(fool_model)
 
             elif attack_type == "Blur":
-                attack = foolbox.attacks.GaussianBlurAttack(fool_model, criterion)
+                attack = foolbox.attacks.GaussianBlurAttack(fool_model)
 
             elif attack_type == "Contrast":
-                attack = foolbox.attacks.ContrastReductionAttack(fool_model, criterion)
+                attack = foolbox.attacks.ContrastReductionAttack(fool_model)
 
             elif attack_type == "Noise":
-                attack = foolbox.attacks.AdditiveUniformNoiseAttack(fool_model, criterion)
+                attack = foolbox.attacks.AdditiveUniformNoiseAttack(fool_model)
 
             ############################################################################################################
             ############################ Score-based Attacks ###########################################################
