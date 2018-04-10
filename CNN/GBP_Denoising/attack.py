@@ -54,18 +54,17 @@ def main():
         # foolbox - construct a tensorflow model
         fool_model = TensorFlowModel(input_pl, logits, bounds=(0, 255))
 
-        # calculate the adversarial examples on some testing images
-        stop = 20
-        for index, image in enumerate(x_test):
+        # criterion
+        # criterion = TargetClass((y_test[index] + 3) % 10) # target on a wrong label
+        criterion = Misclassification() # as long as misclassify
 
-            if index >= stop:
-                break
+        # attack type
+        attack_type = "Boundary"
 
-            # define the criterion
-            # criterion = TargetClass((y_test[index] + 3) % 10) # target on a wrong label
-            criterion = Misclassification() # as long as misclassify
+        # image index
+        index = 23
 
-            attack_one_image(np.array(image), 'TEST_{}'.format(index), y_test[index], 'IterGS', criterion, fool_model)
+        attack_one_image(x_test[index], 'TEST_{}'.format(index), y_test[index], attack_type, criterion, fool_model)
 
 
 def attack_one_image(image, name, label, attack_type, criterion, fool_model):
@@ -86,17 +85,63 @@ def attack_one_image(image, name, label, attack_type, criterion, fool_model):
 
             print('Ok, let us attack this image ... ')
 
+            ############################ Gradient-based Attacks ########################################################
+            ############################################################################################################
+
             if attack_type == "FGSM":
-                attack = foolbox.attacks.FGSM(fool_model)
+                attack = foolbox.attacks.FGSM(fool_model, criterion)
 
             elif attack_type == "IterGS":
-                attack = foolbox.attacks.IterativeGradientSignAttack(fool_model)
+                attack = foolbox.attacks.IterativeGradientSignAttack(fool_model, criterion)
 
-            elif attack_type == "SalMap":
-                attack = foolbox.attacks.SaliencyMapAttack(fool_model)
+            elif attack_type == "IterG":
+                attack = foolbox.attacks.IterativeGradientAttack(fool_model, criterion)
 
             elif attack_type == "LBFG":
-                attack = foolbox.attacks.LBFGSAttack(fool_model)
+                attack = foolbox.attacks.LBFGSAttack(fool_model, criterion)
+
+            elif attack_type == "DeepFool":
+                attack = foolbox.attacks.DeepFoolAttack(fool_model, criterion)
+
+            elif attack_type == "SalMap":
+                attack = foolbox.attacks.SaliencyMapAttack(fool_model, criterion)
+
+            ############################################################################################################
+            ############################ Gradient-based Attacks ########################################################
+
+
+
+            ############################ Score-based Attacks ###########################################################
+            ############################################################################################################
+
+            elif attack_type == "SinPix":
+                attack = foolbox.attacks.SinglePixelAttack(fool_model, criterion)
+
+            elif attack_type == "LocalSearch":
+                attack = foolbox.attacks.LocalSearchAttack(fool_model, criterion)
+
+            ############################################################################################################
+            ############################ Score-based Attacks ###########################################################
+
+
+
+            ############################ Decision-based Attacks ###########################################################
+            ############################################################################################################
+
+            elif attack_type == "Boundary":
+                attack = foolbox.attacks.BoundaryAttack(fool_model, criterion)
+
+            elif attack_type == "Blur":
+                attack = foolbox.attacks.GaussianBlurAttack(fool_model, criterion)
+
+            elif attack_type == "Contrast":
+                attack = foolbox.attacks.ContrastReductionAttack(fool_model, criterion)
+
+            elif attack_type == "Noise":
+                attack = foolbox.attacks.AdditiveUniformNoiseAttack(fool_model, criterion)
+
+            ############################################################################################################
+            ############################ Score-based Attacks ###########################################################
 
             else:
                 print("Unknown attack type! Using FGSM")
