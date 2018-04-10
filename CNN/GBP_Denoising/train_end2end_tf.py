@@ -13,7 +13,7 @@ from keras.preprocessing.image import ImageDataGenerator
 
 def main():
 
-    trainable = False
+    trainable = True
     num_classes = 10
     num_epochs = 300
     batch_size = 32
