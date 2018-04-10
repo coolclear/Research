@@ -187,5 +187,5 @@ def attack_one_image(image, name, label, attack_type, criterion, fool_model):
 
 
 if __name__ == '__main__':
-    os.environ['CUDA_VISIBLE_DEVICES'] = '0'
+    os.environ['CUDA_VISIBLE_DEVICES'] = ''
     main()
