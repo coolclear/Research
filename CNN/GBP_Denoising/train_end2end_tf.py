@@ -60,7 +60,7 @@ def main():
     # notice that we have the batch_normalization, the training op will be different
     update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS)
     with tf.control_dependencies(update_ops):
-        train_step = tf.train.AdamOptimizer(learning_rate)\
+        train_step = tf.train.GradientDescentOptimizer(learning_rate)\
             .minimize(cross_entropy, global_step=global_step) # training operation
 
     accuracy = tf_model.accuracy # model prediction accuracy
@@ -115,15 +115,15 @@ def main():
 
                     print(msg)
 
-                    # calculate the gbp reconstruction on the samples
-
-                    reconstructions = sess.run(gbp_reconstruction,
-                                               feed_dict={input_pl: samples})
-
-                    grid_plot([10, 10], reconstructions,
-                              'GBP_Reconstruction_Epoch_{}'.format(e),
-                              './Visualization/Trainable_{}/'.format(trainable),
-                              'Epoch_{}'.format(e))
+                    # # calculate the gbp reconstruction on the samples
+                    #
+                    # reconstructions = sess.run(gbp_reconstruction,
+                    #                            feed_dict={input_pl: samples})
+                    #
+                    # grid_plot([10, 10], reconstructions,
+                    #           'GBP_Reconstruction_Epoch_{}'.format(e),
+                    #           './Visualization/Trainable_{}/'.format(trainable),
+                    #           'Epoch_{}'.format(e))
 
                     break
 
