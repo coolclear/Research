@@ -2,7 +2,7 @@ import os
 import sys
 sys.path.append('/home/yang/Research/CNN/')
 sys.path.append('/home/yang/Research/CNN/Tools')
-from Prepare_Model import prepare_GBPdenoising_end2end
+from Prepare_Model import prepare_GBPdenoising_end2end, prepare_resnet
 from Plot import grid_plot
 
 import tensorflow as tf
@@ -13,7 +13,10 @@ from keras.preprocessing.image import ImageDataGenerator
 
 def main():
 
-    trainable = False
+    model_type = 'Resnet' # 'End2End' or 'Resnet'
+
+    trainable = False # only for 'End2End' - GBP Reconstruction part
+
     num_classes = 10
     num_epochs = 300
     batch_size = 64
@@ -43,13 +46,18 @@ def main():
 
     ################################## Tensor Operations for the Training ##############################################
 
-    tf_model = prepare_GBPdenoising_end2end(trainable=trainable) # build up the computational graph
+    # build up the computational graph accordingly
+    if model_type == 'End2End':
+        tf_model = prepare_GBPdenoising_end2end(trainable=trainable)
+    elif model_type == 'Resnet':
+        tf_model = prepare_resnet()
 
     input_pl = tf_model.inputs # get the input placeholder
     label_pl = tf_model.labels # get the label placeholder
     phase_pl = tf_model.phase # get the phase placeholder
 
-    gbp_reconstruction = tf_model.gbp_reconstruction # the gbp reconstruction output port
+    if model_type == 'End2End':
+        gbp_reconstruction = tf_model.gbp_reconstruction # the gbp reconstruction output port
 
     cross_entropy = tf_model.cost # model cost
 
@@ -146,7 +154,7 @@ def main():
 
         print(msg)
 
-        saver.save(sess, 'Models/LearningCurve_End2End_Trainable_{}.ckpt'.format(trainable))
+        saver.save(sess, 'Models/LearningCurve_{}_Trainable_{}.ckpt'.format(model_type, trainable))
 
 if __name__ == "__main__":
     # setup the GPUs to use

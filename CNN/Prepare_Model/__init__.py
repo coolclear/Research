@@ -69,7 +69,7 @@ def prepare_vgg(sal_type, layer_idx, load_weights, sess):
 
     return vgg
 
-def prepare_resnet(sal_type, load_weights, sess, res_blocks=5):
+def prepare_resnet(sal_type='PlainSaliency', load_weights='random', sess=None, num_classes=10, res_blocks=5):
 
     # construct the graph based on the gradient type we want
     if sal_type == 'GuidedBackprop':
@@ -83,7 +83,7 @@ def prepare_resnet(sal_type, load_weights, sess, res_blocks=5):
             net = Resnet(res_blocks=res_blocks)
 
     elif sal_type == 'PlainSaliency':
-        net = Resnet(res_blocks=res_blocks)
+        net = Resnet(num_labels=num_classes, res_blocks=res_blocks)
 
     else:
         raise Exception("Unknown saliency_map type - 1")
@@ -93,7 +93,10 @@ def prepare_resnet(sal_type, load_weights, sess, res_blocks=5):
         raise Exception("Trained Resnet hasn't been implemented yet.")
 
     elif load_weights == 'random':
-        net.init(sess)
+        if sess != None:
+            net.init(sess)
+        else:
+            print('No session available, not initialized yet ... ')
 
     else:
         raise Exception("Unknown load_weights type - 1")
