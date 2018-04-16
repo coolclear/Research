@@ -15,7 +15,7 @@ def main():
 
     trainable = False
     num_classes = 10
-    num_epochs = 5
+    num_epochs = 2
     batch_size = 64
 
     ########################################## Prepare the Data ########################################################
@@ -25,6 +25,7 @@ def main():
     y_test = keras.utils.to_categorical(y_test, num_classes)
 
     steps_per_epoch = (len(x_train) - 1) / batch_size + 1
+    print('Steps per epoch = ', steps_per_epoch)
     # samples = x_test[:100]
 
     datagen = ImageDataGenerator(
