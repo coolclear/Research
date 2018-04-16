@@ -24,7 +24,7 @@ def main():
     y_train = keras.utils.to_categorical(y_train, num_classes)
     y_test = keras.utils.to_categorical(y_test, num_classes)
 
-    steps_per_epoch = (len(x_train) - 1) / batch_size + 1
+    steps_per_epoch = int((len(x_train) - 1) / batch_size) + 1
     print('Steps per epoch = ', steps_per_epoch)
     # samples = x_test[:100]
 
