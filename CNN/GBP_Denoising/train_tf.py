@@ -13,7 +13,7 @@ from keras.preprocessing.image import ImageDataGenerator
 
 def main():
 
-    model_type = 'Resnet' # 'End2End' or 'Resnet'
+    model_type = 'End2End' # 'End2End' or 'Resnet'
 
     trainable = False # only for 'End2End' - GBP Reconstruction part
 
@@ -64,7 +64,7 @@ def main():
     global_step = tf.Variable(0, trainable=False)
     learning_rate = tf.train.exponential_decay(1e-3,
                                                global_step=global_step,
-                                               decay_steps=50000,
+                                               decay_steps=10000,
                                                decay_rate=0.9)
 
     tf.summary.scalar('lr', learning_rate) # TensorBoard
