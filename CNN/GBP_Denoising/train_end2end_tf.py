@@ -15,8 +15,8 @@ def main():
 
     trainable = False
     num_classes = 10
-    num_epochs = 300
-    batch_size = 32
+    num_epochs = 5
+    batch_size = 64
 
     ########################################## Prepare the Data ########################################################
 
@@ -24,7 +24,8 @@ def main():
     y_train = keras.utils.to_categorical(y_train, num_classes)
     y_test = keras.utils.to_categorical(y_test, num_classes)
 
-    samples = x_test[:100]
+    steps_per_epoch = (len(x_train) - 1) / batch_size + 1
+    # samples = x_test[:100]
 
     datagen = ImageDataGenerator(
         rotation_range=10,
@@ -54,8 +55,10 @@ def main():
     global_step = tf.Variable(0, trainable=False)
     learning_rate = tf.train.exponential_decay(1e-3,
                                                global_step=global_step,
-                                               decay_steps=30000,
-                                               decay_rate=0.96)
+                                               decay_steps=10000,
+                                               decay_rate=0.9)
+
+    tf.summary.scalar('lr', learning_rate) # TensorBoard
 
     # notice that we have the batch_normalization, the training op will be different
     update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS)
@@ -64,6 +67,13 @@ def main():
             .minimize(cross_entropy, global_step=global_step) # training operation
 
     accuracy = tf_model.accuracy # model prediction accuracy
+
+    tf.summary.scalar('Accuracy', accuracy) # TensorBoard
+
+    # TensorBoard for the recording
+    merged = tf.summary.merge_all()
+    train_writer = tf.summary.FileWriter('TensorBoard/Train')
+    test_writer = tf.summary.FileWriter('TensorBoard/Test')
 
     init = tf.global_variables_initializer() # initializer
 
@@ -80,11 +90,13 @@ def main():
             b = 0
             for x_batch, y_batch in datagen.flow(x_train, y_train, batch_size=batch_size):
 
-                _, train_accu = \
-                    sess.run([train_step, accuracy],
+                _, train_accu, summary = \
+                    sess.run([train_step, accuracy, merged],
                              feed_dict={input_pl: x_batch,
                                         label_pl: y_batch,
                                         phase_pl: True})
+
+                train_writer.add_summary(summary, b + e * steps_per_epoch)
 
                 if b % 50 == 0: # print less message
 
@@ -94,26 +106,14 @@ def main():
 
                 b += 1
 
-                if b >= len(x_train) / batch_size:
+                if b == steps_per_epoch:
 
-                    # calculate the testing accuracy
+                    summary = sess.run(merged,
+                                       feed_dict={input_pl: x_test[:512],
+                                                  label_pl: y_test[:512],
+                                                  phase_pl: False})
 
-                    test_accu = 0.
-                    for i in range(int(len(x_test) / batch_size)):
-
-                        # prepare batch
-                        test_X_batch = x_test[batch_size * i: batch_size * i + batch_size]
-                        test_y_batch = y_test[batch_size * i: batch_size * i + batch_size]
-
-                        # accumulate
-                        test_accu += \
-                            sess.run(accuracy,
-                                     feed_dict={input_pl: test_X_batch,
-                                                label_pl: test_y_batch}) * batch_size
-
-                    msg = "Epoch = {}, Test Accuracy = {:.4f}".format(e, test_accu / len(x_test))
-
-                    print(msg)
+                    test_writer.add_summary(summary, b + e * steps_per_epoch)
 
                     # # calculate the gbp reconstruction on the samples
                     #
@@ -127,7 +127,25 @@ def main():
 
                     break
 
-        saver.save(sess, 'Models/New1_End2End_Trainable_{}.ckpt'.format(trainable))
+        # calculate the testing accuracy
+        test_accu = 0.
+        for i in range(int(len(x_test) / batch_size)):
+
+            # prepare batch
+            test_X_batch = x_test[batch_size * i: batch_size * i + batch_size]
+            test_y_batch = y_test[batch_size * i: batch_size * i + batch_size]
+
+            # accumulate
+            test_accu += \
+                sess.run(accuracy,
+                         feed_dict={input_pl: test_X_batch,
+                                    label_pl: test_y_batch}) * batch_size
+
+        msg = "Test Accuracy = {:.4f}".format(test_accu / len(x_test))
+
+        print(msg)
+
+        saver.save(sess, 'Models/LearningCurve_End2End_Trainable_{}.ckpt'.format(trainable))
 
 if __name__ == "__main__":
     # setup the GPUs to use
