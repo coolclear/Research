@@ -15,7 +15,7 @@ def main():
 
     trainable = False
     num_classes = 10
-    num_epochs = 2
+    num_epochs = 300
     batch_size = 64
 
     ########################################## Prepare the Data ########################################################
@@ -56,7 +56,7 @@ def main():
     global_step = tf.Variable(0, trainable=False)
     learning_rate = tf.train.exponential_decay(1e-3,
                                                global_step=global_step,
-                                               decay_steps=10000,
+                                               decay_steps=50000,
                                                decay_rate=0.9)
 
     tf.summary.scalar('lr', learning_rate) # TensorBoard
