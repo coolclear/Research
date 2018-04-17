@@ -13,7 +13,7 @@ from keras.preprocessing.image import ImageDataGenerator
 
 def main():
 
-    model_type = 'End2End' # 'End2End' or 'Resnet'
+    model_type = 'Resnet' # 'End2End' or 'Resnet'
 
     trainable = False # only for 'End2End' - GBP Reconstruction part
 
