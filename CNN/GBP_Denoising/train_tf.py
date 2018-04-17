@@ -13,13 +13,13 @@ from keras.preprocessing.image import ImageDataGenerator
 
 def main():
 
-    model_type = 'Resnet' # 'End2End' or 'Resnet'
+    model_type = 'End2End' # 'End2End' or 'Resnet'
 
     trainable = False # only for 'End2End' - GBP Reconstruction part
 
     num_classes = 10
     num_epochs = 300
-    batch_size = 64
+    batch_size = 32
 
     ########################################## Prepare the Data ########################################################
 
@@ -154,7 +154,7 @@ def main():
 
         print(msg)
 
-        saver.save(sess, 'Models/LearningCurve_{}_Trainable_{}.ckpt'.format(model_type, trainable))
+        saver.save(sess, 'Models/LearningCurve*_{}_Trainable_{}.ckpt'.format(model_type, trainable))
 
 if __name__ == "__main__":
     # setup the GPUs to use
