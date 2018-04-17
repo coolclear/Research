@@ -33,12 +33,12 @@ class Resnet(object):
         # zero-mean input
         with tf.name_scope('input') as scope:
             if inputPH == None:
-                self.images = tf.placeholder(tf.float32, [None, self.input_dim, self.input_dim, 3])
-                self.layers_dic['images'] = self.images
+                self.inputs = tf.placeholder(tf.float32, [None, self.input_dim, self.input_dim, 3])
+                self.layers_dic['images'] = self.inputs
             else:
                 print('Using given input placeholder')
-                self.images = inputPH
-                self.layers_dic['images'] = self.images
+                self.inputs = inputPH
+                self.layers_dic['images'] = self.inputs
 
         with tf.name_scope('output') as scope:
             self.labels = tf.placeholder(tf.float32, [None, self.num_labels])
@@ -60,7 +60,7 @@ class Resnet(object):
 
         # we are stacking the layers
         # and thus we need an easy reference to the last layer of the current graph
-        last_layer = self.images # starting with the input image of course
+        last_layer = self.inputs # starting with the input image of course
 
         with tf.variable_scope('conv0', reuse=self.reuse):
 
