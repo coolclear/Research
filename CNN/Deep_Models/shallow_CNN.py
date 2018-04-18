@@ -77,11 +77,11 @@ class Shallow_CNN(object):
         # conv1_1
         with tf.name_scope('conv1_1') as scope:
 
-            kernel = tf.Variable(tf.truncated_normal([2, 2, 3, 256], dtype=tf.float32, stddev=1e-1),
+            kernel = tf.Variable(tf.truncated_normal([3, 3, 3, 128], dtype=tf.float32, stddev=1e-1),
                                  trainable=self.trainable,
                                  name='w_conv1_1')
 
-            biases = tf.Variable(tf.constant(0.0, shape=[256], dtype=tf.float32),
+            biases = tf.Variable(tf.constant(0.0, shape=[128], dtype=tf.float32),
                                  trainable=self.trainable,
                                  name='b_conv1_1')
 
@@ -95,11 +95,11 @@ class Shallow_CNN(object):
         # conv1_2
         with tf.name_scope('conv1_2') as scope:
 
-            kernel = tf.Variable(tf.truncated_normal([2, 2, 256, 256], dtype=tf.float32, stddev=1e-1),
+            kernel = tf.Variable(tf.truncated_normal([3, 3, 128, 128], dtype=tf.float32, stddev=1e-1),
                                  trainable=self.trainable,
                                  name='w_conv1_2')
 
-            biases = tf.Variable(tf.constant(0.0, shape=[256], dtype=tf.float32),
+            biases = tf.Variable(tf.constant(0.0, shape=[128], dtype=tf.float32),
                                  trainable=self.trainable,
                                  name='b_conv1_2')
 
@@ -121,11 +121,11 @@ class Shallow_CNN(object):
 
             shape = int(np.prod(self.conv1_2.get_shape()[1:]))
 
-            fc1w = tf.Variable(tf.truncated_normal([shape, 1024], dtype=tf.float32, stddev=1e-1),
+            fc1w = tf.Variable(tf.truncated_normal([shape, 512], dtype=tf.float32, stddev=1e-1),
                                trainable=self.trainable,
                                name='w_fc1')
 
-            fc1b = tf.Variable(tf.constant(0.0, shape=[1024], dtype=tf.float32),
+            fc1b = tf.Variable(tf.constant(0.0, shape=[512], dtype=tf.float32),
                                trainable=self.trainable,
                                name='b_fc1')
 
@@ -139,7 +139,7 @@ class Shallow_CNN(object):
         # fc2
         with tf.name_scope('fc2') as scope:
 
-            fc2w = tf.Variable(tf.truncated_normal([1024, self.output_dim], dtype=tf.float32, stddev=1e-1),
+            fc2w = tf.Variable(tf.truncated_normal([512, self.output_dim], dtype=tf.float32, stddev=1e-1),
                                trainable=self.trainable,
                                name='w_fc2')
 
