@@ -19,7 +19,7 @@ def main():
 
     num_classes = 10
     num_epochs = 300
-    batch_size = 32
+    batch_size = 64
 
     ########################################## Prepare the Data ########################################################
 
