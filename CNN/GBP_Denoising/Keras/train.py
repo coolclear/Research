@@ -25,7 +25,7 @@ def get_lr(epoch):
 def main():
 
     batch_size = 128
-    tag = "CIFAR10_GBP_0"
+    tag = "ORI"
 
     model = CIFARModel().model # pure resnet
     data = CIFAR(tag)
