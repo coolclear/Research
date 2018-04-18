@@ -25,9 +25,9 @@ def get_lr(epoch):
 def main():
 
     batch_size = 128
-    tag = "GBP"
+    tag = "CIFAR10_GBP_0"
 
-    model = CIFARModel().model
+    model = CIFARModel().model # pure resnet
     data = CIFAR(tag)
 
     sgd = SGD(lr=0.00, momentum=0.9, nesterov=False)
@@ -53,7 +53,7 @@ def main():
                         validation_data=(data.test_data, data.test_labels),
                         callbacks=[schedule])
 
-    model.save_weights('Models/CIFAR10_{}'.format(tag))
+    model.save_weights('Models/{}'.format(tag))
 
 if __name__ == "__main__":
     # setup the GPUs to use

@@ -29,12 +29,10 @@ class CIFAR:
 
         if tag == "ORI":
             (x_train, y_train), (x_test, y_test) = cifar10.load_data()
-        elif tag == "GBP":
-            with open('CIFAR10_GBP.pkl', 'rb') as file:
+        else:
+            with open('{}.pkl'.format(tag), 'rb') as file:
                 (x_train, y_train) = pkl.load(file)
                 (x_test, y_test) = pkl.load(file)
-        else:
-            print('Cannot recognize this indicator, initialization failed ... ')
 
         self.test_data = x_test
         self.test_labels = keras.utils.to_categorical(y_test, num_classes)
