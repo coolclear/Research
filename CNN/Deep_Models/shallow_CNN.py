@@ -110,16 +110,16 @@ class Shallow_CNN(object):
 
             self.layers_dic['conv1_2'] = self.conv1_2
 
-        # pool1
-        self.pool1 = self.pool(tensor=self.conv1_2, name='pool1')
-        self.layers_dic['pool1'] = self.pool1
+        # # pool1
+        # self.pool1 = self.pool(tensor=self.conv1_2, name='pool1')
+        # self.layers_dic['pool1'] = self.pool1
 
     def fc_layers(self):
 
         # fc1
         with tf.name_scope('fc1') as scope:
 
-            shape = int(np.prod(self.pool1.get_shape()[1:]))
+            shape = int(np.prod(self.conv1_2.get_shape()[1:]))
 
             fc1w = tf.Variable(tf.truncated_normal([shape, 1024], dtype=tf.float32, stddev=1e-1),
                                trainable=self.trainable,
@@ -129,9 +129,9 @@ class Shallow_CNN(object):
                                trainable=self.trainable,
                                name='b_fc1')
 
-            pool1_flat = tf.reshape(self.pool1, [-1, shape])
+            conv1_2_flat = tf.reshape(self.conv1_2, [-1, shape])
 
-            fc1l = tf.nn.bias_add(tf.matmul(pool1_flat, fc1w), fc1b)
+            fc1l = tf.nn.bias_add(tf.matmul(conv1_2_flat, fc1w), fc1b)
             self.fc1 = self.act(tensor=fc1l, name=scope)
 
             self.layers_dic['fc1'] = self.fc1
