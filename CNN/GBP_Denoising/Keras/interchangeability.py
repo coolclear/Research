@@ -3,13 +3,14 @@ from setup_cifar import CIFAR, CIFARModel
 
 def main():
 
-    tags = ["CIFAR10_GBP_0",
-            "CIFAR10_GBP_1",
-            "CIFAR10_GBP_2",
-            "CIFAR10_GBP_3",
+    tags = ["GBP_0",
+            "GBP_1",
+            "GBP_2",
+            "GBP_3",
+            "GBP_4",
             "ORI"]
 
-    model = CIFARModel(restore="Models/CIFAR10_GBP_0").model
+    model = CIFARModel(restore="Models/GBP_0").model
 
     for tag in tags:
 
