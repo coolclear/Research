@@ -10,7 +10,7 @@ def main():
             "GBP_4",
             "ORI"]
 
-    model = CIFARModel(restore="Models/ORI").model
+    model = CIFARModel(restore="Models/CIFAR10_GBP_0").model
 
     for tag in tags:
 
