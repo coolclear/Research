@@ -77,7 +77,7 @@ class Shallow_CNN(object):
         # conv1_1
         with tf.name_scope('conv1_1') as scope:
 
-            kernel = tf.Variable(tf.truncated_normal([5, 5, 3, 256], dtype=tf.float32, stddev=1e-1),
+            kernel = tf.Variable(tf.truncated_normal([2, 2, 3, 256], dtype=tf.float32, stddev=1e-1),
                                  trainable=self.trainable,
                                  name='w_conv1_1')
 
@@ -92,26 +92,26 @@ class Shallow_CNN(object):
 
             self.layers_dic['conv1_1'] = self.conv1_1
 
-        # conv1_2
-        with tf.name_scope('conv1_2') as scope:
-
-            kernel = tf.Variable(tf.truncated_normal([5, 5, 256, 256], dtype=tf.float32, stddev=1e-1),
-                                 trainable=self.trainable,
-                                 name='w_conv1_2')
-
-            biases = tf.Variable(tf.constant(0.0, shape=[256], dtype=tf.float32),
-                                 trainable=self.trainable,
-                                 name='b_conv1_2')
-
-            conv = tf.nn.conv2d(self.conv1_1, kernel, [1, 1, 1, 1], padding='SAME')
-            out = tf.nn.bias_add(conv, biases)
-
-            self.conv1_2 = self.act(tensor=out, name=scope)
-
-            self.layers_dic['conv1_2'] = self.conv1_2
+        # # conv1_2
+        # with tf.name_scope('conv1_2') as scope:
+        #
+        #     kernel = tf.Variable(tf.truncated_normal([2, 2, 256, 256], dtype=tf.float32, stddev=1e-1),
+        #                          trainable=self.trainable,
+        #                          name='w_conv1_2')
+        #
+        #     biases = tf.Variable(tf.constant(0.0, shape=[256], dtype=tf.float32),
+        #                          trainable=self.trainable,
+        #                          name='b_conv1_2')
+        #
+        #     conv = tf.nn.conv2d(self.conv1_1, kernel, [1, 1, 1, 1], padding='SAME')
+        #     out = tf.nn.bias_add(conv, biases)
+        #
+        #     self.conv1_2 = self.act(tensor=out, name=scope)
+        #
+        #     self.layers_dic['conv1_2'] = self.conv1_2
 
         # pool1
-        self.pool1 = self.pool(tensor=self.conv1_2, name='pool1')
+        self.pool1 = self.pool(tensor=self.conv1_1, name='pool1')
         self.layers_dic['pool1'] = self.pool1
 
     def fc_layers(self):
