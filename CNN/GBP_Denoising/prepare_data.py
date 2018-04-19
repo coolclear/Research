@@ -81,14 +81,14 @@ def main():
     X_test_gbp = Map(tfOp_gbp_reconstruction, model.layers_dic['images'], X_test_ori, sess)
 
     # save to pickle
-    f = open('./{}.pkl'.format('GBP_0'), 'wb')
+    f = open('./{}.pkl'.format('GBP_1'), 'wb')
     pkl.dump((X_train_gbp, y_train), f, -1)
     pkl.dump((X_test_gbp, y_test), f, -1)
     f.close()
 
     # visualization
-    grid_plot([10, 10], X_train_ori[:100], 'Original_CIFAR10_0', './Visualization', 'Examples_Ori_CIFAR10_0')
-    grid_plot([10, 10], X_train_gbp[:100], 'GBP_CIFAR10_0', './Visualization', 'Examples_GBP_CIFAR10_0')
+    grid_plot([10, 10], X_train_ori[:100], 'Original_CIFAR10_1', './Visualization', 'Examples_Ori_CIFAR10_1')
+    grid_plot([10, 10], X_train_gbp[:100], 'GBP_CIFAR10_1', './Visualization', 'Examples_GBP_CIFAR10_1')
 
 if __name__ == '__main__':
     # setup the GPUs to use
