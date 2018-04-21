@@ -154,7 +154,7 @@ def main():
 
         print(msg)
 
-        saver.save(sess, 'Models/Better_LearningCurve_{}_Trainable_{}.ckpt'.format(model_type, trainable))
+        saver.save(sess, 'Models/LearningCurve_{}_Trainable_{}.ckpt'.format(model_type, trainable))
 
 if __name__ == "__main__":
     # setup the GPUs to use
