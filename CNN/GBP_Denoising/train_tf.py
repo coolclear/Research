@@ -15,10 +15,10 @@ def main():
 
     model_type = 'End2End' # 'End2End' or 'Resnet'
 
-    trainable = False # only for 'End2End' - GBP Reconstruction part
+    trainable = True # only for 'End2End' - GBP Reconstruction part
 
     num_classes = 10
-    num_epochs = 300
+    num_epochs = 600
     batch_size = 64
 
     ########################################## Prepare the Data ########################################################
@@ -64,7 +64,7 @@ def main():
     global_step = tf.Variable(0, trainable=False)
     learning_rate = tf.train.exponential_decay(1e-3,
                                                global_step=global_step,
-                                               decay_steps=10000,
+                                               decay_steps=20000,
                                                decay_rate=0.9)
 
     tf.summary.scalar('lr', learning_rate) # TensorBoard
