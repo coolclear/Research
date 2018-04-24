@@ -48,7 +48,7 @@ def main():
             # prediction
             logit_vals = []
             for step in range(times):
-                logit_vals.append(np.argmax(sess.run(logits, feed_dict={input_pl: batch_image}), axis=1))
+                logit_vals.append(np.argmax(sess.run(logits, feed_dict={input_pl: batch_image})[0], axis=1))
 
             diffs = len(np.unique(logit_vals))
             var += diffs
