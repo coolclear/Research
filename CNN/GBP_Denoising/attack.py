@@ -191,7 +191,7 @@ def attack_one_image(image, name, label, attack_type, fool_model):
                     print('The attack is successed!')
 
                     print(adversarial.shape)
-                    print(np.dtype(adversarial))
+                    print(adversarial.type)
 
                     simple_plot(adversarial, 'ADV' + name, './Adversarial_Examples/{}/'.format(attack_type))
 
