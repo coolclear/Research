@@ -23,9 +23,9 @@ from foolbox.criteria import\
 trainable = False
 
 Gradient_Attacks = [
-    'FGSM',
-    'IterGS',
-    'IterG',
+    # 'FGSM',
+    # 'IterGS',
+    # 'IterG',
     'LBFG',
     'DeepFool',
     'SalMap'
