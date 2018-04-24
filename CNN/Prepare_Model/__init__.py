@@ -185,7 +185,7 @@ def prepare_GBPdenoising_end2end(sess=None, trainable=False, saved=None):
 
     model = GBP_End2End(trainable=trainable)
 
-    if sess != None:
+    if sess != None and saved == None:
         print('Model initialized ... ')
         model.init(sess)
 
