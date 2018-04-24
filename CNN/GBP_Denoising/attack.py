@@ -23,11 +23,11 @@ from foolbox.criteria import\
 trainable = False
 
 Gradient_Attacks = [
-    # 'FGSM',
-    # 'IterGS',
-    # 'IterG',
-    # 'LBFG',
-    # 'DeepFool',
+    'FGSM',
+    'IterGS',
+    'IterG',
+    'LBFG',
+    'DeepFool',
     'SalMap'
 ]
 
@@ -63,15 +63,12 @@ def main():
 
         for attack_type in Gradient_Attacks:
 
-            print(attack_type)
-
             adv_x_test = []
             adv_y_test = []
 
             for index in range(1000):
 
-                if index % 50 == 0:
-                    print(index)
+                print("Attack = {}, Index = {}".format(attack_type, index))
 
                 adv, status = attack_one_image(x_test[index], 'TEST_{}'.format(index), y_test[index], attack_type, fool_model)
 
