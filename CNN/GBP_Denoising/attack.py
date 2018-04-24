@@ -26,8 +26,8 @@ Gradient_Attacks = [
     # 'FGSM',
     # 'IterGS',
     # 'IterG',
-    'LBFG',
-    'DeepFool',
+    # 'LBFG',
+    # 'DeepFool',
     'SalMap'
 ]
 
@@ -68,9 +68,9 @@ def main():
             adv_x_test = []
             adv_y_test = []
 
-            for index in range(len(x_test)):
+            for index in range(1000):
 
-                if index % 500 == 0:
+                if index % 50 == 0:
                     print(index)
 
                 adv, status = attack_one_image(x_test[index], 'TEST_{}'.format(index), y_test[index], attack_type, fool_model)
