@@ -61,11 +61,17 @@ def main():
         # foolbox - construct a tensorflow model
         fool_model = TensorFlowModel(input_pl, logits, bounds=(0, 255))
 
-        adv_x_test = []
-        adv_y_test = []
-
         for attack_type in Gradient_Attacks:
+
+            print(attack_type)
+
+            adv_x_test = []
+            adv_y_test = []
+
             for index in range(len(x_test)):
+
+                if index % 500 == 0:
+                    print(index)
 
                 adv, status = attack_one_image(x_test[index], 'TEST_{}'.format(index), y_test[index], attack_type, fool_model)
 
@@ -74,30 +80,30 @@ def main():
                     adv_x_test.append(adv)
                     adv_y_test.append(y_test[index])
 
-        # save to pickle
-        f = open('./{}.pkl'.format('Resnet_Gradient_ADVs'), 'wb')
-        pkl.dump((adv_x_test, adv_y_test), f, -1)
-        f.close()
+            # save to pickle
+            f = open('./ADVs_Resnet_{}.pkl'.format(attack_type), 'wb')
+            pkl.dump((adv_x_test, adv_y_test), f, -1)
+            f.close()
 
-        print("{} ADVs are generated.".format(len(adv_x_test)))
+            print("{} ADVs are generated.".format(len(adv_x_test)))
 
 def attack_one_image(image, name, label, attack_type, fool_model):
 
-        print('True Label: {}'.format(label))
+        # print('True Label: {}'.format(label))
 
         preds = fool_model.predictions(image)
         label_pre = np.argmax(preds)
         prob_pre = np.max(softmax_np(preds))
-        print('Prediction : {} ({:.2f})'.format(label_pre, prob_pre))
+        # print('Prediction : {} ({:.2f})'.format(label_pre, prob_pre))
 
         if label_pre != label:
 
-            print('The model predicts wrong. No need to attack.')
+            # print('The model predicts wrong. No need to attack.')
             return None, False
 
         else:
 
-            print('Ok, let us attack this image ... ')
+            # print('Ok, let us attack this image ... ')
 
             ############################ Gradient-based Attacks ########################################################
             ############################################################################################################
@@ -172,14 +178,14 @@ def attack_one_image(image, name, label, attack_type, fool_model):
             if adversarial is None:
 
                 # if the attack above fails, it will return None and we catch it here
-                print('The attack failed!')
+                # print('The attack failed!')
                 return None, False
 
             elif np.array_equal(adversarial, image):
 
                 # the prediction for this image is not stable
                 #  because of the random logit in the GBP Reconstruction
-                print('No attack at all, the prediction itself is not stable')
+                # print('No attack at all, the prediction itself is not stable')
                 return None, False
 
             else :
@@ -187,15 +193,15 @@ def attack_one_image(image, name, label, attack_type, fool_model):
                 preds_adv = fool_model.predictions(adversarial)
                 label_pre_adv = np.argmax(preds_adv)
                 prob_pre_adv = np.max(softmax_np(preds_adv))
-                print('(ADV) Prediction : {} ({:.2f})'.format(label_pre_adv, prob_pre_adv))
+                # print('(ADV) Prediction : {} ({:.2f})'.format(label_pre_adv, prob_pre_adv))
 
                 if label_pre_adv != label:
 
-                    print('The attack is successed!')
+                    # print('The attack is successed!')
 
                     simple_plot(adversarial.astype(int), 'ADV' + name, './Adversarial_Examples/{}/'.format(attack_type))
 
-                    print('Saved!')
+                    # print('Saved!')
 
                     return adversarial, True
 
