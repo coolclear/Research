@@ -68,9 +68,9 @@ def main():
         for attack_type in Gradient_Attacks:
             for index in range(len(x_test[:10])):
 
-                adv = attack_one_image(x_test[index], 'TEST_{}'.format(index), y_test[index], attack_type, fool_model)
+                adv, status = attack_one_image(x_test[index], 'TEST_{}'.format(index), y_test[index], attack_type, fool_model)
 
-                if adv != None:
+                if status == True:
 
                     adv_x_test.append(adv)
                     adv_y_test.append(y_test[index])
@@ -90,7 +90,7 @@ def attack_one_image(image, name, label, attack_type, fool_model):
         if label_pre != label:
 
             print('The model predicts wrong. No need to attack.')
-            return None
+            return None, False
 
         else:
 
@@ -170,14 +170,14 @@ def attack_one_image(image, name, label, attack_type, fool_model):
 
                 # if the attack above fails, it will return None and we catch it here
                 print('The attack failed!')
-                return None
+                return None, False
 
             elif np.array_equal(adversarial, image):
 
                 # the prediction for this image is not stable
                 #  because of the random logit in the GBP Reconstruction
                 print('No attack at all, the prediction itself is not stable')
-                return None
+                return None, False
 
             else :
 
@@ -194,10 +194,10 @@ def attack_one_image(image, name, label, attack_type, fool_model):
 
                     print('Saved!')
 
-                    return adversarial
+                    return adversarial, True
 
                 else:
-                    return None
+                    return None, False
 
 
 
