@@ -64,13 +64,20 @@ def main():
         # foolbox - construct a tensorflow model
         fool_model = TensorFlowModel(input_pl, logits, bounds=(0, 255))
 
-        # attack type
-        attack_type = "Noise"
+        adv_x_test = []
+        adv_y_test = []
 
-        # image index
-        index = 1724
+        for attack_type in Gradient_Attacks:
+            for index in range(len(x_test[:10])):
 
-        attack_one_image(x_test[index], 'TEST_{}'.format(index), y_test[index], attack_type, fool_model)
+                adv = attack_one_image(x_test[index], 'TEST_{}'.format(index), y_test[index], attack_type, fool_model)
+
+                if adv != None:
+
+                    adv_x_test.append(adv)
+                    adv_y_test.append(y_test[index])
+
+
 
 
 def attack_one_image(image, name, label, attack_type, fool_model):
@@ -165,12 +172,14 @@ def attack_one_image(image, name, label, attack_type, fool_model):
 
                 # if the attack above fails, it will return None and we catch it here
                 print('The attack failed!')
+                return None
 
             elif np.array_equal(adversarial, image):
 
                 # the prediction for this image is not stable
                 #  because of the random logit in the GBP Reconstruction
                 print('No attack at all, the prediction itself is not stable')
+                return None
 
             else :
 
@@ -186,6 +195,11 @@ def attack_one_image(image, name, label, attack_type, fool_model):
                     simple_plot(adversarial, 'ADV' + name, './Adversarial_Examples/')
 
                     print('Saved!')
+
+                    return adversarial
+
+                else:
+                    return None
 
 
 
