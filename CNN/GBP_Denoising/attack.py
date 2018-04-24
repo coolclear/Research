@@ -57,7 +57,7 @@ def main():
         tf_model = prepare_resnet(sess=sess, load_weights='./Models/LearningCurve_Resnet_Trainable_{}.ckpt'.format(trainable))
 
         input_pl = tf_model.inputs
-        logits = tf_model.output
+        logits = tf_model.logits
 
         # foolbox - construct a tensorflow model
         fool_model = TensorFlowModel(input_pl, logits, bounds=(0, 255))
