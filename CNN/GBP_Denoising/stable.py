@@ -39,6 +39,9 @@ def main():
         times = 50
         for index, image in enumerate(x_test):
 
+            if index % 500 == 0:
+                print(index)
+
             label = y_test[index]
 
             # duplicate the image N times
