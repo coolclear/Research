@@ -20,7 +20,7 @@ def simple_plot(image, name, save_dir, cmap=None):
     # max = np.max(image)
     # image /= max
 
-    plt.imshow(image, cmap=cmap)
+    plt.imshow(image)
 
     # make the directory if it's not there yet
     if not os.path.exists(save_dir):
