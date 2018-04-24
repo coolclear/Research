@@ -44,10 +44,9 @@ def main():
 
             label = y_test[index]
 
-            # duplicate the image N times
-            batch_image = np.repeat(image[np.newaxis, :, :, :], times, axis=0)
+            batch_image = np.expand_dims(image, axis=0)
             # prediction
-            logit_vals = np.argmax(sess.run(logits, feed_dict={input_pl: batch_image}), axis=1)
+            logit_vals = [np.argmax(sess.run(logits, feed_dict={input_pl: batch_image}), axis=1) for i in range(times)]
 
             diffs = len(np.unique(logit_vals))
             var += diffs

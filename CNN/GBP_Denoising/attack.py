@@ -21,6 +21,29 @@ from foolbox.criteria import\
 
 trainable = False
 
+Gradient_Attacks = [
+    'FGSM',
+    'IterGS',
+    'IterG',
+    'LBFG',
+    'DeepFool',
+    'SalMap'
+]
+
+Score_Attacks = [
+    'SinPix',
+    'LocalSearch'
+]
+
+Decision_Attacks = [
+    'Boundary',
+    'Blur',
+    'Contrast',
+    'Noise'
+]
+
+
+
 def softmax_np(x, axis=None):
     return np.exp(x) / np.sum(np.exp(x), axis=axis)
 
@@ -31,7 +54,6 @@ def main():
 
     with tf.Session() as sess:
 
-        # load in the trained model
         tf_model = prepare_GBPdenoising_end2end(sess=sess,
                                                 trainable=trainable,
                                                 saved='./Models/LearningCurve_Resnet_Trainable_{}.ckpt'.format(trainable))
@@ -42,20 +64,16 @@ def main():
         # foolbox - construct a tensorflow model
         fool_model = TensorFlowModel(input_pl, logits, bounds=(0, 255))
 
-        # criterion
-        # criterion = TargetClass((y_test[index] + 3) % 10) # target on a wrong label
-        criterion = Misclassification() # as long as misclassify
-
         # attack type
         attack_type = "Noise"
 
         # image index
         index = 1724
 
-        attack_one_image(x_test[index], 'TEST_{}'.format(index), y_test[index], attack_type, criterion, fool_model)
+        attack_one_image(x_test[index], 'TEST_{}'.format(index), y_test[index], attack_type, fool_model)
 
 
-def attack_one_image(image, name, label, attack_type, criterion, fool_model):
+def attack_one_image(image, name, label, attack_type, fool_model):
 
         print('True Label: {}'.format(label))
 
@@ -129,7 +147,7 @@ def attack_one_image(image, name, label, attack_type, criterion, fool_model):
                 attack = foolbox.attacks.AdditiveUniformNoiseAttack(fool_model)
 
             ############################################################################################################
-            ############################ Score-based Attacks ###########################################################
+            ############################ Decision-based Attacks ###########################################################
 
             else:
                 print("Unknown attack type! Using FGSM")
