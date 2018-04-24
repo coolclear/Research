@@ -46,7 +46,7 @@ def main():
             # prediction
             logit_vals = np.argmax(sess.run(logits, feed_dict={input_pl: batch_image}), axis=1)
 
-            _, diffs = np.unique(logit_vals, return_counts=True)
+            diffs = len(np.unique(logit_vals))
             var += diffs
 
             if logit_vals[0] == label:
