@@ -9,6 +9,7 @@ import numpy as np
 import tensorflow as tf
 import keras
 from keras.datasets import cifar10
+import pickle as pkl
 
 import foolbox
 from foolbox.models import TensorFlowModel
@@ -42,8 +43,6 @@ Decision_Attacks = [
     'Noise'
 ]
 
-
-
 def softmax_np(x, axis=None):
     return np.exp(x) / np.sum(np.exp(x), axis=axis)
 
@@ -66,7 +65,7 @@ def main():
         adv_y_test = []
 
         for attack_type in Gradient_Attacks:
-            for index in range(len(x_test[:10])):
+            for index in range(len(x_test)):
 
                 adv, status = attack_one_image(x_test[index], 'TEST_{}'.format(index), y_test[index], attack_type, fool_model)
 
@@ -75,8 +74,12 @@ def main():
                     adv_x_test.append(adv)
                     adv_y_test.append(y_test[index])
 
+        # save to pickle
+        f = open('./{}.pkl'.format('Resnet_Gradient_ADVs'), 'wb')
+        pkl.dump((adv_x_test, adv_y_test), f, -1)
+        f.close()
 
-
+        print("{} ADVs are generated.".format(len(adv_x_test)))
 
 def attack_one_image(image, name, label, attack_type, fool_model):
 
