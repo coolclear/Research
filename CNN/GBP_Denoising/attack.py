@@ -1,7 +1,7 @@
 import os
 import sys
 sys.path.append('/home/yang/Research/CNN/')
-from Prepare_Model import prepare_GBPdenoising_end2end
+from Prepare_Model import prepare_GBPdenoising_end2end, prepare_resnet
 sys.path.append('/home/yang/Research/CNN/Tools')
 from Plot import simple_plot
 from logging import warning
@@ -54,9 +54,7 @@ def main():
 
     with tf.Session() as sess:
 
-        tf_model = prepare_GBPdenoising_end2end(sess=sess,
-                                                trainable=trainable,
-                                                saved='./Models/LearningCurve_Resnet_Trainable_{}.ckpt'.format(trainable))
+        tf_model = prepare_resnet(sess=sess, load_weights='./Models/LearningCurve_Resnet_Trainable_{}.ckpt'.format(trainable))
 
         input_pl = tf_model.inputs
         logits = tf_model.output

@@ -89,8 +89,10 @@ def prepare_resnet(sal_type='PlainSaliency', load_weights='random', sess=None, n
         raise Exception("Unknown saliency_map type - 1")
 
     # different options for loading weights
-    if load_weights == 'trained':
-        raise Exception("Trained Resnet hasn't been implemented yet.")
+    if load_weights != 'random' and sess != None:
+        saver = tf.train.Saver()
+        saver.restore(sess, load_weights)
+        print('Trained weights are restored ... ')
 
     elif load_weights == 'random':
         if sess != None:
