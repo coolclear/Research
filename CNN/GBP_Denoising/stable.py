@@ -1,7 +1,7 @@
 import os
 import sys
 sys.path.append('/home/yang/Research/CNN/')
-from Prepare_Model import prepare_GBPdenoising_end2end
+from Prepare_Model import prepare_GBPdenoising_end2end, prepare_resnet
 sys.path.append('/home/yang/Research/CNN/Tools')
 from Plot import simple_plot
 from logging import warning
@@ -9,64 +9,82 @@ import numpy as np
 import tensorflow as tf
 import keras
 from keras.datasets import cifar10
+import pickle as pkl
 
 trainable = False
+
+Tags = []
 
 def softmax_np(x, axis=None):
     return np.exp(x) / np.sum(np.exp(x), axis=axis)
 
 def main():
 
-    # load in the data
-    (x_train, y_train), (x_test, y_test) = cifar10.load_data()
+    num_classes = 10
 
     with tf.Session() as sess:
 
-        # load in the trained model
-        tf_model = prepare_GBPdenoising_end2end(sess=sess,
-                                                trainable=trainable,
-                                                saved='./Models/LearningCurve_End2End_Trainable_{}.ckpt'.format(trainable))
+        # pure Resnet
+        tf_model = prepare_resnet(sess=sess,
+                                  load_weights='./Models/LearningCurve_Resnet_Trainable_{}.ckpt'.format(trainable))
+
+        # tf_model = prepare_GBPdenoising_end2end(sess=sess,
+        #                                         trainable=trainable,
+        #                                         saved='./Models/LearningCurve_End2End_Trainable_{}.ckpt'.format(trainable))
 
         input_pl = tf_model.inputs
-        logits = tf_model.output
+        logits = tf_model.logits
 
-        # predict one by one
-        # for each, we predict for N times to test the model stability
-        # check the testing accuracy
-        test_accu_single = 0.
-        test_accu_vote = 0.
-        var = 0.
-        times = 50
-        stable = 0.
-        for index, image in enumerate(x_test):
+        for tag in Tags:
 
-            if index % 500 == 0:
-                print(index)
+            print(tag)
 
-            label = y_test[index]
+            if tag == "ORI":
+                (x_train, y_train), (x_test, y_test) = cifar10.load_data()
+            else:
+                with open('{}.pkl'.format(tag), 'rb') as file:
+                    (x_test, y_test) = pkl.load(file)
 
-            batch_image = np.expand_dims(image, axis=0)
-            # prediction
-            logit_vals = []
-            for step in range(times):
-                logit_vals.append(np.argmax(sess.run(logits, feed_dict={input_pl: batch_image})[0]))
+            y_test = keras.utils.to_categorical(y_test, num_classes)
 
-            diffs = len(np.unique(logit_vals))
-            var += diffs
+            # predict one by one
+            # for each, we predict for N times to test the model stability
+            # set N = 1 for normal prediction
+            # check the testing accuracy
+            test_accu_single = 0.
+            test_accu_vote = 0.
+            var = 0.
+            times = 1
+            stable = 0.
+            for index, image in enumerate(x_test):
 
-            if diffs == 1:
-                stable += 1
+                if index % 500 == 0:
+                    print(index)
 
-            if logit_vals[0] == label:
-                test_accu_single += 1
+                label = y_test[index]
 
-            if np.bincount(logit_vals).argmax() == label:
-                test_accu_vote += 1
+                batch_image = np.expand_dims(image, axis=0)
+                # prediction
+                logit_vals = []
+                for step in range(times):
+                    logit_vals.append(np.argmax(sess.run(logits, feed_dict={input_pl: batch_image})[0]))
 
-        print("Single Test Accuracy = {:.4f}".format(test_accu_single / len(x_test)))
-        print("Vote Test Accuracy = {:.4f}".format(test_accu_vote / len(x_test)))
-        print("Stability = {:.4f}".format(var / len(x_test)))
-        print("Percentage = {:.4f}".format(stable / len(x_test)))
+                diffs = len(np.unique(logit_vals))
+                var += diffs
+
+                if diffs == 1:
+                    stable += 1
+
+                if logit_vals[0] == label:
+                    test_accu_single += 1
+
+                if np.bincount(logit_vals).argmax() == label:
+                    test_accu_vote += 1
+
+            print("Single Test Accuracy = {:.4f}".format(test_accu_single / len(x_test)))
+            print("Vote Test Accuracy = {:.4f}".format(test_accu_vote / len(x_test)))
+            print("Stability = {:.4f}".format(var / len(x_test)))
+            print("Percentage = {:.4f}".format(stable / len(x_test)))
 
 if __name__ == '__main__':
     os.environ['CUDA_VISIBLE_DEVICES'] = '0'

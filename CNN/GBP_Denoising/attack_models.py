@@ -53,7 +53,14 @@ def main():
 
     with tf.Session() as sess:
 
-        tf_model = prepare_resnet(sess=sess, load_weights='./Models/LearningCurve_Resnet_Trainable_{}.ckpt'.format(trainable))
+        # # pure Resnet
+        # tf_model = prepare_resnet(sess=sess,
+        #                           load_weights='./Models/LearningCurve_Resnet_Trainable_{}.ckpt'.format(trainable))
+
+        # End2End
+        tf_model = prepare_GBPdenoising_end2end(sess=sess,
+                                                trainable=trainable,
+                                                saved='./Models/LearningCurve_End2End_Trainable_{}.ckpt'.format(trainable))
 
         input_pl = tf_model.inputs
         logits = tf_model.logits
@@ -78,7 +85,7 @@ def main():
                     adv_y_test.append(y_test[index])
 
             # save to pickle
-            f = open('./ADVs_Resnet_{}.pkl'.format(attack_type), 'wb')
+            f = open('./ADVs_End2End_{}.pkl'.format(attack_type), 'wb')
             pkl.dump((adv_x_test, adv_y_test), f, -1)
             f.close()
 
@@ -196,7 +203,8 @@ def attack_one_image(image, name, label, attack_type, fool_model):
 
                     # print('The attack is successed!')
 
-                    simple_plot(adversarial.astype(int), 'ADV' + name, './Adversarial_Examples/{}/'.format(attack_type))
+                    simple_plot(adversarial.astype(int), 'ADV' + name,
+                                './Adversarial_Examples/End2End/{}/'.format(attack_type))
 
                     # print('Saved!')
 
