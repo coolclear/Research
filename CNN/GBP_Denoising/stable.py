@@ -41,7 +41,7 @@ def main():
                                                 saved='./Models/LearningCurve_End2End_Trainable_{}.ckpt'.format(trainable))
 
         input_pl = tf_model.inputs
-        logits = tf_model.logits
+        logits = tf_model.output
 
         for tag in Tags:
 
