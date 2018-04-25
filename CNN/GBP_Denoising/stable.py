@@ -13,7 +13,14 @@ import pickle as pkl
 
 trainable = False
 
-Tags = []
+Tags = [
+    "ADVs_Resnet_DeepFool",
+    "ADVs_Resnet_FGSM",
+    "ADVs_Resnet_IterG",
+    "ADVs_Resnet_IterGS",
+    "ADVs_Resnet_LBFG",
+    "ADVs_Resnet_SalMap"
+]
 
 def softmax_np(x, axis=None):
     return np.exp(x) / np.sum(np.exp(x), axis=axis)
@@ -46,6 +53,8 @@ def main():
                     (x_test, y_test) = pkl.load(file)
 
             y_test = keras.utils.to_categorical(y_test, num_classes)
+
+            print("Number of examples = {}".format(len(x_test)))
 
             # predict one by one
             # for each, we predict for N times to test the model stability
