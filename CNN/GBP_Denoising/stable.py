@@ -52,8 +52,6 @@ def main():
                 with open('{}.pkl'.format(tag), 'rb') as file:
                     (x_test, y_test) = pkl.load(file)
 
-            y_test = keras.utils.to_categorical(y_test, num_classes)
-
             print("Number of examples = {}".format(len(x_test)))
 
             # predict one by one
@@ -80,8 +78,6 @@ def main():
 
                 diffs = len(np.unique(logit_vals))
                 var += diffs
-
-                print(logit_vals[0].shape)
 
                 if diffs == 1:
                     stable += 1
