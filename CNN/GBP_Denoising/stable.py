@@ -19,7 +19,8 @@ Tags = [
     "ADVs_Resnet_IterG",
     "ADVs_Resnet_IterGS",
     "ADVs_Resnet_LBFG",
-    "ADVs_Resnet_SalMap"
+    "ADVs_Resnet_SalMap",
+    "ORI"
 ]
 
 def softmax_np(x, axis=None):
