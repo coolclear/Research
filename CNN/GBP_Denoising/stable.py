@@ -81,7 +81,7 @@ def main():
                 diffs = len(np.unique(logit_vals))
                 var += diffs
 
-                print(logit_vals.shape)
+                print(logit_vals[0].shape)
 
                 if diffs == 1:
                     stable += 1
