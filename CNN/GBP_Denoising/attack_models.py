@@ -63,7 +63,7 @@ def main():
                                                 saved='./Models/LearningCurve_End2End_Trainable_{}.ckpt'.format(trainable))
 
         input_pl = tf_model.inputs
-        logits = tf_model.logits
+        logits = tf_model.output
 
         # foolbox - construct a tensorflow model
         fool_model = TensorFlowModel(input_pl, logits, bounds=(0, 255))
