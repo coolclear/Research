@@ -49,6 +49,8 @@ def main():
 
             if tag == "ORI":
                 (x_train, y_train), (x_test, y_test) = cifar10.load_data()
+                x_test = x_test[:1000]
+                y_test = y_test[:1000]
             else:
                 with open('{}.pkl'.format(tag), 'rb') as file:
                     (x_test, y_test) = pkl.load(file)
@@ -62,7 +64,7 @@ def main():
             test_accu_single = 0.
             test_accu_vote = 0.
             var = 0.
-            times = 1
+            times = 50
             stable = 0.
             for index, image in enumerate(x_test):
 
