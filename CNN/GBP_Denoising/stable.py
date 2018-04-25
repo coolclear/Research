@@ -32,13 +32,13 @@ def main():
 
     with tf.Session() as sess:
 
-        # pure Resnet
-        tf_model = prepare_resnet(sess=sess,
-                                  load_weights='./Models/LearningCurve_Resnet_Trainable_{}.ckpt'.format(trainable))
+        # # pure Resnet
+        # tf_model = prepare_resnet(sess=sess,
+        #                           load_weights='./Models/LearningCurve_Resnet_Trainable_{}.ckpt'.format(trainable))
 
-        # tf_model = prepare_GBPdenoising_end2end(sess=sess,
-        #                                         trainable=trainable,
-        #                                         saved='./Models/LearningCurve_End2End_Trainable_{}.ckpt'.format(trainable))
+        tf_model = prepare_GBPdenoising_end2end(sess=sess,
+                                                trainable=trainable,
+                                                saved='./Models/LearningCurve_End2End_Trainable_{}.ckpt'.format(trainable))
 
         input_pl = tf_model.inputs
         logits = tf_model.logits
