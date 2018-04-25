@@ -63,12 +63,12 @@ def main():
             test_accu_single = 0.
             test_accu_vote = 0.
             var = 0.
-            times = 1
+            times = 2
             stable = 0.
             for index, image in enumerate(x_test):
 
-                if index % 500 == 0:
-                    print(index)
+                # if index % 500 == 0:
+                #     print(index)
 
                 label = y_test[index]
 
