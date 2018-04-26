@@ -53,7 +53,7 @@ def main():
         input_pl = tf_model.inputs
         logits = tf_model.output
 
-        for tag in ADVs_Resnet:
+        for tag in ADVs_End2End:
 
             print(tag)
 
