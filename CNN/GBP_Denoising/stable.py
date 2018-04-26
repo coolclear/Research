@@ -13,13 +13,23 @@ import pickle as pkl
 
 trainable = False
 
-Tags = [
+ADVs_Resnet = [
     "ADVs_Resnet_DeepFool",
     "ADVs_Resnet_FGSM",
     "ADVs_Resnet_IterG",
     "ADVs_Resnet_IterGS",
     "ADVs_Resnet_LBFG",
     "ADVs_Resnet_SalMap",
+    "ORI"
+]
+
+ADVs_End2End = [
+    "ADVs_End2End_DeepFool",
+    "ADVs_End2End_FGSM",
+    "ADVs_End2End_IterG",
+    "ADVs_End2End_IterGS",
+    "ADVs_End2End_LBFG",
+    "ADVs_End2End_SalMap",
     "ORI"
 ]
 
@@ -43,7 +53,7 @@ def main():
         input_pl = tf_model.inputs
         logits = tf_model.output
 
-        for tag in Tags:
+        for tag in ADVs_Resnet:
 
             print(tag)
 
@@ -56,6 +66,9 @@ def main():
                     (x_test, y_test) = pkl.load(file)
 
             print("Number of examples = {}".format(len(x_test)))
+
+            if len(x_test) == 0:
+                continue
 
             # predict one by one
             # for each, we predict for N times to test the model stability
