@@ -24,12 +24,12 @@ ADVs_Resnet = [
 ]
 
 ADVs_End2End = [
-    "ADVs_End2End_DeepFool",
-    "ADVs_End2End_FGSM",
-    "ADVs_End2End_IterG",
-    "ADVs_End2End_IterGS",
-    "ADVs_End2End_LBFG",
-    "ADVs_End2End_SalMap",
+    # "ADVs_End2End_DeepFool",
+    # "ADVs_End2End_FGSM",
+    # "ADVs_End2End_IterG",
+    # "ADVs_End2End_IterGS",
+    # "ADVs_End2End_LBFG",
+    # "ADVs_End2End_SalMap",
     "ORI"
 ]
 
@@ -59,8 +59,8 @@ def main():
 
             if tag == "ORI":
                 (x_train, y_train), (x_test, y_test) = cifar10.load_data()
-                x_test = x_test[:1000]
-                y_test = y_test[:1000]
+                # x_test = x_test[:1000]
+                # y_test = y_test[:1000]
             else:
                 with open('{}.pkl'.format(tag), 'rb') as file:
                     (x_test, y_test) = pkl.load(file)
