@@ -81,8 +81,8 @@ def main():
             stable = 0.
             for index, image in enumerate(x_test):
 
-                # if index % 500 == 0:
-                #     print(index)
+                if index % 500 == 0:
+                    print(index)
 
                 label = y_test[index]
 
