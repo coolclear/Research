@@ -51,13 +51,14 @@ def grid_plot(grid_shape, image_list, title, save_dir, save_name):
     columns = grid_shape[1]
 
     plt.title(title, loc='left')
-    fig = plt.figure(figsize = (rows, columns))
-    gs = gridspec.GridSpec(rows, columns, wspace=0.1, hspace=0.1)
+    fig = plt.figure()
+    gs = gridspec.GridSpec(rows, columns)
+    gs.update(wspace=0.05, hspace=0.05)
 
     for i in range(rows):
         for j in range(columns):
 
-            ax = fig.add_subplot(gs[i, j])
+            ax = fig.subplot(gs[i, j])
 
             image = image_list[i * columns + j]
 
