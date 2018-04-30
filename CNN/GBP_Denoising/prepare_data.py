@@ -77,7 +77,7 @@ def main():
     (X_train_ori, y_train), (X_test_ori, y_test) = cifar10.load_data()
 
     # map each training example to its corresponding GBP reconstruction
-    X_train_gbp = Map(tfOp_gbp_reconstruction, model.layers_dic['images'], X_train_ori, sess)
+    X_train_gbp = Map(tfOp_gbp_reconstruction, model.layers_dic['images'], X_train_ori[:20], sess)
     # X_test_gbp = Map(tfOp_gbp_reconstruction, model.layers_dic['images'], X_test_ori, sess)
 
     # save to pickle
