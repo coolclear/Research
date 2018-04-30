@@ -87,8 +87,8 @@ def main():
     # f.close()
 
     # visualization
-    grid_plot([6, 3], X_train_ori[:18], 'Original_CIFAR10', './Visualization', 'Examples_Ori_CIFAR10')
-    grid_plot([6, 3], X_train_gbp[:18], 'GBP_CIFAR10', './Visualization', 'Examples_GBP_CIFAR10')
+    grid_plot([3, 6], X_train_ori[:18], 'Original_CIFAR10', './Visualization', 'Examples_Ori_CIFAR10')
+    grid_plot([3, 6], X_train_gbp[:18], 'GBP_CIFAR10', './Visualization', 'Examples_GBP_CIFAR10')
 
 if __name__ == '__main__':
     # setup the GPUs to use
