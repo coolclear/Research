@@ -50,8 +50,10 @@ def grid_plot(grid_shape, image_list, title, save_dir, save_name):
     rows = grid_shape[0]
     columns = grid_shape[1]
 
+    plt.tight_layout()
     plt.title(title, loc='left')
     fig = plt.figure()
+
     gs = gridspec.GridSpec(rows, columns, wspace=0.2, hspace=0.2)
 
     for i in range(rows):
