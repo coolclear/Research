@@ -53,7 +53,7 @@ def main():
     input_pl = tf_model.inputs # get the input placeholder
     label_pl = tf_model.labels # get the label placeholder
     phase_pl = tf_model.phase # get the phase placeholder
-    dropprob_pl = tf_model.dp # get the drop probability placeholder
+    keepprob_pl = tf_model.kp # get the keep probability placeholder
 
     if model_type == 'End2End':
         gbp_reconstruction = tf_model.gbp_reconstruction # the gbp reconstruction output port
@@ -119,7 +119,7 @@ def main():
                     summary = sess.run(merged,
                                        feed_dict={input_pl: x_test[:512],
                                                   label_pl: y_test[:512],
-                                                  dropprob_pl: 0.0})
+                                                  dropprob_pl: 1.0})
 
                     test_writer.add_summary(summary, b + e * steps_per_epoch)
 
@@ -148,7 +148,7 @@ def main():
                 sess.run(accuracy,
                          feed_dict={input_pl: test_X_batch,
                                     label_pl: test_y_batch,
-                                    dropprob_pl: 0.0}) * batch_size
+                                    dropprob_pl: 1.0}) * batch_size
 
         msg = "Test Accuracy = {:.4f}".format(test_accu / len(x_test))
 

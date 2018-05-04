@@ -47,9 +47,9 @@ class Resnet(object):
             # by default we are in the testing phase
             self.phase = tf.placeholder_with_default(tf.constant(False, dtype=tf.bool), [], name='phase')
 
-        with tf.name_scope('dropprob') as scope:
+        with tf.name_scope('keepprob') as scope:
             # by default the drop probability is 0.5
-            self.dp = tf.placeholder_with_default(tf.constant(0.5, dtype=tf.float32), [], name='dropporb')
+            self.kp = tf.placeholder_with_default(tf.constant(0.5, dtype=tf.float32), [], name='keepporb')
 
         # Build the TF computational graph for the ResNet architecture
         self.logits = self.build()
@@ -118,7 +118,7 @@ class Resnet(object):
                 self.layers_dic[name] = conv3
                 last_layer = conv3
 
-        last_layer = tf.nn.dropout(last_layer, self.dp)
+        last_layer = tf.nn.dropout(last_layer, self.kp)
 
         with tf.variable_scope('fc', reuse=self.reuse):
 

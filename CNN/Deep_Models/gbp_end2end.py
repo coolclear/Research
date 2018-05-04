@@ -38,7 +38,7 @@ class GBP_End2End(object):
 
         self.labels = self.NN2.labels
         self.phase = self.NN2.phase
-        self.dp = self.NN2.dp
+        self.kp = self.NN2.kp
         self.gbp_reconstruction = tfOp_gbp_255
         self.logits = self.NN2.logits
         self.cost = self.NN2.cost
