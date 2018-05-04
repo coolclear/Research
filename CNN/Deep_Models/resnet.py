@@ -5,7 +5,7 @@ sys.path.append('/home/yang/Research/')
 
 class Resnet(object):
 
-    def __init__(self, inputPH=None, input_dim=32, act_type='relu', pool_type='maxpool', res_blocks=8, reuse=False, num_labels=10):
+    def __init__(self, inputPH=None, input_dim=32, act_type='relu', pool_type='maxpool', res_blocks=8, reuse=False, num_labels=100):
 
         """
         Construct a Resnet object.

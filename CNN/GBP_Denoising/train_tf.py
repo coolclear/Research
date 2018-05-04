@@ -13,7 +13,7 @@ from keras.preprocessing.image import ImageDataGenerator
 def main():
     model_type = 'End2End'
 
-    num_classes = 10
+    num_classes = 100
     num_epochs = 300
     batch_size = 64
 
@@ -21,8 +21,8 @@ def main():
 
     (x_train, y_train), (x_test, y_test) = cifar100.load_data(label_mode='fine')
 
-    print(x_train.shape)
-    print(y_train.shape)
+    # print(x_train.shape)
+    # print(y_train.shape)
 
     y_train = keras.utils.to_categorical(y_train, num_classes)
     y_test = keras.utils.to_categorical(y_test, num_classes)
