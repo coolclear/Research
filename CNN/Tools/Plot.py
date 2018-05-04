@@ -51,7 +51,6 @@ def grid_plot(grid_shape, image_list, title, save_dir, save_name):
     columns = grid_shape[1]
 
     plt.title(title, loc='left')
-    plt.subplots_adjust(hspace=-0.5, wspace=0.0)
     fig = plt.figure()
     gs = gridspec.GridSpec(rows, columns, wspace=0.2, hspace=0.2)
 

@@ -19,11 +19,11 @@ class GBP_End2End(object):
         ##################################### GBP Reconstruction ###############################################
 
         logits = self.NN1.logits  # get the logits
-        self.input = self.NN1.images # get the input
+        self.inputs = self.NN1.images # get the input
 
         index = tf.random_uniform([1], minval=0, maxval=100, dtype=tf.int32)[0]
 
-        tfOp_gbp_raw = tf.gradients(logits[:, index], self.input)[0]  # raw gbp reconstruction
+        tfOp_gbp_raw = tf.gradients(logits[:, index], self.inputs)[0]  # raw gbp reconstruction
 
         # normalizations
         tfOp_gbp_submin = tf.map_fn(lambda img: img - tf.reduce_min(img), tfOp_gbp_raw)
@@ -36,11 +36,11 @@ class GBP_End2End(object):
         # self.NN2 = Resnet(inputPH=tf.cast(tfOp_gbp_255, dtype=tf.float32), num_labels=10)
         self.NN2 = Resnet(inputPH=tfOp_gbp_divmax, num_labels=10)
 
-        self.inputs = self.NN1.images
         self.labels = self.NN2.labels
         self.phase = self.NN2.phase
+        self.dropprob = self.NN2.dp
         self.gbp_reconstruction = tfOp_gbp_255
-        self.output = self.NN2.logits
+        self.logits = self.NN2.logits
         self.cost = self.NN2.cost
         self.accuracy = self.NN2.accuracy
 

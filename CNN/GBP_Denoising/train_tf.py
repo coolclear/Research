@@ -11,14 +11,13 @@ from keras.datasets import cifar10
 from keras.preprocessing.image import ImageDataGenerator
 
 
+
+
 def main():
-
-    model_type = 'End2End' # 'End2End' or 'Resnet'
-
-    trainable = True # only for 'End2End' - GBP Reconstruction part
+    model_type = 'Resnet'
 
     num_classes = 10
-    num_epochs = 600
+    num_epochs = 2
     batch_size = 64
 
     ########################################## Prepare the Data ########################################################
@@ -29,7 +28,6 @@ def main():
 
     steps_per_epoch = int((len(x_train) - 1) / batch_size) + 1
     print('Steps per epoch = ', steps_per_epoch)
-    # samples = x_test[:100]
 
     datagen = ImageDataGenerator(
         rotation_range=10,
@@ -48,13 +46,14 @@ def main():
 
     # build up the computational graph accordingly
     if model_type == 'End2End':
-        tf_model = prepare_GBPdenoising_end2end(trainable=trainable)
+        tf_model = prepare_GBPdenoising_end2end(trainable=False)
     elif model_type == 'Resnet':
         tf_model = prepare_resnet()
 
     input_pl = tf_model.inputs # get the input placeholder
     label_pl = tf_model.labels # get the label placeholder
     phase_pl = tf_model.phase # get the phase placeholder
+    dropprob_pl = tf_model.dropprob # get the drop probability placeholder
 
     if model_type == 'End2End':
         gbp_reconstruction = tf_model.gbp_reconstruction # the gbp reconstruction output port
@@ -120,7 +119,7 @@ def main():
                     summary = sess.run(merged,
                                        feed_dict={input_pl: x_test[:512],
                                                   label_pl: y_test[:512],
-                                                  phase_pl: False})
+                                                  dropprob_pl: 0.0})
 
                     test_writer.add_summary(summary, b + e * steps_per_epoch)
 
@@ -148,13 +147,14 @@ def main():
             test_accu += \
                 sess.run(accuracy,
                          feed_dict={input_pl: test_X_batch,
-                                    label_pl: test_y_batch}) * batch_size
+                                    label_pl: test_y_batch,
+                                    dropprob_pl: 0.0}) * batch_size
 
         msg = "Test Accuracy = {:.4f}".format(test_accu / len(x_test))
 
         print(msg)
 
-        saver.save(sess, 'Models/LearningCurve_{}_Trainable_{}.ckpt'.format(model_type, trainable))
+        saver.save(sess, 'Models/CIFAR10_{}.ckpt'.format(model_type))
 
 if __name__ == "__main__":
     # setup the GPUs to use
