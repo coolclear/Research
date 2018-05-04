@@ -10,9 +10,6 @@ import keras
 from keras.datasets import cifar10, cifar100
 from keras.preprocessing.image import ImageDataGenerator
 
-
-
-
 def main():
     model_type = 'End2End'
 
@@ -84,8 +81,8 @@ def main():
 
     # TensorBoard for the recording
     merged = tf.summary.merge_all()
-    train_writer = tf.summary.FileWriter('TensorBoard/CIFAR10/{}/Train'.format(model_type))
-    test_writer = tf.summary.FileWriter('TensorBoard/CIFAR10/{}/Test'.format(model_type))
+    train_writer = tf.summary.FileWriter('TensorBoard/CIFAR100/{}/Train'.format(model_type))
+    test_writer = tf.summary.FileWriter('TensorBoard/CIFAR100/{}/Test'.format(model_type))
 
     init = tf.global_variables_initializer() # initializer
 
@@ -158,7 +155,7 @@ def main():
 
         print(msg)
 
-        saver.save(sess, 'Models/CIFAR10_{}.ckpt'.format(model_type))
+        saver.save(sess, 'Models/CIFAR100_{}.ckpt'.format(model_type))
 
 if __name__ == "__main__":
     # setup the GPUs to use
