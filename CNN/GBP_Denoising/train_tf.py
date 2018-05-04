@@ -17,7 +17,7 @@ def main():
     model_type = 'Resnet'
 
     num_classes = 10
-    num_epochs = 2
+    num_epochs = 300
     batch_size = 64
 
     ########################################## Prepare the Data ########################################################
