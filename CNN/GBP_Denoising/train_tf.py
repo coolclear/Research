@@ -7,7 +7,7 @@ from Plot import grid_plot
 
 import tensorflow as tf
 import keras
-from keras.datasets import cifar10
+from keras.datasets import cifar10, cifar100
 from keras.preprocessing.image import ImageDataGenerator
 
 
@@ -22,7 +22,11 @@ def main():
 
     ########################################## Prepare the Data ########################################################
 
-    (x_train, y_train), (x_test, y_test) = cifar10.load_data()
+    (x_train, y_train), (x_test, y_test) = cifar100.load_data(label_mode='fine')
+
+    print(x_train.shape)
+    print(y_train.shape)
+
     y_train = keras.utils.to_categorical(y_train, num_classes)
     y_test = keras.utils.to_categorical(y_test, num_classes)
 
