@@ -80,8 +80,8 @@ def main():
 
     # TensorBoard for the recording
     merged = tf.summary.merge_all()
-    train_writer = tf.summary.FileWriter('TensorBoard/Train')
-    test_writer = tf.summary.FileWriter('TensorBoard/Test')
+    train_writer = tf.summary.FileWriter('TensorBoard/CIFAR10/{}/Train'.format(model_type))
+    test_writer = tf.summary.FileWriter('TensorBoard/CIFAR10/{}/Test'.format(model_type))
 
     init = tf.global_variables_initializer() # initializer
 
