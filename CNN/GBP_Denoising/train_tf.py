@@ -23,6 +23,7 @@ def main():
 
     # print(x_train.shape)
     # print(y_train.shape)
+    # print(y_train[:5])
 
     y_train = keras.utils.to_categorical(y_train, num_classes)
     y_test = keras.utils.to_categorical(y_test, num_classes)
@@ -62,10 +63,10 @@ def main():
     cross_entropy = tf_model.cost # model cost
 
     global_step = tf.Variable(0, trainable=False)
-    learning_rate = tf.train.exponential_decay(1e-2,
+    learning_rate = tf.train.exponential_decay(1e-1,
                                                global_step=global_step,
-                                               decay_steps=10000,
-                                               decay_rate=0.9)
+                                               decay_steps=40000,
+                                               decay_rate=0.1)
 
     tf.summary.scalar('lr', learning_rate) # TensorBoard
 
