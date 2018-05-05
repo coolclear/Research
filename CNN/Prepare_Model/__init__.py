@@ -69,7 +69,7 @@ def prepare_vgg(sal_type, layer_idx, load_weights, sess):
 
     return vgg
 
-def prepare_resnet(sal_type='PlainSaliency', load_weights='random', sess=None, num_classes=10, res_blocks=5):
+def prepare_resnet(sal_type='PlainSaliency', load_weights='random', sess=None, num_classes=100, res_blocks=8):
 
     # construct the graph based on the gradient type we want
     if sal_type == 'GuidedBackprop':
