@@ -11,6 +11,7 @@ from keras.datasets import cifar10, cifar100
 from keras.preprocessing.image import ImageDataGenerator
 
 def main():
+
     model_type = 'Resnet'
 
     num_classes = 100
@@ -32,9 +33,9 @@ def main():
     print('Steps per epoch = ', steps_per_epoch)
 
     datagen = ImageDataGenerator(
-        # rotation_range=10,
-        # width_shift_range=0.1,
-        # height_shift_range=0.1,
+        rotation_range=10,
+        width_shift_range=0.1,
+        height_shift_range=0.1,
         horizontal_flip=True)
 
     # compute quantities required for featurewise normalization
