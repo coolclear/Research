@@ -15,8 +15,8 @@ def main():
     model_type = 'Resnet'
 
     num_classes = 100
-    num_epochs = 300
-    batch_size = 128
+    num_epochs = 400
+    batch_size = 32
 
     ########################################## Prepare the Data ########################################################
 
@@ -66,7 +66,7 @@ def main():
     global_step = tf.Variable(0, trainable=False)
     learning_rate = tf.train.exponential_decay(1e-2,
                                                global_step=global_step,
-                                               decay_steps=10000,
+                                               decay_steps=20000,
                                                decay_rate=0.8,
                                                staircase=True)
 
