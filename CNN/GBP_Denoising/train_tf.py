@@ -15,16 +15,12 @@ def main():
     model_type = 'Resnet'
 
     num_classes = 100
-    num_epochs = 400
-    batch_size = 32
+    num_epochs = 300
+    batch_size = 64
 
     ########################################## Prepare the Data ########################################################
 
     (x_train, y_train), (x_test, y_test) = cifar100.load_data(label_mode='fine')
-
-    # print(x_train.shape)
-    # print(y_train.shape)
-    # print(y_train[:5])
 
     y_train = keras.utils.to_categorical(y_train, num_classes)
     y_test = keras.utils.to_categorical(y_test, num_classes)
@@ -33,7 +29,7 @@ def main():
     print('Steps per epoch = ', steps_per_epoch)
 
     datagen = ImageDataGenerator(
-        rotation_range=10,
+        # rotation_range=10,
         width_shift_range=0.1,
         height_shift_range=0.1,
         horizontal_flip=True)
@@ -66,8 +62,8 @@ def main():
     global_step = tf.Variable(0, trainable=False)
     learning_rate = tf.train.exponential_decay(1e-2,
                                                global_step=global_step,
-                                               decay_steps=20000,
-                                               decay_rate=0.8,
+                                               decay_steps=40000,
+                                               decay_rate=0.5,
                                                staircase=True)
 
     tf.summary.scalar('lr', learning_rate) # TensorBoard
