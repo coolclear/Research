@@ -22,10 +22,6 @@ def main():
 
     (x_train, y_train), (x_test, y_test) = prepare_CIFAR100()
 
-    # print(x_train.shape)
-    # print(y_train.shape)
-    # print(y_train[:15])
-
     y_train = keras.utils.to_categorical(y_train, num_classes)
     y_test = keras.utils.to_categorical(y_test, num_classes)
 
@@ -67,8 +63,7 @@ def main():
     learning_rate = tf.train.exponential_decay(1e-3,
                                                global_step=global_step,
                                                decay_steps=20000,
-                                               decay_rate=0.8,
-                                               staircase=True)
+                                               decay_rate=0.9)
 
     tf.summary.scalar('lr', learning_rate) # TensorBoard
 
