@@ -62,7 +62,7 @@ def main():
     global_step = tf.Variable(0, trainable=False)
     learning_rate = tf.train.exponential_decay(1e-2,
                                                global_step=global_step,
-                                               decay_steps=10000,
+                                               decay_steps=20000,
                                                decay_rate=0.8,
                                                staircase=True)
 
