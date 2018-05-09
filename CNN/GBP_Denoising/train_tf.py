@@ -3,11 +3,11 @@ import sys
 sys.path.append('/home/yang/Research/CNN/')
 sys.path.append('/home/yang/Research/CNN/Tools')
 from Prepare_Model import prepare_GBPdenoising_end2end, prepare_resnet
+from Prepare_Data import prepare_CIFAR10, prepare_CIFAR100, prepare_SVHN
 from Plot import grid_plot
 
 import tensorflow as tf
 import keras
-from keras.datasets import cifar10, cifar100
 from keras.preprocessing.image import ImageDataGenerator
 
 def main():
@@ -20,7 +20,11 @@ def main():
 
     ########################################## Prepare the Data ########################################################
 
-    (x_train, y_train), (x_test, y_test) = cifar100.load_data(label_mode='fine')
+    (x_train, y_train), (x_test, y_test) = prepare_CIFAR100()
+
+    # print(x_train.shape)
+    # print(y_train.shape)
+    # print(y_train[:15])
 
     y_train = keras.utils.to_categorical(y_train, num_classes)
     y_test = keras.utils.to_categorical(y_test, num_classes)
@@ -29,7 +33,7 @@ def main():
     print('Steps per epoch = ', steps_per_epoch)
 
     datagen = ImageDataGenerator(
-        # rotation_range=10,
+        rotation_range=10,
         width_shift_range=0.1,
         height_shift_range=0.1,
         horizontal_flip=True)
@@ -60,7 +64,7 @@ def main():
     cross_entropy = tf_model.cost # model cost
 
     global_step = tf.Variable(0, trainable=False)
-    learning_rate = tf.train.exponential_decay(1e-2,
+    learning_rate = tf.train.exponential_decay(1e-3,
                                                global_step=global_step,
                                                decay_steps=20000,
                                                decay_rate=0.8,
@@ -80,8 +84,8 @@ def main():
 
     # TensorBoard for the recording
     merged = tf.summary.merge_all()
-    train_writer = tf.summary.FileWriter('TensorBoard/CIFAR100/{}/Train'.format(model_type))
-    test_writer = tf.summary.FileWriter('TensorBoard/CIFAR100/{}/Test'.format(model_type))
+    train_writer = tf.summary.FileWriter('TensorBoard/SVHN/{}/Train'.format(model_type))
+    test_writer = tf.summary.FileWriter('TensorBoard/SVHN/{}/Test'.format(model_type))
 
     init = tf.global_variables_initializer() # initializer
 
@@ -154,7 +158,7 @@ def main():
 
         print(msg)
 
-        saver.save(sess, 'Models/CIFAR100_{}.ckpt'.format(model_type))
+        saver.save(sess, 'Models/SVHN_{}.ckpt'.format(model_type))
 
 if __name__ == "__main__":
     # setup the GPUs to use
