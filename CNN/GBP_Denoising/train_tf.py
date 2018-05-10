@@ -20,7 +20,7 @@ def main():
 
     ########################################## Prepare the Data ########################################################
 
-    (x_train, y_train), (x_test, y_test) = prepare_SVHN()
+    (x_train, y_train), (x_test, y_test) = prepare_SVHN("./")
 
     print(x_train.shape)
     print(y_train.shape)
