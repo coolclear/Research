@@ -15,16 +15,16 @@ def main():
     model_type = 'Resnet'
 
     num_classes = 100
-    num_epochs = 2
+    num_epochs = 300
     batch_size = 64
 
     ########################################## Prepare the Data ########################################################
 
     (x_train, y_train), (x_test, y_test) = prepare_SVHN("./")
 
-    print(x_train.shape)
-    print(y_train.shape)
-    print(y_train[:10])
+    # print(x_train.shape)
+    # print(y_train.shape)
+    # print(y_train[:10])
 
     y_train = keras.utils.to_categorical(y_train, num_classes)
     y_test = keras.utils.to_categorical(y_test, num_classes)
