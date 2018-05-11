@@ -8,6 +8,7 @@ from keras.datasets import cifar10
 import numpy as np
 import tensorflow as tf
 from Prepare_Model import prepare_GBP_shallow_CNN
+from Prepare_Data import prepare_SVHN, prepare_CIFAR10, prepare_CIFAR100
 import pickle as pkl
 from Plot import grid_plot
 
@@ -74,21 +75,21 @@ def main():
     tfOp_gbp_reconstruction = GBP_Reconstruction(model, output_dim)
 
     # [num_examples, 32, 32, 3]
-    (X_train_ori, y_train), (X_test_ori, y_test) = cifar10.load_data()
+    (X_train_ori, y_train), (X_test_ori, y_test) = prepare_CIFAR10()
 
     # map each training example to its corresponding GBP reconstruction
-    X_train_gbp = Map(tfOp_gbp_reconstruction, model.layers_dic['images'], X_train_ori[:20], sess)
-    # X_test_gbp = Map(tfOp_gbp_reconstruction, model.layers_dic['images'], X_test_ori, sess)
+    X_train_gbp = Map(tfOp_gbp_reconstruction, model.layers_dic['images'], X_train_ori, sess)
+    X_test_gbp = Map(tfOp_gbp_reconstruction, model.layers_dic['images'], X_test_ori, sess)
 
     # save to pickle
-    # f = open('./{}.pkl'.format('GBP_4'), 'wb')
-    # pkl.dump((X_train_gbp, y_train), f, -1)
-    # pkl.dump((X_test_gbp, y_test), f, -1)
-    # f.close()
+    f = open('./{}.pkl'.format('CIFAR10_GBP_0'), 'wb')
+    pkl.dump((X_train_gbp, y_train), f, -1)
+    pkl.dump((X_test_gbp, y_test), f, -1)
+    f.close()
 
-    # visualization
-    grid_plot([3, 6], X_train_ori[:18], 'Original_CIFAR10', './Visualization', 'Examples_Ori_CIFAR10')
-    grid_plot([3, 6], X_train_gbp[:18], 'GBP_CIFAR10', './Visualization', 'Examples_GBP_CIFAR10')
+    # # visualization
+    # grid_plot([3, 6], X_train_ori[:18], 'Original_CIFAR10', './Visualization', 'Examples_Ori_CIFAR10')
+    # grid_plot([3, 6], X_train_gbp[:18], 'GBP_CIFAR10', './Visualization', 'Examples_GBP_CIFAR10')
 
 if __name__ == '__main__':
     # setup the GPUs to use
