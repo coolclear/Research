@@ -82,7 +82,7 @@ def main():
     X_test_gbp = Map(tfOp_gbp_reconstruction, model.layers_dic['images'], X_test_ori, sess)
 
     # save to pickle
-    f = open('./{}.pkl'.format('CIFAR10_GBP_1'), 'wb')
+    f = open('./{}.pkl'.format('CIFAR10_GBP_2'), 'wb')
     pkl.dump((X_train_gbp, y_train), f, -1)
     pkl.dump((X_test_gbp, y_test), f, -1)
     f.close()
