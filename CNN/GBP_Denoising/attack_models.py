@@ -73,7 +73,7 @@ def main():
             adv_x_test = []
             adv_y_test = []
 
-            for index in range(1000):
+            for index in range(100):
 
                 print("Attack = {}, Index = {}".format(attack_type, index))
 
