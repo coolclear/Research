@@ -75,7 +75,7 @@ def main():
     tfOp_gbp_reconstruction = GBP_Reconstruction(model, output_dim)
 
     # [num_examples, 32, 32, 3]
-    (X_train_ori, y_train), (X_test_ori, y_test) = prepare_CIFAR100("./")
+    (X_train_ori, y_train), (X_test_ori, y_test) = prepare_CIFAR100()
 
     # map each training example to its corresponding GBP reconstruction
     X_train_gbp = Map(tfOp_gbp_reconstruction, model.layers_dic['images'], X_train_ori, sess)
