@@ -3,7 +3,7 @@ import sys
 sys.path.append('/home/yang/Research/CNN/')
 sys.path.append('/home/yang/Research/CNN/Tools')
 from Prepare_Model import prepare_GBPdenoising_end2end, prepare_resnet
-from Prepare_Data import prepare_CIFAR10, prepare_CIFAR100, prepare_SVHN
+from Prepare_Data import prepare_CIFAR10, prepare_CIFAR100, prepare_SVHN, pickle_load
 from Plot import grid_plot
 
 import tensorflow as tf
@@ -12,19 +12,15 @@ from keras.preprocessing.image import ImageDataGenerator
 
 def main():
 
-    model_type = 'End2End'
+    model_type = 'Resnet'
 
-    num_classes = 100
+    num_classes = 10
     num_epochs = 300
     batch_size = 64
 
     ########################################## Prepare the Data ########################################################
 
-    (x_train, y_train), (x_test, y_test) = prepare_SVHN("./")
-
-    # print(x_train.shape)
-    # print(y_train.shape)
-    # print(y_train[:10])
+    (x_train, y_train), (x_test, y_test) = pickle_load("./", "CIFAR10_GBP_0.pkl")
 
     y_train = keras.utils.to_categorical(y_train, num_classes)
     y_test = keras.utils.to_categorical(y_test, num_classes)
@@ -83,8 +79,8 @@ def main():
 
     # TensorBoard for the recording
     merged = tf.summary.merge_all()
-    train_writer = tf.summary.FileWriter('TensorBoard/SVHN/{}/Train'.format(model_type))
-    test_writer = tf.summary.FileWriter('TensorBoard/SVHN/{}/Test'.format(model_type))
+    train_writer = tf.summary.FileWriter('TensorBoard/CIFAR10-GBP0/{}/Train'.format(model_type))
+    test_writer = tf.summary.FileWriter('TensorBoard/CIFAR10-GBP0/{}/Test'.format(model_type))
 
     init = tf.global_variables_initializer() # initializer
 
@@ -157,7 +153,7 @@ def main():
 
         print(msg)
 
-        saver.save(sess, 'Models/SVHN_{}.ckpt'.format(model_type))
+        saver.save(sess, 'Models/CIFAR10-GBP0_{}.ckpt'.format(model_type))
 
 if __name__ == "__main__":
     # setup the GPUs to use

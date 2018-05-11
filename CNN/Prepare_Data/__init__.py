@@ -4,6 +4,7 @@ import os, sys
 from scipy.misc import imread, imresize
 import scipy.io as sio
 from keras.datasets import cifar10, cifar100
+import pickle as pkl
 
 def list_load(data_dir, names, size=(224, 224)):
 
@@ -64,3 +65,11 @@ def prepare_CIFAR100():
 
 def prepare_CIFAR10():
     return cifar10.load_data()
+
+def pickle_load(data_dir, pickle_name):
+
+    with open(data_dir + pickle_name, 'rb') as file:
+        (x_train, y_train) = pkl.load(file)
+        (x_test, y_test) = pkl.load(file)
+
+    return (x_train, y_train), (x_test, y_test)
