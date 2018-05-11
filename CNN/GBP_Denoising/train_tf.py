@@ -47,7 +47,7 @@ def main():
     if model_type == 'End2End':
         tf_model = prepare_GBPdenoising_end2end(trainable=False)
     elif model_type == 'Resnet':
-        tf_model = prepare_resnet()
+        tf_model = prepare_resnet(num_classes=num_classes)
 
     input_pl = tf_model.inputs # get the input placeholder
     label_pl = tf_model.labels # get the label placeholder
