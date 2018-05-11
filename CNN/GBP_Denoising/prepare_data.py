@@ -75,14 +75,14 @@ def main():
     tfOp_gbp_reconstruction = GBP_Reconstruction(model, output_dim)
 
     # [num_examples, 32, 32, 3]
-    (X_train_ori, y_train), (X_test_ori, y_test) = prepare_CIFAR10()
+    (X_train_ori, y_train), (X_test_ori, y_test) = prepare_CIFAR100()
 
     # map each training example to its corresponding GBP reconstruction
     X_train_gbp = Map(tfOp_gbp_reconstruction, model.layers_dic['images'], X_train_ori, sess)
     X_test_gbp = Map(tfOp_gbp_reconstruction, model.layers_dic['images'], X_test_ori, sess)
 
     # save to pickle
-    f = open('./{}.pkl'.format('CIFAR10_GBP_0'), 'wb')
+    f = open('./{}.pkl'.format('CIFAR100_GBP_0'), 'wb')
     pkl.dump((X_train_gbp, y_train), f, -1)
     pkl.dump((X_test_gbp, y_test), f, -1)
     f.close()
