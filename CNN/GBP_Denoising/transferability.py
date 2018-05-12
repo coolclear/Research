@@ -39,9 +39,9 @@ def main():
             print(tag)
 
             if tag == "ORI":
-                (x_train, y_train), (x_test, y_test) = prepare_CIFAR10()
+                (x_train, y_train), (x_test, y_test) = prepare_CIFAR100()
             else:
-                (x_train, y_train), (x_test, y_test) = pickle_load("./", "CIFAR10_{}.pkl".format(tag))
+                (x_train, y_train), (x_test, y_test) = pickle_load("./", "CIFAR100_{}.pkl".format(tag))
 
             test_accu_single = 0.
             for index, image in enumerate(x_test):
