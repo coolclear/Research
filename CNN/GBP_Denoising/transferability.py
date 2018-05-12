@@ -27,7 +27,7 @@ def main():
 
         # Resnet
         tf_model = prepare_resnet(sess=sess,
-                                  load_weights='./Models/CIFAR100_Resnet.ckpt',
+                                  load_weights='./Models/CIFAR100-GBP0_Resnet.ckpt',
                                   num_classes=num_classes)
 
         input_pl = tf_model.inputs
