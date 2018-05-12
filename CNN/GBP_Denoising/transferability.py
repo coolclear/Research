@@ -21,13 +21,13 @@ def softmax_np(x, axis=None):
 
 def main():
 
-    num_classes = 10
+    num_classes = 100
 
     with tf.Session() as sess:
 
         # Resnet
         tf_model = prepare_resnet(sess=sess,
-                                  load_weights='./Models/SVHN-GBP0_Resnet.ckpt',
+                                  load_weights='./Models/CIFAR10_Resnet.ckpt',
                                   num_classes=num_classes)
 
         input_pl = tf_model.inputs
@@ -39,9 +39,9 @@ def main():
             print(tag)
 
             if tag == "ORI":
-                (x_train, y_train), (x_test, y_test) = prepare_SVHN("./")
+                (x_train, y_train), (x_test, y_test) = prepare_CIFAR10()
             else:
-                (x_train, y_train), (x_test, y_test) = pickle_load("./", "SVHN_{}.pkl".format(tag))
+                (x_train, y_train), (x_test, y_test) = pickle_load("./", "CIFAR10_{}.pkl".format(tag))
 
             test_accu_single = 0.
             for index, image in enumerate(x_test):
