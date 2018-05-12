@@ -21,13 +21,13 @@ def softmax_np(x, axis=None):
 
 def main():
 
-    num_classes = 10
+    num_classes = 100
 
     with tf.Session() as sess:
 
         # Resnet
         tf_model = prepare_resnet(sess=sess,
-                                  load_weights='./Models/CIFAR10_Resnet.ckpt',
+                                  load_weights='./Models/CIFAR100_Resnet.ckpt',
                                   num_classes=num_classes)
 
         input_pl = tf_model.inputs
