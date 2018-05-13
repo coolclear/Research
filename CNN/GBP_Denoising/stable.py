@@ -40,13 +40,13 @@ def softmax_np(x, axis=None):
 
 def main():
 
-    num_classes = 100
+    num_classes = 10
 
     with tf.Session() as sess:
 
         # pure Resnet
         tf_model = prepare_resnet(sess=sess,
-                                  load_weights='./Models/CIFAR100_Resnet.ckpt',
+                                  load_weights='./Models/SVHN_Resnet.ckpt',
                                   num_classes=num_classes)
 
         # tf_model = prepare_GBPdenoising_end2end(sess=sess,
@@ -73,7 +73,7 @@ def main():
             # if len(x_test) == 0:
             #     continue
 
-        (x_train, y_train), (x_test, y_test) = prepare_CIFAR100()
+        (x_train, y_train), (x_test, y_test) = prepare_SVHN("./")
 
         # predict one by one
         # for each, we predict for N times to test the model stability
