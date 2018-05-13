@@ -105,12 +105,12 @@ def attack_one_image(image, name, label, attack_type, fool_model):
 
         if label_pre != label:
 
-            print('The model predicts wrong. No need to attack.')
+            # print('The model predicts wrong. No need to attack.')
             return None, False
 
         else:
 
-            print('Ok, let us attack this image ... ')
+            # print('Ok, let us attack this image ... ')
 
             ############################ Gradient-based Attacks ########################################################
             ############################################################################################################
