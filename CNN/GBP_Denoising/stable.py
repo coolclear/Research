@@ -40,7 +40,7 @@ def softmax_np(x, axis=None):
 
 def main():
 
-    num_classes = 100
+    num_classes = 10
 
     with tf.Session() as sess:
 
