@@ -185,14 +185,14 @@ def attack_one_image(image, name, label, attack_type, fool_model):
             if adversarial is None:
 
                 # if the attack above fails, it will return None and we catch it here
-                print('The attack failed!')
+                # print('The attack failed!')
                 return None, False
 
             elif np.array_equal(adversarial, image):
 
                 # the prediction for this image is not stable
                 #  because of the random logit in the GBP Reconstruction
-                print('No attack at all, the prediction itself is not stable')
+                # print('No attack at all, the prediction itself is not stable')
                 return None, False
 
             else :
@@ -216,7 +216,7 @@ def attack_one_image(image, name, label, attack_type, fool_model):
                         return adversarial, True
 
                     else:
-                        print('Perturbation is too obvious!')
+                        # print('Perturbation is too obvious!')
                         return None, False
 
                 else:
