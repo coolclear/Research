@@ -45,7 +45,7 @@ def main():
 
     # build up the computational graph accordingly
     if model_type == 'End2End':
-        tf_model = prepare_GBPdenoising_end2end(trainable=False, num_classes=num_classes)
+        tf_model = prepare_GBPdenoising_end2end(trainable=False)
     elif model_type == 'Resnet':
         tf_model = prepare_resnet(num_classes=num_classes)
 
