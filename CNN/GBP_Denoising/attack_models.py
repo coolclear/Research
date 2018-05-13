@@ -46,7 +46,7 @@ Decision_Attacks = [
 def softmax_np(x, axis=None):
     return np.exp(x) / np.sum(np.exp(x), axis=axis)
 
-error = 1e1
+error = 1e2
 
 def main():
 
@@ -204,12 +204,15 @@ def attack_one_image(image, name, label, attack_type, fool_model):
 
                 if label_pre_adv != label:
 
-                    if np.linalg.norm(adversarial - image) <= error:
+                    dis = np.linalg.norm(adversarial - image)
+                    print(dis)
+
+                    if  dis <= error:
 
                         print('The attack is successed!')
 
                         simple_plot(adversarial.astype(int), 'ADV' + name,
-                                    './Adversarial_Examples/End2End/{}/'.format(attack_type))
+                                    './Adversarial_Examples/CIFAR10/Resnet_off/{}/'.format(attack_type))
 
                         # print('Saved!')
 
