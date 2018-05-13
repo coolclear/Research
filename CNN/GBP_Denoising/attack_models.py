@@ -46,7 +46,7 @@ Decision_Attacks = [
 def softmax_np(x, axis=None):
     return np.exp(x) / np.sum(np.exp(x), axis=axis)
 
-error = 1e2
+error = 150
 
 def main():
 
@@ -205,7 +205,7 @@ def attack_one_image(image, name, label, attack_type, fool_model):
                 if label_pre_adv != label:
 
                     dis = np.linalg.norm(adversarial - image)
-                    print(dis)
+                    # print(dis)
 
                     if  dis <= error:
 
