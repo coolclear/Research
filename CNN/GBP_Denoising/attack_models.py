@@ -46,7 +46,7 @@ Decision_Attacks = [
 def softmax_np(x, axis=None):
     return np.exp(x) / np.sum(np.exp(x), axis=axis)
 
-error = 1e-1
+error = 1e1
 
 def main():
 
