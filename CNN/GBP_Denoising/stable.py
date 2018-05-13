@@ -44,14 +44,13 @@ def main():
 
     with tf.Session() as sess:
 
-        # pure Resnet
-        tf_model = prepare_resnet(sess=sess,
-                                  load_weights='./Models/SVHN_End2End.ckpt',
-                                  num_classes=num_classes)
+        # # pure Resnet
+        # tf_model = prepare_resnet(sess=sess,
+        #                           load_weights='./Models/CIFAR10_End2End.ckpt',
+        #                           num_classes=num_classes)
 
-        # tf_model = prepare_GBPdenoising_end2end(sess=sess,
-        #                                         saved='./Models/SVHN_End2End.ckpt',
-        #                                         num_classes=num_classes)
+        tf_model = prepare_GBPdenoising_end2end(sess=sess,
+                                                saved='./Models/CIFAR10_End2End.ckpt')
 
         input_pl = tf_model.inputs
         logits = tf_model.logits
@@ -73,7 +72,7 @@ def main():
             # if len(x_test) == 0:
             #     continue
 
-        (x_train, y_train), (x_test, y_test) = prepare_SVHN("./")
+        (x_train, y_train), (x_test, y_test) = prepare_CIFAR10()
 
         # predict one by one
         # for each, we predict for N times to test the model stability
