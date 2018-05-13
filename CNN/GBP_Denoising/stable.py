@@ -46,7 +46,7 @@ def main():
 
         # pure Resnet
         tf_model = prepare_resnet(sess=sess,
-                                  load_weights='./Models/SVHN_Resnet.ckpt',
+                                  load_weights='./Models/SVHN_End2End.ckpt',
                                   num_classes=num_classes)
 
         # tf_model = prepare_GBPdenoising_end2end(sess=sess,
@@ -84,7 +84,8 @@ def main():
         var = 0.
         times = 50
         stable = 0.
-        for index, image in enumerate(x_test[:5000]):
+        num_examples = 5000 # some test set has too many images
+        for index, image in enumerate(x_test[:num_examples]):
 
             if index % 500 == 0:
                 print(index)
@@ -109,10 +110,10 @@ def main():
             if np.bincount(logit_vals).argmax() == label:
                 test_accu_vote += 1
 
-        print("Single Test Accuracy = {:.4f}".format(test_accu_single / 5000.))
-        print("Vote Test Accuracy = {:.4f}".format(test_accu_vote / 5000.))
-        print("Stability = {:.4f}".format(var / 5000.))
-        print("Percentage = {:.4f}".format(stable / 5000.))
+        print("Single Test Accuracy = {:.4f}".format(test_accu_single / num_examples))
+        print("Vote Test Accuracy = {:.4f}".format(test_accu_vote / num_examples))
+        print("Stability = {:.4f}".format(var / num_examples))
+        print("Percentage = {:.4f}".format(stable / num_examples))
 
 if __name__ == '__main__':
     os.environ['CUDA_VISIBLE_DEVICES'] = '0'

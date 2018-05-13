@@ -102,12 +102,12 @@ def attack_one_image(image, name, label, attack_type, fool_model):
 
         if label_pre != label:
 
-            # print('The model predicts wrong. No need to attack.')
+            print('The model predicts wrong. No need to attack.')
             return None, False
 
         else:
 
-            # print('Ok, let us attack this image ... ')
+            print('Ok, let us attack this image ... ')
 
             ############################ Gradient-based Attacks ########################################################
             ############################################################################################################
@@ -182,14 +182,14 @@ def attack_one_image(image, name, label, attack_type, fool_model):
             if adversarial is None:
 
                 # if the attack above fails, it will return None and we catch it here
-                # print('The attack failed!')
+                print('The attack failed!')
                 return None, False
 
             elif np.array_equal(adversarial, image):
 
                 # the prediction for this image is not stable
                 #  because of the random logit in the GBP Reconstruction
-                # print('No attack at all, the prediction itself is not stable')
+                print('No attack at all, the prediction itself is not stable')
                 return None, False
 
             else :
