@@ -109,10 +109,10 @@ def main():
             if np.bincount(logit_vals).argmax() == label:
                 test_accu_vote += 1
 
-        print("Single Test Accuracy = {:.4f}".format(test_accu_single / len(x_test)))
-        print("Vote Test Accuracy = {:.4f}".format(test_accu_vote / len(x_test)))
-        print("Stability = {:.4f}".format(var / len(x_test)))
-        print("Percentage = {:.4f}".format(stable / len(x_test)))
+        print("Single Test Accuracy = {:.4f}".format(test_accu_single / 5000.))
+        print("Vote Test Accuracy = {:.4f}".format(test_accu_vote / 5000.))
+        print("Stability = {:.4f}".format(var / 5000.))
+        print("Percentage = {:.4f}".format(stable / 5000.))
 
 if __name__ == '__main__':
     os.environ['CUDA_VISIBLE_DEVICES'] = '0'
