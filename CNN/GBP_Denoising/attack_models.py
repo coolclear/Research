@@ -1,14 +1,14 @@
 import os
 import sys
 sys.path.append('/home/yang/Research/CNN/')
+from Prepare_Data import pickle_load, prepare_CIFAR10, prepare_CIFAR100, prepare_SVHN
 from Prepare_Model import prepare_GBPdenoising_end2end, prepare_resnet
+
 sys.path.append('/home/yang/Research/CNN/Tools')
 from Plot import simple_plot
-from logging import warning
+
 import numpy as np
 import tensorflow as tf
-import keras
-from keras.datasets import cifar10
 import pickle as pkl
 
 import foolbox
@@ -46,24 +46,26 @@ Decision_Attacks = [
 def softmax_np(x, axis=None):
     return np.exp(x) / np.sum(np.exp(x), axis=axis)
 
+error = 1e-1
+
 def main():
 
     # load in the data
-    (x_train, y_train), (x_test, y_test) = cifar10.load_data()
+    (x_train, y_train), (x_test, y_test) = prepare_CIFAR10()
 
     with tf.Session() as sess:
 
-        # # pure Resnet
-        # tf_model = prepare_resnet(sess=sess,
-        #                           load_weights='./Models/LearningCurve_Resnet_Trainable_{}.ckpt'.format(trainable))
+        # pure Resnet
+        tf_model = prepare_resnet(sess=sess,
+                                  load_weights='./Models/CIFAR10_Resent.ckpt')
 
-        # End2End
-        tf_model = prepare_GBPdenoising_end2end(sess=sess,
-                                                trainable=trainable,
-                                                saved='./Models/LearningCurve_End2End_Trainable_{}.ckpt'.format(trainable))
+        # # End2End
+        # tf_model = prepare_GBPdenoising_end2end(sess=sess,
+        #                                         trainable=trainable,
+        #                                         saved='./Models/LearningCurve_End2End_Trainable_{}.ckpt'.format(trainable))
 
         input_pl = tf_model.inputs
-        logits = tf_model.output
+        logits = tf_model.logits
 
         # foolbox - construct a tensorflow model
         fool_model = TensorFlowModel(input_pl, logits, bounds=(0, 255))
@@ -73,7 +75,7 @@ def main():
             adv_x_test = []
             adv_y_test = []
 
-            for index in range(100):
+            for index in range(200):
 
                 print("Attack = {}, Index = {}".format(attack_type, index))
 
@@ -85,7 +87,7 @@ def main():
                     adv_y_test.append(y_test[index])
 
             # save to pickle
-            f = open('./ADVs_End2End_{}.pkl'.format(attack_type), 'wb')
+            f = open('./ADVs_CIFAR10_Resnet_off_{}.pkl'.format(attack_type), 'wb')
             pkl.dump((adv_x_test, adv_y_test), f, -1)
             f.close()
 
@@ -196,19 +198,25 @@ def attack_one_image(image, name, label, attack_type, fool_model):
 
                 preds_adv = fool_model.predictions(adversarial)
                 label_pre_adv = np.argmax(preds_adv)
-                prob_pre_adv = np.max(softmax_np(preds_adv))
+                # prob_pre_adv = np.max(softmax_np(preds_adv))
                 # print('(ADV) Prediction : {} ({:.2f})'.format(label_pre_adv, prob_pre_adv))
 
                 if label_pre_adv != label:
 
-                    # print('The attack is successed!')
+                    if np.linalg.norm(adversarial - image) <= error:
 
-                    simple_plot(adversarial.astype(int), 'ADV' + name,
-                                './Adversarial_Examples/End2End/{}/'.format(attack_type))
+                        print('The attack is successed!')
 
-                    # print('Saved!')
+                        simple_plot(adversarial.astype(int), 'ADV' + name,
+                                    './Adversarial_Examples/End2End/{}/'.format(attack_type))
 
-                    return adversarial, True
+                        # print('Saved!')
+
+                        return adversarial, True
+
+                    else:
+                        print('Perturbation is too obvious!')
+                        return None, False
 
                 else:
                     return None, False
