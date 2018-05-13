@@ -50,8 +50,8 @@ def main():
                                   num_classes=num_classes)
 
         # tf_model = prepare_GBPdenoising_end2end(sess=sess,
-        #                                         trainable=trainable,
-        #                                         saved='./Models/LearningCurve_End2End_Trainable_{}.ckpt'.format(trainable))
+        #                                         saved='./Models/SVHN_End2End.ckpt',
+        #                                         num_classes=num_classes)
 
         input_pl = tf_model.inputs
         logits = tf_model.logits
@@ -84,7 +84,7 @@ def main():
         var = 0.
         times = 50
         stable = 0.
-        for index, image in enumerate(x_test):
+        for index, image in enumerate(x_test[:5000]):
 
             if index % 500 == 0:
                 print(index)
