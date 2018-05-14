@@ -16,12 +16,12 @@ import pickle as pkl
 trainable = False
 
 ADVs = [
-    "ADVs_CIFAR10_Resnet_on_DeepFool",
-    "ADVs_CIFAR10_Resnet_on_FGSM",
-    "ADVs_CIFAR10_Resnet_on_IterG",
-    "ADVs_CIFAR10_Resnet_on_IterGS",
-    "ADVs_CIFAR10_Resnet_on_LBFG",
-    "ADVs_CIFAR10_Resnet_on_SalMap"
+    "ADVs_CIFAR10_End2End_DeepFool",
+    "ADVs_CIFAR10_End2End_FGSM",
+    "ADVs_CIFAR10_End2End_IterG",
+    "ADVs_CIFAR10_End2End_IterGS",
+    "ADVs_CIFAR10_End2End_LBFG",
+    "ADVs_CIFAR10_End2End_SalMap"
 ]
 
 def softmax_np(x, axis=None):
@@ -56,41 +56,41 @@ def main():
             if len(x_test) == 0:
                 continue
 
-            # predict one by one
-            # for each, we predict for N times to test the model stability
-            # set N = 1 for normal prediction
-            # check the testing accuracy
-            test_accu_single = 0.
-            test_accu_vote = 0.
-            var = 0.
-            times = 50
-            stable = 0.
-            for index, image in enumerate(x_test):
-
-                label = y_test[index]
-
-                batch_image = np.expand_dims(image, axis=0)
-                # prediction
-                logit_vals = []
-                for step in range(times):
-                    logit_vals.append(np.argmax(sess.run(logits, feed_dict={input_pl: batch_image})[0]))
-
-                diffs = len(np.unique(logit_vals))
-                var += diffs
-
-                if diffs == 1:
-                    stable += 1
-
-                if logit_vals[0] == label:
-                    test_accu_single += 1
-
-                if np.bincount(logit_vals).argmax() == label:
-                    test_accu_vote += 1
-
-            print("Single Test Accuracy = {:.4f}".format(test_accu_single / len(x_test)))
-            print("Vote Test Accuracy = {:.4f}".format(test_accu_vote / len(x_test)))
-            print("Stability = {:.4f}".format(var / len(x_test)))
-            print("Percentage = {:.4f}".format(stable / len(x_test)))
+            # # predict one by one
+            # # for each, we predict for N times to test the model stability
+            # # set N = 1 for normal prediction
+            # # check the testing accuracy
+            # test_accu_single = 0.
+            # test_accu_vote = 0.
+            # var = 0.
+            # times = 50
+            # stable = 0.
+            # for index, image in enumerate(x_test):
+            #
+            #     label = y_test[index]
+            #
+            #     batch_image = np.expand_dims(image, axis=0)
+            #     # prediction
+            #     logit_vals = []
+            #     for step in range(times):
+            #         logit_vals.append(np.argmax(sess.run(logits, feed_dict={input_pl: batch_image})[0]))
+            #
+            #     diffs = len(np.unique(logit_vals))
+            #     var += diffs
+            #
+            #     if diffs == 1:
+            #         stable += 1
+            #
+            #     if logit_vals[0] == label:
+            #         test_accu_single += 1
+            #
+            #     if np.bincount(logit_vals).argmax() == label:
+            #         test_accu_vote += 1
+            #
+            # print("Single Test Accuracy = {:.4f}".format(test_accu_single / len(x_test)))
+            # print("Vote Test Accuracy = {:.4f}".format(test_accu_vote / len(x_test)))
+            # print("Stability = {:.4f}".format(var / len(x_test)))
+            # print("Percentage = {:.4f}".format(stable / len(x_test)))
 
 if __name__ == '__main__':
     os.environ['CUDA_VISIBLE_DEVICES'] = '0'
