@@ -49,7 +49,7 @@ class Resnet(object):
 
         with tf.name_scope('keepprob') as scope:
             # by default the drop probability is 0.5
-            self.kp = tf.placeholder_with_default(tf.constant(0.5, dtype=tf.float32), [], name='keepporb')
+            self.kp = tf.placeholder_with_default(tf.constant(1.0, dtype=tf.float32), [], name='keepporb')
 
         # Build the TF computational graph for the ResNet architecture
         self.logits = self.build()
