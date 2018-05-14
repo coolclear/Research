@@ -16,12 +16,12 @@ import pickle as pkl
 trainable = False
 
 ADVs = [
-    "ADVs_CIFAR10_End2End_DeepFool",
-    "ADVs_CIFAR10_End2End_FGSM",
-    "ADVs_CIFAR10_End2End_IterG",
-    "ADVs_CIFAR10_End2End_IterGS",
-    "ADVs_CIFAR10_End2End_LBFG",
-    "ADVs_CIFAR10_End2End_SalMap"
+    "ADVs_CIFAR10_Resnet_off_L2_DeepFool",
+    "ADVs_CIFAR10_Resnet_off_L2_FGSM",
+    "ADVs_CIFAR10_Resnet_off_L2_IterG",
+    "ADVs_CIFAR10_Resnet_off_L2_IterGS",
+    "ADVs_CIFAR10_Resnet_off_L2_LBFG",
+    "ADVs_CIFAR10_Resnet_off_L2_SalMap"
 ]
 
 def softmax_np(x, axis=None):
@@ -33,16 +33,16 @@ def main():
 
     with tf.Session() as sess:
 
-        # pure Resnet
-        tf_model = prepare_resnet(sess=sess,
-                                  load_weights='./Models/CIFAR10_Resnet.ckpt',
-                                  num_classes=num_classes)
+        # # pure Resnet
+        # tf_model = prepare_resnet(sess=sess,
+        #                           load_weights='./Models/CIFAR10_Resnet.ckpt',
+        #                           num_classes=num_classes)
 
         # tf_model = prepare_GBPdenoising_end2end(sess=sess,
         #                                         saved='./Models/CIFAR100_End2End.ckpt')
 
-        input_pl = tf_model.inputs
-        logits = tf_model.logits
+        # input_pl = tf_model.inputs
+        # logits = tf_model.logits
 
         for tag in ADVs:
 
