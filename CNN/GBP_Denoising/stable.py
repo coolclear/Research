@@ -16,12 +16,12 @@ import pickle as pkl
 trainable = False
 
 ADVs = [
-    "ADVs_CIFAR10_Resnet_off_DeepFool",
-    "ADVs_CIFAR10_Resnet_off_FGSM",
-    "ADVs_CIFAR10_Resnet_off_IterG",
-    "ADVs_CIFAR10_Resnet_off_IterGS",
-    "ADVs_CIFAR10_Resnet_off_LBFG",
-    "ADVs_CIFAR10_Resnet_off_SalMap"
+    "ADVs_CIFAR10_Resnet_on_DeepFool",
+    "ADVs_CIFAR10_Resnet_on_FGSM",
+    "ADVs_CIFAR10_Resnet_on_IterG",
+    "ADVs_CIFAR10_Resnet_on_IterGS",
+    "ADVs_CIFAR10_Resnet_on_LBFG",
+    "ADVs_CIFAR10_Resnet_on_SalMap"
 ]
 
 def softmax_np(x, axis=None):
