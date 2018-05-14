@@ -55,15 +55,14 @@ def main():
 
     with tf.Session() as sess:
 
-        # pure Resnet
-        tf_model = prepare_resnet(sess=sess,
-                                  load_weights='./Models/CIFAR10_Resnet.ckpt',
-                                  num_classes=10)
+        # # pure Resnet
+        # tf_model = prepare_resnet(sess=sess,
+        #                           load_weights='./Models/CIFAR10_Resnet.ckpt',
+        #                           num_classes=10)
 
-        # # End2End
-        # tf_model = prepare_GBPdenoising_end2end(sess=sess,
-        #                                         trainable=trainable,
-        #                                         saved='./Models/LearningCurve_End2End_Trainable_{}.ckpt'.format(trainable))
+        # End2End
+        tf_model = prepare_GBPdenoising_end2end(sess=sess,
+                                                saved='./Models/CIFAR10_End2End.ckpt')
 
         input_pl = tf_model.inputs
         logits = tf_model.logits
@@ -88,7 +87,7 @@ def main():
                     adv_y_test.append(y_test[index])
 
             # save to pickle
-            f = open('./ADVs_CIFAR10_Resnet_on_{}.pkl'.format(attack_type), 'wb')
+            f = open('./ADVs_CIFAR10_End2End_{}.pkl'.format(attack_type), 'wb')
             pkl.dump((adv_x_test, adv_y_test), f, -1)
             f.close()
 
@@ -212,7 +211,7 @@ def attack_one_image(image, name, label, attack_type, fool_model):
                         print('The attack is successed!')
 
                         simple_plot(adversarial.astype(int), 'ADV' + name,
-                                    './Adversarial_Examples/CIFAR10/Resnet_on/{}/'.format(attack_type))
+                                    './Adversarial_Examples/CIFAR10/End2End/{}/'.format(attack_type))
 
                         # print('Saved!')
 
