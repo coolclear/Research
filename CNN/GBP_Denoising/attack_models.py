@@ -94,22 +94,22 @@ def main():
                         adv_x_test_L2.append(adv)
                         adv_y_test_L2.append(y_test[index])
                         simple_plot(adv.astype(int), 'ADV' + 'TEST_{}'.format(index),
-                                    './Adversarial_Examples/CIFAR10/Resnet_off/L2/{}/'.format(attack_type))
+                                    './Adversarial_Examples/CIFAR10/Resnet_on/L2/{}/'.format(attack_type))
 
 
                     if Linf <= Linf_error:
                         adv_x_test_Linf.append(adv)
                         adv_y_test_Linf.append(y_test[index])
                         simple_plot(adv.astype(int), 'ADV' + 'TEST_{}'.format(index),
-                                    './Adversarial_Examples/CIFAR10/Resnet_off/Linf/{}/'.format(attack_type))
+                                    './Adversarial_Examples/CIFAR10/Resnet_on/Linf/{}/'.format(attack_type))
 
 
             # save to pickle
-            f = open('./ADVs_CIFAR10_Resnet_off_L2_{}.pkl'.format(attack_type), 'wb')
+            f = open('./ADVs_CIFAR10_Resnet_on_L2_{}.pkl'.format(attack_type), 'wb')
             pkl.dump((adv_x_test_L2, adv_y_test_L2), f, -1)
             f.close()
 
-            f = open('./ADVs_CIFAR10_Resnet_off_Linf_{}.pkl'.format(attack_type), 'wb')
+            f = open('./ADVs_CIFAR10_Resnet_on_Linf_{}.pkl'.format(attack_type), 'wb')
             pkl.dump((adv_x_test_Linf, adv_y_test_Linf), f, -1)
             f.close()
 
