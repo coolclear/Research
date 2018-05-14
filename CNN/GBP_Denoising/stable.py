@@ -67,8 +67,6 @@ def main():
             stable = 0.
             for index, image in enumerate(x_test):
 
-                print(index)
-
                 label = y_test[index]
 
                 batch_image = np.expand_dims(image, axis=0)
