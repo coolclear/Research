@@ -88,7 +88,7 @@ def main():
                     adv_y_test.append(y_test[index])
 
             # save to pickle
-            f = open('./ADVs_CIFAR10_Resnet_off_{}.pkl'.format(attack_type), 'wb')
+            f = open('./ADVs_CIFAR10_Resnet_on_{}.pkl'.format(attack_type), 'wb')
             pkl.dump((adv_x_test, adv_y_test), f, -1)
             f.close()
 
@@ -212,7 +212,7 @@ def attack_one_image(image, name, label, attack_type, fool_model):
                         print('The attack is successed!')
 
                         simple_plot(adversarial.astype(int), 'ADV' + name,
-                                    './Adversarial_Examples/CIFAR10/Resnet_off/{}/'.format(attack_type))
+                                    './Adversarial_Examples/CIFAR10/Resnet_on/{}/'.format(attack_type))
 
                         # print('Saved!')
 
