@@ -46,23 +46,24 @@ Decision_Attacks = [
 def softmax_np(x, axis=None):
     return np.exp(x) / np.sum(np.exp(x), axis=axis)
 
-error = 150
-
 def main():
 
     # load in the data
     (x_train, y_train), (x_test, y_test) = prepare_CIFAR10()
 
+    L2_error = 16 * 32
+    Linf_error = 16
+
     with tf.Session() as sess:
 
-        # # pure Resnet
-        # tf_model = prepare_resnet(sess=sess,
-        #                           load_weights='./Models/CIFAR10_Resnet.ckpt',
-        #                           num_classes=10)
+        # pure Resnet
+        tf_model = prepare_resnet(sess=sess,
+                                  load_weights='./Models/CIFAR10_Resnet.ckpt',
+                                  num_classes=10)
 
-        # End2End
-        tf_model = prepare_GBPdenoising_end2end(sess=sess,
-                                                saved='./Models/CIFAR10_End2End.ckpt')
+        # # End2End
+        # tf_model = prepare_GBPdenoising_end2end(sess=sess,
+        #                                         saved='./Models/CIFAR10_End2End.ckpt')
 
         input_pl = tf_model.inputs
         logits = tf_model.logits
@@ -72,8 +73,11 @@ def main():
 
         for attack_type in Gradient_Attacks:
 
-            adv_x_test = []
-            adv_y_test = []
+            adv_x_test_L2 = []
+            adv_y_test_L2 = []
+
+            adv_x_test_Linf = []
+            adv_y_test_Linf = []
 
             for index in range(200):
 
@@ -83,15 +87,31 @@ def main():
 
                 if status == True:
 
-                    adv_x_test.append(adv)
-                    adv_y_test.append(y_test[index])
+                    L2 = np.linalg.norm(adv - x_test[index])
+                    Linf = np.max(np.abs(adv - x_test[index]))
+
+                    if L2 <= L2_error:
+                        adv_x_test_L2.append(adv)
+                        adv_y_test_L2.append(y_test[index])
+                        simple_plot(adv.astype(int), 'ADV' + 'TEST_{}'.format(index),
+                                    './Adversarial_Examples/CIFAR10/Resnet_off/L2/{}/'.format(attack_type))
+
+
+                    if Linf <= Linf_error:
+                        adv_x_test_Linf.append(adv)
+                        adv_y_test_Linf.append(y_test[index])
+                        simple_plot(adv.astype(int), 'ADV' + 'TEST_{}'.format(index),
+                                    './Adversarial_Examples/CIFAR10/Resnet_off/Linf/{}/'.format(attack_type))
+
 
             # save to pickle
-            f = open('./ADVs_CIFAR10_End2End_{}.pkl'.format(attack_type), 'wb')
-            pkl.dump((adv_x_test, adv_y_test), f, -1)
+            f = open('./ADVs_CIFAR10_Resnet_off_L2_{}.pkl'.format(attack_type), 'wb')
+            pkl.dump((adv_x_test_L2, adv_y_test_L2), f, -1)
             f.close()
 
-            print("{} ADVs are generated.".format(len(adv_x_test)))
+            f = open('./ADVs_CIFAR10_Resnet_off_Linf_{}.pkl'.format(attack_type), 'wb')
+            pkl.dump((adv_x_test_Linf, adv_y_test_Linf), f, -1)
+            f.close()
 
 def attack_one_image(image, name, label, attack_type, fool_model):
 
@@ -203,31 +223,11 @@ def attack_one_image(image, name, label, attack_type, fool_model):
 
                 if label_pre_adv != label:
 
-                    dis = np.linalg.norm(adversarial - image)
-                    # print(dis)
-
-                    if  dis <= error:
-
-                        print('The attack is successed!')
-
-                        simple_plot(adversarial.astype(int), 'ADV' + name,
-                                    './Adversarial_Examples/CIFAR10/End2End/{}/'.format(attack_type))
-
-                        # print('Saved!')
-
-                        return adversarial, True
-
-                    else:
-                        # print('Perturbation is too obvious!')
-                        return None, False
+                    print('The attack is successed!')
+                    return adversarial, True
 
                 else:
                     return None, False
-
-
-
-
-
 
 if __name__ == '__main__':
     os.environ['CUDA_VISIBLE_DEVICES'] = '0'
