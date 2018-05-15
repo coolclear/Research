@@ -49,7 +49,7 @@ def softmax_np(x, axis=None):
 def main():
 
     # load in the data
-    (x_train, y_train), (x_test, y_test) = prepare_CIFAR10()
+    (x_train, y_train), (x_test, y_test) = prepare_SVHN("./")
 
     Linf_error = 16
 
@@ -57,8 +57,8 @@ def main():
 
         # pure Resnet
         tf_model = prepare_resnet(sess=sess,
-                                  load_weights='./Models/CIFAR10_Resnet.ckpt',
-                                  num_classes=10)
+                                  load_weights='./Models/SVHN_Resnet.ckpt',
+                                  num_classes=100)
 
         # # End2End
         # tf_model = prepare_GBPdenoising_end2end(sess=sess,
@@ -84,8 +84,8 @@ def main():
 
                     if Linf <= Linf_error:
 
-                        simple_plot(adv.astype(int), 'TEST_{}_'.format(index) + attack_type, './Plots/CIFAR10/')
-                        simple_plot(x_test[index], 'TEST_{}'.format(index), './Plots/CIFAR10/')
+                        simple_plot(adv.astype(int), 'TEST_{}_'.format(index) + attack_type, './Plots/SVHN/')
+                        simple_plot(x_test[index], 'TEST_{}'.format(index), './Plots/SVHN/')
 
 
 def attack_one_image(image, name, label, attack_type, fool_model):
