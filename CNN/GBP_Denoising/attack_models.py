@@ -56,14 +56,14 @@ def main():
 
     with tf.Session() as sess:
 
-        # pure Resnet
-        tf_model = prepare_resnet(sess=sess,
-                                  load_weights='./Models/CIFAR100_Resnet.ckpt',
-                                  num_classes=100)
+        # # pure Resnet
+        # tf_model = prepare_resnet(sess=sess,
+        #                           load_weights='./Models/CIFAR100_Resnet.ckpt',
+        #                           num_classes=100)
 
-        # # End2End
-        # tf_model = prepare_GBPdenoising_end2end(sess=sess,
-        #                                         saved='./Models/CIFAR10_End2End.ckpt')
+        # End2End
+        tf_model = prepare_GBPdenoising_end2end(sess=sess,
+                                                saved='./Models/CIFAR100_End2End.ckpt')
 
         input_pl = tf_model.inputs
         logits = tf_model.logits
@@ -94,22 +94,22 @@ def main():
                         adv_x_test_L2.append(adv)
                         adv_y_test_L2.append(y_test[index])
                         simple_plot(adv.astype(int), 'ADV' + 'TEST_{}'.format(index),
-                                    './Adversarial_Examples/CIFAR100/Resnet_off/L2/{}/'.format(attack_type))
+                                    './Adversarial_Examples/CIFAR100/End2End_off/L2/{}/'.format(attack_type))
 
 
                     if Linf <= Linf_error:
                         adv_x_test_Linf.append(adv)
                         adv_y_test_Linf.append(y_test[index])
                         simple_plot(adv.astype(int), 'ADV' + 'TEST_{}'.format(index),
-                                    './Adversarial_Examples/CIFAR100/Resnet_off/Linf/{}/'.format(attack_type))
+                                    './Adversarial_Examples/CIFAR100/End2End_off/Linf/{}/'.format(attack_type))
 
 
             # save to pickle
-            f = open('./ADVs_CIFAR100_Resnet_off_L2_{}.pkl'.format(attack_type), 'wb')
+            f = open('./ADVs_CIFAR100_End2End_off_L2_{}.pkl'.format(attack_type), 'wb')
             pkl.dump((adv_x_test_L2, adv_y_test_L2), f, -1)
             f.close()
 
-            f = open('./ADVs_CIFAR100_Resnet_off_Linf_{}.pkl'.format(attack_type), 'wb')
+            f = open('./ADVs_CIFAR100_End2End_off_Linf_{}.pkl'.format(attack_type), 'wb')
             pkl.dump((adv_x_test_Linf, adv_y_test_Linf), f, -1)
             f.close()
 
