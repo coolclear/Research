@@ -79,7 +79,7 @@ def main():
             adv_x_test_Linf = []
             adv_y_test_Linf = []
 
-            for index in range(200):
+            for index in range(50):
 
                 print("Attack = {}, Index = {}".format(attack_type, index))
 
