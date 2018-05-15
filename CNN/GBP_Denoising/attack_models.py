@@ -59,7 +59,7 @@ def main():
         # pure Resnet
         tf_model = prepare_resnet(sess=sess,
                                   load_weights='./Models/SVHN_Resnet.ckpt',
-                                  num_classes=10)
+                                  num_classes=100)
 
         # # End2End
         # tf_model = prepare_GBPdenoising_end2end(sess=sess,
