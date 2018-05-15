@@ -72,7 +72,7 @@ def main():
 
         for attack_type in Gradient_Attacks:
 
-            for index in range(3):
+            for index in range(8):
 
                 print("Attack = {}, Index = {}".format(attack_type, index))
 
