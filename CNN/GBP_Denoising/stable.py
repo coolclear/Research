@@ -38,11 +38,11 @@ def main():
         #                           load_weights='./Models/CIFAR10_Resnet.ckpt',
         #                           num_classes=num_classes)
 
-        # tf_model = prepare_GBPdenoising_end2end(sess=sess,
-        #                                         saved='./Models/CIFAR100_End2End.ckpt')
+        tf_model = prepare_GBPdenoising_end2end(sess=sess,
+                                                saved='./Models/CIFAR10_Resnet.ckpt')
 
-        # input_pl = tf_model.inputs
-        # logits = tf_model.logits
+        input_pl = tf_model.inputs
+        logits = tf_model.logits
 
         for tag in ADVs:
 
