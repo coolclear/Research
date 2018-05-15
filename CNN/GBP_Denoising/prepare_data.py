@@ -80,7 +80,7 @@ def main():
              "TEST_3_DeepFool.png", "TEST_3_FGSM.png", "TEST_3_IterGS.png", "TEST_3_IterG.png",
              "TEST_4_DeepFool.png", "TEST_4_FGSM.png", "TEST_4_IterGS.png", "TEST_4_IterG.png",
     ]
-    X_test_ori = list_load(data_dir, names, size=(32, 32))
+    X_test_ori, _ = list_load(data_dir, names, size=(32, 32))
 
 
     # map each training example to its corresponding GBP reconstruction
