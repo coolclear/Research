@@ -75,7 +75,7 @@ def main():
     tfOp_gbp_reconstruction = GBP_Reconstruction(model, output_dim)
 
     # [num_examples, 32, 32, 3]
-    data_dir = './Plots/CIFAR10'
+    data_dir = './Plots/SVHN'
     names = ["TEST_1_DeepFool.png", "TEST_1_FGSM.png", "TEST_1_IterGS.png", "TEST_1_IterG.png",
              "TEST_0_DeepFool.png", "TEST_0_FGSM.png", "TEST_0_IterGS.png", "TEST_0_IterG.png",
              "TEST_2_DeepFool.png", "TEST_2_FGSM.png", "TEST_2_IterGS.png", "TEST_2_IterG.png",
@@ -88,7 +88,7 @@ def main():
     X_test_gbp = Map(tfOp_gbp_reconstruction, model.layers_dic['images'], X_test_ori, sess)
 
     # save to pickle
-    f = open('./{}.pkl'.format('CIFAR10-Plot'), 'wb')
+    f = open('./{}.pkl'.format('SVHN-Plot'), 'wb')
     # pkl.dump((X_train_gbp, y_train), f, -1)
     pkl.dump(X_test_gbp, f, -1)
     f.close()
