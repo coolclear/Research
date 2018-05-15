@@ -19,7 +19,6 @@ def list_load(data_dir, names, size=(224, 224)):
     for name in names:
         path = os.path.join(data_dir, '{}'.format(name))
         file_name = os.path.basename(path).split('.')[0]
-        print('File name : {}').format(file_name)
         fns.append(file_name)
 
         image = imread(path, mode='RGB')
