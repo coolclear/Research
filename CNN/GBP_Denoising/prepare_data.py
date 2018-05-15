@@ -75,7 +75,7 @@ def main():
     tfOp_gbp_reconstruction = GBP_Reconstruction(model, output_dim)
 
     # [num_examples, 32, 32, 3]
-    data_dir = './Plots/CIFAR10/'
+    data_dir = './Plots/CIFAR10'
     names = ["TEST_1_DeepFool.png", "TEST_1_FGSM.png", "TEST_1_IterGS.png", "TEST_1_IterG.png",
              "TEST_3_DeepFool.png", "TEST_3_FGSM.png", "TEST_3_IterGS.png", "TEST_3_IterG.png",
              "TEST_4_DeepFool.png", "TEST_4_FGSM.png", "TEST_4_IterGS.png", "TEST_4_IterG.png",
