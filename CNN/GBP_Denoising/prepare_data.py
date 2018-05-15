@@ -77,8 +77,8 @@ def main():
     # [num_examples, 32, 32, 3]
     data_dir = './Plots/CIFAR10'
     names = ["TEST_1_DeepFool.png", "TEST_1_FGSM.png", "TEST_1_IterGS.png", "TEST_1_IterG.png",
-             "TEST_3_DeepFool.png", "TEST_3_FGSM.png", "TEST_3_IterGS.png", "TEST_3_IterG.png",
-             "TEST_4_DeepFool.png", "TEST_4_FGSM.png", "TEST_4_IterGS.png", "TEST_4_IterG.png",
+             "TEST_0_DeepFool.png", "TEST_0_FGSM.png", "TEST_0_IterGS.png", "TEST_0_IterG.png",
+             "TEST_2_DeepFool.png", "TEST_2_FGSM.png", "TEST_2_IterGS.png", "TEST_2_IterG.png",
     ]
     X_test_ori, _ = list_load(data_dir, names, size=(32, 32))
 
@@ -98,7 +98,7 @@ def main():
     # grid_plot([3, 6], X_train_gbp[:18], 'GBP_CIFAR10', './Visualization', 'Examples_GBP_CIFAR10')
 
     for index, image in enumerate(X_test_gbp):
-        simple_plot(image, names[index] + 'GBP', './Plots/CIFAR10/')
+        simple_plot(image, names[index] + 'GBP', './Plots/SVHN/')
 
 if __name__ == '__main__':
     # setup the GPUs to use
