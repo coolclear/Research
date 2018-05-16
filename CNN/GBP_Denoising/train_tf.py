@@ -12,7 +12,7 @@ from keras.preprocessing.image import ImageDataGenerator
 
 def main():
 
-    model_type = 'End2End'
+    model_type = 'Resnet'
 
     num_classes = 10
     num_epochs = 300
