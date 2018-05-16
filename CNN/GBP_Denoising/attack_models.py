@@ -22,26 +22,10 @@ from foolbox.criteria import\
 
 trainable = False
 
-Gradient_Attacks = [
-    'FGSM',
-    'IterGS',
-    'IterG',
-    'LBFG',
-    'DeepFool',
+Attacks = [
     'SalMap'
 ]
 
-Score_Attacks = [
-    'SinPix',
-    'LocalSearch'
-]
-
-Decision_Attacks = [
-    'Boundary',
-    'Blur',
-    'Contrast',
-    'Noise'
-]
 
 def softmax_np(x, axis=None):
     return np.exp(x) / np.sum(np.exp(x), axis=axis)
@@ -71,7 +55,7 @@ def main():
         # foolbox - construct a tensorflow model
         fool_model = TensorFlowModel(input_pl, logits, bounds=(0, 255))
 
-        for attack_type in Score_Attacks:
+        for attack_type in Attacks:
 
             adv_x_test_L2 = []
             adv_y_test_L2 = []
@@ -79,7 +63,7 @@ def main():
             adv_x_test_Linf = []
             adv_y_test_Linf = []
 
-            for index in range(50):
+            for index in range(200):
 
                 print("Attack = {}, Index = {}".format(attack_type, index))
 
@@ -119,12 +103,10 @@ def attack_one_image(image, name, label, attack_type, fool_model):
 
         preds = fool_model.predictions(image)
         label_pre = np.argmax(preds)
-        prob_pre = np.max(softmax_np(preds))
-        # print('Prediction : {} ({:.2f})'.format(label_pre, prob_pre))
 
         if label_pre != label:
 
-            # print('The model predicts wrong. No need to attack.')
+            print('The model predicts wrong. No need to attack.')
             return None, False
 
         else:
@@ -204,22 +186,20 @@ def attack_one_image(image, name, label, attack_type, fool_model):
             if adversarial is None:
 
                 # if the attack above fails, it will return None and we catch it here
-                # print('The attack failed!')
+                print('The attack failed!')
                 return None, False
 
             elif np.array_equal(adversarial, image):
 
                 # the prediction for this image is not stable
                 #  because of the random logit in the GBP Reconstruction
-                # print('No attack at all, the prediction itself is not stable')
+                print('No attack at all, the prediction itself is not stable')
                 return None, False
 
             else :
 
                 preds_adv = fool_model.predictions(adversarial)
                 label_pre_adv = np.argmax(preds_adv)
-                # prob_pre_adv = np.max(softmax_np(preds_adv))
-                # print('(ADV) Prediction : {} ({:.2f})'.format(label_pre_adv, prob_pre_adv))
 
                 if label_pre_adv != label:
 

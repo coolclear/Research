@@ -20,7 +20,7 @@ def main():
 
     ########################################## Prepare the Data ########################################################
 
-    (x_train, y_train), (x_test, y_test) = prepare_SVHN("./")
+    (x_train, y_train), (x_test, y_test) = prepare_CIFAR10()
 
     y_train = keras.utils.to_categorical(y_train, num_classes)
     y_test = keras.utils.to_categorical(y_test, num_classes)
@@ -79,8 +79,8 @@ def main():
 
     # TensorBoard for the recording
     merged = tf.summary.merge_all()
-    train_writer = tf.summary.FileWriter('TensorBoard/SVHN/{}/Train'.format(model_type))
-    test_writer = tf.summary.FileWriter('TensorBoard/SVHN/{}/Test'.format(model_type))
+    train_writer = tf.summary.FileWriter('TensorBoard/CIFAR10-32/{}/Train'.format(model_type))
+    test_writer = tf.summary.FileWriter('TensorBoard/CIFAR10-32/{}/Test'.format(model_type))
 
     init = tf.global_variables_initializer() # initializer
 
@@ -153,7 +153,7 @@ def main():
 
         print(msg)
 
-        saver.save(sess, 'Models/SVHN_{}.ckpt'.format(model_type))
+        saver.save(sess, 'Models/CIFAR10-32_{}.ckpt'.format(model_type))
 
 if __name__ == "__main__":
     # setup the GPUs to use
