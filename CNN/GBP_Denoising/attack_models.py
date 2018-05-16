@@ -75,6 +75,7 @@ def main():
                     Linf = np.max(np.abs(adv - x_test[index]))
 
                     if L2 <= L2_error:
+                        print("L2 add one")
                         adv_x_test_L2.append(adv)
                         adv_y_test_L2.append(y_test[index])
                         simple_plot(adv.astype(int), 'ADV' + 'TEST_{}'.format(index),
@@ -82,6 +83,7 @@ def main():
 
 
                     if Linf <= Linf_error:
+                        print("Linf add one")
                         adv_x_test_Linf.append(adv)
                         adv_y_test_Linf.append(y_test[index])
                         simple_plot(adv.astype(int), 'ADV' + 'TEST_{}'.format(index),
