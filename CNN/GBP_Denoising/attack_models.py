@@ -74,6 +74,9 @@ def main():
                     L2 = np.linalg.norm(adv - x_test[index])
                     Linf = np.max(np.abs(adv - x_test[index]))
 
+                    print(L2)
+                    print(Linf)
+
                     if L2 <= L2_error:
                         print("L2 add one")
                         adv_x_test_L2.append(adv)
