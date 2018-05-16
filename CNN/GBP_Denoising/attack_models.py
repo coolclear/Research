@@ -181,7 +181,7 @@ def attack_one_image(image, name, label, attack_type, fool_model):
                 attack = foolbox.attacks.FGSM(fool_model)
 
             # attack happens here
-            adversarial = attack(image, int(label), theta=16)
+            adversarial = attack(image, int(label), theta=1.0)
 
             """
             Notice that for a given input image if we run the model multiple times the predictions
