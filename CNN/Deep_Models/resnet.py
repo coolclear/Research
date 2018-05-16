@@ -5,7 +5,7 @@ sys.path.append('/home/yang/Research/')
 
 class Resnet(object):
 
-    def __init__(self, inputPH=None, input_dim=32, act_type='relu', pool_type='maxpool', res_blocks=8, reuse=False, num_labels=100):
+    def __init__(self, inputPH=None, input_dim=32, act_type='relu', pool_type='maxpool', res_blocks=5, reuse=False, num_labels=100):
 
         """
         Construct a Resnet object.
@@ -49,7 +49,7 @@ class Resnet(object):
 
         with tf.name_scope('keepprob') as scope:
             # by default the drop probability is 0.5
-            self.kp = tf.placeholder_with_default(tf.constant(1.0, dtype=tf.float32), [], name='keepporb')
+            self.kp = tf.placeholder_with_default(tf.constant(0.5, dtype=tf.float32), [], name='keepporb')
 
         # Build the TF computational graph for the ResNet architecture
         self.logits = self.build()
