@@ -68,7 +68,8 @@ def prepare_CIFAR10():
 def pickle_load(data_dir, pickle_name):
 
     with open(data_dir + pickle_name, 'rb') as file:
-        (x_train, y_train) = pkl.load(file)
+        # (x_train, y_train) = pkl.load(file)
         (x_test, y_test) = pkl.load(file)
 
-    return (x_train, y_train), (x_test, y_test)
+    # return (x_train, y_train), (x_test, y_test)
+    return (x_test, y_test)
