@@ -29,9 +29,14 @@ def main():
 
     with tf.Session() as sess:
 
-        # End2End
-        tf_model = prepare_GBPdenoising_end2end(sess=sess,
-                                                saved='./Models/CIFAR10-32_End2End.ckpt')
+        # # End2End
+        # tf_model = prepare_GBPdenoising_end2end(sess=sess,
+        #                                         saved='./Models/CIFAR10-32_End2End.ckpt')
+
+        # pure Resnet
+        tf_model = prepare_resnet(sess=sess,
+                                  load_weights='./Models/CIFAR10-32_Resnet.ckpt',
+                                  num_classes=10)
 
         input_pl = tf_model.inputs
         logits = tf_model.logits
