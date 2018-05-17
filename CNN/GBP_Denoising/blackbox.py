@@ -1,11 +1,13 @@
+import numpy as np
+import tensorflow as tf
+
 import os
 import sys
 sys.path.append('/home/yang/Research/CNN/')
 from Prepare_Data import pickle_load
 from Prepare_Model import prepare_GBPdenoising_end2end, prepare_resnet
 
-import numpy as np
-import tensorflow as tf
+
 
 import foolbox
 from foolbox.models import TensorFlowModel
