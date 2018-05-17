@@ -27,8 +27,6 @@ def softmax_np(x, axis=None):
 
 def main():
 
-    print("Here")
-
     with tf.Session() as sess:
 
         # End2End
@@ -62,3 +60,6 @@ def main():
 
         print("Accuracy = {}".format(num_mis / num_advs))
 
+if __name__ == '__main__':
+    os.environ['CUDA_VISIBLE_DEVICES'] = '0'
+    main()
