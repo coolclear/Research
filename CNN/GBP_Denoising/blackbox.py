@@ -54,11 +54,9 @@ def main():
 
             # (x_test, y_test) = pickle_load("./", "ADVs_CIFAR10_Resnet_off_Linf_{}.pkl".format(attack))
 
-            (x_train, y_train), (x_test, y_test) = prepare_SVHN("./")
+            (x_train, y_train), (x_test, y_test) = prepare_CIFAR10()
 
-            print(len(x_test))
-
-            for index, adv in enumerate(x_test):
+            for index, adv in enumerate(x_test[:1000]):
 
                 num_advs = num_advs + 1
 
