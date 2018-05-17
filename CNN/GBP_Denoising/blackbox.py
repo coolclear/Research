@@ -56,7 +56,7 @@ def main():
 
             (x_train, y_train), (x_test, y_test) = prepare_CIFAR10()
 
-            for index, adv in enumerate(x_test[:1000]):
+            for index, adv in enumerate(x_train[:1000]):
 
                 num_advs = num_advs + 1
 
