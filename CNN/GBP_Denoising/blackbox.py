@@ -4,7 +4,7 @@ import tensorflow as tf
 import os
 import sys
 sys.path.append('/home/yang/Research/CNN/')
-from Prepare_Data import pickle_load, prepare_CIFAR10
+from Prepare_Data import pickle_load, prepare_CIFAR10, prepare_SVHN
 from Prepare_Model import prepare_GBPdenoising_end2end, prepare_resnet
 
 
@@ -54,7 +54,7 @@ def main():
 
             # (x_test, y_test) = pickle_load("./", "ADVs_CIFAR10_Resnet_off_Linf_{}.pkl".format(attack))
 
-            (x_train, y_train), (x_test, y_test) = prepare_CIFAR10()
+            (x_train, y_train), (x_test, y_test) = prepare_SVHN("./")
 
             print(len(x_test))
 
@@ -66,7 +66,7 @@ def main():
 
                 if y_test[index] != np.argmax(preds):
 
-                    print("misclassified")
+                    # print("misclassified")
                     num_mis = num_mis + 1
 
         print("Total number of ADVs = {}".format(num_advs))
