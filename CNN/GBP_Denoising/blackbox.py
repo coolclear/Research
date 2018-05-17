@@ -27,6 +27,8 @@ def softmax_np(x, axis=None):
 
 def main():
 
+    print("Here")
+
     with tf.Session() as sess:
 
         # End2End
