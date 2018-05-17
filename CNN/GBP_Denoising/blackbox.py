@@ -31,7 +31,7 @@ def main():
 
         # End2End
         tf_model = prepare_GBPdenoising_end2end(sess=sess,
-                                                saved='./Models/CIFAR10-32_Resnet.ckpt')
+                                                saved='./Models/CIFAR10-32_End2End.ckpt')
 
         input_pl = tf_model.inputs
         logits = tf_model.logits
