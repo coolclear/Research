@@ -50,7 +50,11 @@ def main():
 
         for attack in Attacks:
 
+            print(attack)
+
             (x_test, y_test) = pickle_load("./", "ADVs_CIFAR10_Resnet_off_Linf_{}.pkl".format(attack))
+
+            print(len(x_test))
 
             for index, adv in enumerate(x_test):
 
@@ -60,10 +64,11 @@ def main():
 
                 if y_test[index] != np.argmax(preds):
 
-                    print("Fooled!")
+                    print("misclassified")
                     num_mis = num_mis + 1
 
-        print("Accuracy = {}".format(num_mis / num_advs))
+        print("Total number of ADVs = {}".format(num_advs))
+        print("Accuracy = {}".format((num_advs - num_mis) / num_advs))
 
 if __name__ == '__main__':
     os.environ['CUDA_VISIBLE_DEVICES'] = '0'
