@@ -31,7 +31,7 @@ def main():
 
         # End2End
         tf_model = prepare_GBPdenoising_end2end(sess=sess,
-                                                saved='./Models/CIFAR10-32_End2End.ckpt')
+                                                saved='./Models/CIFAR10_End2End.ckpt')
 
         # # pure Resnet
         # tf_model = prepare_resnet(sess=sess,
