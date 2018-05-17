@@ -4,7 +4,7 @@ import tensorflow as tf
 import os
 import sys
 sys.path.append('/home/yang/Research/CNN/')
-from Prepare_Data import pickle_load
+from Prepare_Data import pickle_load, prepare_CIFAR10
 from Prepare_Model import prepare_GBPdenoising_end2end, prepare_resnet
 
 
@@ -17,9 +17,9 @@ trainable = False
 
 Attacks = [
     'DeepFool',
-    'FGSM',
-    'IterGS',
-    'IterG'
+    # 'FGSM',
+    # 'IterGS',
+    # 'IterG'
 ]
 
 def softmax_np(x, axis=None):
@@ -31,7 +31,7 @@ def main():
 
         # End2End
         tf_model = prepare_GBPdenoising_end2end(sess=sess,
-                                                saved='./Models/CIFAR10_End2End.ckpt')
+                                                saved='./Models/CIFAR10-32_End2End.ckpt')
 
         # # pure Resnet
         # tf_model = prepare_resnet(sess=sess,
@@ -52,7 +52,9 @@ def main():
 
             print(attack)
 
-            (x_test, y_test) = pickle_load("./", "ADVs_CIFAR10_Resnet_off_Linf_{}.pkl".format(attack))
+            # (x_test, y_test) = pickle_load("./", "ADVs_CIFAR10_Resnet_off_Linf_{}.pkl".format(attack))
+
+            (x_train, y_train), (x_test, y_test) = prepare_CIFAR10()
 
             print(len(x_test))
 
