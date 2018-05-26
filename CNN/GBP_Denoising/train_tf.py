@@ -20,7 +20,7 @@ def main():
         for set in dataset:
             train(set, type)
 
-def train(dataset, model_type, lr=1e-3, num_epochs=300, batch_size=64):
+def train(dataset, model_type, lr=1e-3, num_epochs=2, batch_size=64):
 
     ########################################## Prepare the Data ########################################################
 
@@ -139,7 +139,7 @@ def train(dataset, model_type, lr=1e-3, num_epochs=300, batch_size=64):
                                                   kp_ph: 1.0})
                     test_writer.add_summary(summary, b + e * steps_per_epoch)
 
-                    if e % 50 == 0: # save every 50 epoches
+                    if e % 1 == 0: # save every 50 epoches
                         saver.save(sess, 'Models/{}_{}'.format(dataset, model_type), global_step=b + e * steps_per_epoch)
 
                     break
