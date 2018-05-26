@@ -115,7 +115,7 @@ class Resnet(object):
 
             channels = last_layer.get_shape().as_list()[-1]
 
-            bn_layer = self.batch_normalization_layer(last_layer, channels) # batch normalization
+            bn_layer = self.batch_normalization_layer(last_layer) # batch normalization
 
             relu_layer = tf.nn.relu(bn_layer)
 
@@ -163,7 +163,7 @@ class Resnet(object):
         filter = tf.Variable(tf.truncated_normal(shape=filter_shape, dtype=tf.float32,
                                                  stddev=1e-1), name='weights')
         conv_layer = tf.nn.conv2d(input_layer, filter, strides=[1, stride, stride, 1], padding='SAME')
-        bn_layer = self.batch_normalization_layer(conv_layer, out_channel)
+        bn_layer = self.batch_normalization_layer(conv_layer)
         output = tf.nn.relu(bn_layer)
         return output
 
@@ -178,7 +178,7 @@ class Resnet(object):
         '''
 
         in_channel = input_layer.get_shape().as_list()[-1]
-        bn_layer = self.batch_normalization_layer(input_layer, in_channel)
+        bn_layer = self.batch_normalization_layer(input_layer)
         relu_layer = tf.nn.relu(bn_layer)
         filter = tf.Variable(tf.truncated_normal(shape=filter_shape, dtype=tf.float32,
                                                  stddev=1e-1), name='weights')
