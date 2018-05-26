@@ -66,7 +66,7 @@ def train(dataset, model_type, lr=1e-3, num_epochs=300, batch_size=64):
     # Model/Graph
     if model_type == 'End2End':
         _, tf_model = prepare_GBP_End2End(num_classes, inputT=input_ph)
-        gbp_reconstruction = tf_model.gbp_reconstruction  # the gbp reconstruction output port
+        gbp_reconstruction = tf_model.gbp_reconstructions  # the gbp reconstruction output port
     else:
         _, tf_model = prepare_Resnet(num_classes, inputT=input_ph)
 
