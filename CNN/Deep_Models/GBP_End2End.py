@@ -58,7 +58,8 @@ class GBP_End2End(object):
         self.logits = self.NN2.logits
         self.probs = tf.nn.softmax(self.logits)
 
-        self.layers_dic.update(self.NN1.layers_dic).update(self.NN2.layers_dic)
+        self.layers_dic.update(self.NN1.layers_dic)
+        self.layers_dic.update(self.NN2.layers_dic)
 
     def init(self, sess):
         self.NN1.init(sess)
