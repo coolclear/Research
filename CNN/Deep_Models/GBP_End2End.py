@@ -20,7 +20,7 @@ class GBP_End2End(object):
 
         self.inputT = inputT
         self.layers_dic['GBP_End2End_input'] = self.inputT
-        self.num_channel = self.inputT.get_shape().to_list()[-1]
+        self.num_channel = self.inputT.get_shape().as_list()[-1]
 
         self.num_logits = num_logits
         self.output_dim = output_dim

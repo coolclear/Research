@@ -31,7 +31,7 @@ class Shallow_CNN(object):
 
         self.inputT = inputT
         self.layers_dic['Shallow_CNN_input'] = self.inputT
-        self.num_channel = self.inputT.get_shape().to_list()[-1]
+        self.num_channel = self.inputT.get_shape().as_list()[-1]
 
         self.convlayers()
         self.fc_layers()

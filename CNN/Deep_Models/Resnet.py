@@ -38,7 +38,7 @@ class Resnet(object):
 
         self.inputT = inputT
         self.layers_dic['Resnet_input'] = self.inputT
-        self.num_channel = self.inputT.get_shape().to_list()[-1]
+        self.num_channel = self.inputT.get_shape().as_list()[-1]
 
         with tf.name_scope('Resnet_phase') as scope:
             # by default we are in the testing phase
