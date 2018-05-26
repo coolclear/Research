@@ -48,7 +48,7 @@ class GBP_End2End(object):
         ##################################### GBP Reconstruction ###############################################
 
         # now use a Resnet to classify these GBP reconstructions
-        self.NN2 = Resnet(inputPH=tfOp_gbp_divmax, output_dim=self.output_dim)
+        self.NN2 = Resnet(tfOp_gbp_divmax, output_dim=self.output_dim)
 
         self.phase = self.NN2.phase
         self.kp = self.NN2.kp
