@@ -5,72 +5,64 @@ sys.path.append('/home/yang/Research/')
 
 class Resnet(object):
 
-    def __init__(self, inputPH=None, input_dim=32, act_type='relu', pool_type='maxpool', res_blocks=5, reuse=False, num_labels=100):
+    def __init__(self, inputT=None,
+                 input_dim=32, output_dim=100, act_type='relu', pool_type='maxpool',
+                 res_blocks=5, phase=False, keepprop=0.5):
 
         """
         Construct a Resnet object.
         Total layers = 1 + 2n + 2n + 2n +1 = 6n + 2
-        Notice: you will need to prepare the weights separately. Either init randomly or load in pre-trained weights.
-        :param weights: the path to the trained weights
-        :param plain_init: init with random or trained weights
-        :param sess: ...
-        :param act_type: the activation function (default Relu)
-        :param pool_type: the pooling function (default Maxpool)
-        :param res_blocks: the number of residual blocks (default 5)
-        :param resue: To build a train graph, reuse = False. To build a validation graph resue = True (default True)
+        :param inputT: input has to be a tensor; has to be provided when constructing this class
+        :param input_dim:
+        :param output_dim:
+        :param act_type:
+        :param pool_type:
+        :param res_blocks:
+        :param phase: False for testing phase and True for training phase
+        :param keepprop: the keep probability for the dropout layer
         """
 
         self.input_dim = input_dim
+        self.output_dim = output_dim
         self.act_type = act_type
         self.pool_type = pool_type
         self.res_blocks = res_blocks
-        self.reuse = reuse
-        self.num_labels = num_labels
+
+        self.phase = phase
+        self.keepprop = keepprop
+
+        print("Phase = {}".format(self.phase))
+        print("Keep probability = {}".format(self.keepprop))
 
         self.layers_dic = {}
 
+        self.inputT = inputT
+        self.layers_dic['Resnet_input'] = self.inputT
+        self.num_channel = self.inputT.get_shape().to_list()[-1]
 
-        # zero-mean input
-        with tf.name_scope('input') as scope:
-            if inputPH == None:
-                self.inputs = tf.placeholder(tf.float32, [None, self.input_dim, self.input_dim, 3])
-                self.layers_dic['images'] = self.inputs
-            else:
-                print('Using given input placeholder')
-                self.inputs = inputPH
-                self.layers_dic['images'] = self.inputs
-
-        with tf.name_scope('output') as scope:
-            self.labels = tf.placeholder(tf.float32, [None, self.num_labels])
-
-        with tf.name_scope('phase') as scope:
+        with tf.name_scope('Resnet_phase') as scope:
             # by default we are in the testing phase
-            self.phase = tf.placeholder_with_default(tf.constant(False, dtype=tf.bool), [], name='phase')
+            self.phase = tf.placeholder_with_default(tf.constant(self.phase, dtype=tf.bool), [], name='phase')
 
-        with tf.name_scope('keepprob') as scope:
+        with tf.name_scope('Resnet_keepprob') as scope:
             # by default the drop probability is 0.5
-            self.kp = tf.placeholder_with_default(tf.constant(1.0, dtype=tf.float32), [], name='keepporb')
+            self.kp = tf.placeholder_with_default(tf.constant(self.keepprop, dtype=tf.float32), [], name='keepporb')
 
         # Build the TF computational graph for the ResNet architecture
         self.logits = self.build()
-        self.cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(labels=self.labels, logits=self.logits))
-        self.maxlogit = tf.reduce_max(self.logits, axis=1)
-        self.accuracy = tf.reduce_mean(
-            tf.cast(tf.equal(tf.argmax(self.logits, 1), tf.argmax(self.labels, 1)),
-                    tf.float32))
-
+        self.probs = tf.nn.softmax(self.logits)
 
     def build(self):
 
         # we are stacking the layers
         # and thus we need an easy reference to the last layer of the current graph
-        last_layer = self.inputs # starting with the input image of course
 
-        with tf.variable_scope('conv0', reuse=self.reuse):
+        last_layer = self.inputT # starting with the input tensor of course
 
-            conv0 = self.conv_bn_relu_layer(last_layer, [3, 3, 3, 16], 1)
+        with tf.variable_scope('Resnet_conv0'):
 
-            self.layers_dic['conv0'] = conv0
+            conv0 = self.conv_bn_relu_layer(last_layer, [3, 3, self.num_channel, 16], 1)
+            self.layers_dic['Resnet_conv0'] = conv0
             last_layer = conv0
 
         for i in range(self.res_blocks):
@@ -78,9 +70,9 @@ class Resnet(object):
             # notice that for each residual block
             # we actually have two layers in it
 
-            name = 'conv1_%d' % i
+            name = 'Resnet_conv1_%d' % i
 
-            with tf.variable_scope(name, reuse=self.reuse):
+            with tf.variable_scope(name):
 
                 if i == 0:
                     conv1 = self.residual_block(last_layer, 16, first_block=True)
@@ -95,12 +87,11 @@ class Resnet(object):
             # notice that for each residual block
             # we actually have two layers in it
 
-            name = 'conv2_%d' % i
+            name = 'Resnet_conv2_%d' % i
 
-            with tf.variable_scope(name, reuse=self.reuse):
+            with tf.variable_scope(name):
 
                 conv2 = self.residual_block(last_layer, 32)
-
                 self.layers_dic[name] = conv2
                 last_layer = conv2
 
@@ -109,64 +100,48 @@ class Resnet(object):
             # notice that for each residual block
             # we actually have two layers in it
 
-            name = 'conv3_%d' % i
+            name = 'Resnet_conv3_%d' % i
 
-            with tf.variable_scope(name, reuse=self.reuse):
+            with tf.variable_scope(name):
 
                 conv3 = self.residual_block(last_layer, 64)
-
                 self.layers_dic[name] = conv3
                 last_layer = conv3
 
         last_layer = tf.nn.dropout(last_layer, self.kp)
+        self.layers_dic['Resnet_dropout'] = last_layer
 
-        with tf.variable_scope('fc', reuse=self.reuse):
+        with tf.variable_scope('Resnet_fc'):
 
-            num_channels = last_layer.get_shape().as_list()[-1]
+            channels = last_layer.get_shape().as_list()[-1]
 
-            bn_layer = self.batch_normalization_layer(last_layer, num_channels) # batch normalization
+            bn_layer = self.batch_normalization_layer(last_layer, channels) # batch normalization
 
             relu_layer = tf.nn.relu(bn_layer)
 
-            # print(relu_layer.get_shape().as_list())
-
             global_pool = tf.reduce_mean(relu_layer, [1, 2])
-
-            # print(global_pool.get_shape().as_list())
 
             input_dim = global_pool.get_shape().as_list()[-1]
 
-            fc_w = tf.Variable(tf.truncated_normal([input_dim, self.num_labels],
+            fc_w = tf.Variable(tf.truncated_normal([input_dim, self.output_dim],
                                                          dtype=tf.float32,
-                                                         stddev=1e-1), name='fc_w')
+                                                         stddev=1e-1), name='w')
 
-            fc_b = tf.Variable(tf.constant(1.0, shape=[self.num_labels], dtype=tf.float32), name='fc_b')
+            fc_b = tf.Variable(tf.constant(1.0, shape=[self.output_dim], dtype=tf.float32), name='b')
 
             fc_h = tf.matmul(global_pool, fc_w) + fc_b
 
-            self.layers_dic['fc'] = fc_h
-            last_layer = fc_h # this is the logits
+            self.layers_dic['Resnet_logits'] = fc_h
 
-        return last_layer
+        return fc_h
 
-    def batch_normalization_layer(self, input_layer, dimension):
+    def batch_normalization_layer(self, input_layer):
 
         '''
-        Helper: batch normalziation
-        :param input_layer: 4D tensor
-        :param dimension: input_layer.get_shape().as_list()[-1]. The depth of the 4D tensor
-        :return: the 4D tensor after being normalized
+        batch normalization
+        :param input_layer: the input tensor
+        :return: a tensor batch normed
         '''
-
-        # mean, variance = tf.nn.moments(input_layer, axes=[0, 1, 2])
-        #
-        # beta = tf.get_variable('beta', dimension, tf.float32,
-        #                        initializer=tf.constant_initializer(0.0, tf.float32))
-        #
-        # gamma = tf.get_variable('gamma', dimension, tf.float32,
-        #                         initializer=tf.constant_initializer(1.0, tf.float32))
-        #
-        # bn_layer = tf.nn.batch_normalization(input_layer, mean, variance, beta, gamma, 1e-3)
 
         bn_layer = tf.contrib.layers.batch_norm(input_layer,
                                           center=True,

@@ -5,9 +5,18 @@ sys.path.append('/home/yang/Research/')
 
 class Shallow_CNN(object):
 
-    def __init__(self, inputPH=None, sess=None,
+    def __init__(self, inputT,
                  act_type='relu', pool_type='maxpool', trainable=False,
                  input_dim=32, output_dim=100):
+
+        """
+        :param inputT: the input has to be a tensor; has to be provided at the constructing time
+        :param act_type: act type
+        :param pool_type: pool type
+        :param trainable: is the weights trainable
+        :param input_dim: the input dim, default to 32
+        :param output_dim: the length of the logits
+        """
 
         self.act_type = act_type
         self.pool_type = pool_type
@@ -20,39 +29,23 @@ class Shallow_CNN(object):
 
         self.layers_dic = {}
 
-        # zero-mean input
-        with tf.name_scope('input') as scope:
-            if inputPH == None:
-                self.images = tf.placeholder(tf.float32, [None, self.input_dim, self.input_dim, 3])
-                self.layers_dic['images'] = self.images
-            else:
-                print('Using given input placeholder')
-                self.images = inputPH
-                self.layers_dic['images'] = self.images
-
-        with tf.name_scope('output') as scope:
-            self.labels = tf.placeholder(tf.float32, [None, self.output_dim])
+        self.inputT = inputT
+        self.layers_dic['Shallow_CNN_input'] = self.inputT
+        self.num_channel = self.inputT.get_shape().to_list()[-1]
 
         self.convlayers()
         self.fc_layers()
 
         self.logits = self.fc2
         self.probs = tf.nn.softmax(self.logits)
-        self.maxlogit = tf.reduce_max(self.logits, axis=1)
-
-        if sess is not None:
-            self.init(sess)
-            print('Initialized ...')
-        else:
-            print("Initialization failed ... ")
 
     def act(self, tensor, name):
 
         if self.act_type == 'relu':
-            return tf.nn.relu(tensor, name = name)
+            return tf.nn.relu(tensor, name=name)
 
         if self.act_type == 'softplus':
-            return tf.nn.softplus(tensor, name = name)
+            return tf.nn.softplus(tensor, name=name)
 
     def pool(self, tensor, name):
 
@@ -75,81 +68,81 @@ class Shallow_CNN(object):
     def convlayers(self):
 
         # conv1_1
-        with tf.name_scope('conv1_1') as scope:
+        with tf.name_scope('Shallow_CNN_conv1_1') as scope:
 
-            kernel = tf.Variable(tf.truncated_normal([2, 2, 3, 256], dtype=tf.float32, stddev=1e-1),
+            kernel = tf.Variable(tf.truncated_normal([2, 2, self.num_channel, 256], dtype=tf.float32, stddev=1e-1),
                                  trainable=self.trainable,
-                                 name='w_conv1_1')
+                                 name='w')
 
             biases = tf.Variable(tf.constant(0.0, shape=[256], dtype=tf.float32),
                                  trainable=self.trainable,
-                                 name='b_conv1_1')
+                                 name='b')
 
-            conv = tf.nn.conv2d(self.images, kernel, [1, 1, 1, 1], padding='SAME')
+            conv = tf.nn.conv2d(self.inputT, kernel, [1, 1, 1, 1], padding='SAME')
             out = tf.nn.bias_add(conv, biases)
 
             self.conv1_1 = self.act(tensor=out, name=scope)
 
-            self.layers_dic['conv1_1'] = self.conv1_1
+            self.layers_dic['Shallow_CNN_conv1_1'] = self.conv1_1
 
         # conv1_2
-        with tf.name_scope('conv1_2') as scope:
+        with tf.name_scope('Shallow_CNN_conv1_2') as scope:
 
             kernel = tf.Variable(tf.truncated_normal([2, 2, 256, 256], dtype=tf.float32, stddev=1e-1),
                                  trainable=self.trainable,
-                                 name='w_conv1_2')
+                                 name='w')
 
             biases = tf.Variable(tf.constant(0.0, shape=[256], dtype=tf.float32),
                                  trainable=self.trainable,
-                                 name='b_conv1_2')
+                                 name='b')
 
             conv = tf.nn.conv2d(self.conv1_1, kernel, [1, 1, 1, 1], padding='SAME')
             out = tf.nn.bias_add(conv, biases)
 
             self.conv1_2 = self.act(tensor=out, name=scope)
 
-            self.layers_dic['conv1_2'] = self.conv1_2
+            self.layers_dic['Shallow_CNN_conv1_2'] = self.conv1_2
 
         # pool1
         self.pool1 = self.pool(tensor=self.conv1_2, name='pool1')
-        self.layers_dic['pool1'] = self.pool1
+        self.layers_dic['Shallow_CNN_pool1'] = self.pool1
 
     def fc_layers(self):
 
         # fc1
-        with tf.name_scope('fc1') as scope:
+        with tf.name_scope('Shallow_CNN_fc1') as scope:
 
             shape = int(np.prod(self.pool1.get_shape()[1:]))
 
             fc1w = tf.Variable(tf.truncated_normal([shape, 1024], dtype=tf.float32, stddev=1e-1),
                                trainable=self.trainable,
-                               name='w_fc1')
+                               name='w')
 
             fc1b = tf.Variable(tf.constant(0.0, shape=[1024], dtype=tf.float32),
                                trainable=self.trainable,
-                               name='b_fc1')
+                               name='b')
 
             pool1_flat = tf.reshape(self.pool1, [-1, shape])
 
             fc1l = tf.nn.bias_add(tf.matmul(pool1_flat, fc1w), fc1b)
             self.fc1 = self.act(tensor=fc1l, name=scope)
 
-            self.layers_dic['fc1'] = self.fc1
+            self.layers_dic['Shallow_CNN_fc1'] = self.fc1
 
         # fc2
-        with tf.name_scope('fc2') as scope:
+        with tf.name_scope('Shallow_CNN_fc2') as scope:
 
             fc2w = tf.Variable(tf.truncated_normal([1024, self.output_dim], dtype=tf.float32, stddev=1e-1),
                                trainable=self.trainable,
-                               name='w_fc2')
+                               name='w')
 
             fc2b = tf.Variable(tf.constant(0.0, shape=[self.output_dim], dtype=tf.float32),
                                trainable=self.trainable,
-                               name='b_fc2')
+                               name='b')
 
             self.fc2 = tf.nn.bias_add(tf.matmul(self.fc1, fc2w), fc2b)
 
-            self.layers_dic['fc2'] = self.fc2
+            self.layers_dic['Shallow_CNN_logits'] = self.fc2
 
     def init(self, sess):
         sess.run(tf.global_variables_initializer())

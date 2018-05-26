@@ -1,10 +1,11 @@
 import tensorflow as tf
 import os, sys
+import re
 sys.path.append('/home/yang/Research/CNN/Deep_Models/')
 from vgg16 import Vgg16
-from resnet import Resnet
-from shallow_CNN import Shallow_CNN
-from gbp_end2end import GBP_End2End
+from Resnet import Resnet
+from Shallow_CNN import Shallow_CNN
+from GBP_End2End import GBP_End2End
 
 from keras import backend as K
 from keras.applications.vgg16 import VGG16
@@ -20,6 +21,11 @@ def _GuidedReluGrad(op, grad):
 @ops.RegisterGradient("DeconvRelu")
 def _DeconvReluGrad(op, grad):
     return tf.where(0. < grad, grad, tf.zeros(tf.shape(grad)))
+
+"""
+Key Design Principle:
+1. the input/output placeholders should either be provided or instantiated by the prepare function 
+"""
 
 weight_path = '/home/yang/Research/Deep_Models/vgg16_weights.npz'
 
@@ -69,41 +75,73 @@ def prepare_vgg(sal_type, layer_idx, load_weights, sess):
 
     return vgg
 
-def prepare_resnet(sal_type='PlainSaliency', load_weights='random', sess=None, num_classes=100, res_blocks=8):
+def prepare_Resnet(output_dim, sess=None, inputT=None, input_dim=None, num_logits=100, checkpoint_dir=None, sal_type='PlainSaliency'):
+
+    """
+    :param output_dim: this should always be specified
+    :param inputT: the input placeholder provided
+    :param input_dim: this has to be specified if inputT is not provided
+    :param num_logits: the number of logits of the shallow CNN, which is used for the GBP reconstruction
+    :param sess: should always be provided
+    :param loadback: load back the weights?
+    :return:
+    """
 
     # construct the graph based on the gradient type we want
     if sal_type == 'GuidedBackprop':
+
         eval_graph = tf.get_default_graph()
         with eval_graph.gradient_override_map({'Relu': 'GuidedRelu'}):
-            net = Resnet(res_blocks=res_blocks)
+
+            if inputT is not None:
+                model = Resnet(inputT=inputT, output_dim=output_dim)
+            elif input_dim is not None:
+                inputT = tf.placeholder(tf.float32, [None, input_dim, input_dim, 3])  # RGB by default
+                model = Resnet(inputT=inputT, output_dim=output_dim)
+            else:
+                raise Exception("Either inputT should be provided or input_dim should be specified!")
 
     elif sal_type == 'Deconv':
+
         eval_graph = tf.get_default_graph()
         with eval_graph.gradient_override_map({'Relu': 'DeconvRelu'}):
-            net = Resnet(res_blocks=res_blocks)
 
-    elif sal_type == 'PlainSaliency':
-        net = Resnet(num_labels=num_classes, res_blocks=res_blocks)
+            if inputT is not None:
+                model = Resnet(inputT=inputT, output_dim=output_dim)
+            elif input_dim is not None:
+                inputT = tf.placeholder(tf.float32, [None, input_dim, input_dim, 3])  # RGB by default
+                model = Resnet(inputT=inputT, output_dim=output_dim)
+            else:
+                raise Exception("Either inputT should be provided or input_dim should be specified!")
 
     else:
-        raise Exception("Unknown saliency_map type - 1")
 
-    # different options for loading weights
-    if load_weights != 'random' and sess != None:
-        saver = tf.train.Saver()
-        saver.restore(sess, load_weights)
-        print('Trained weights are restored ... ')
-
-    elif load_weights == 'random':
-        if sess != None:
-            net.init(sess)
+        if inputT is not None:
+            model = Resnet(inputT=inputT, output_dim=output_dim)
+        elif input_dim is not None:
+            inputT = tf.placeholder(tf.float32, [None, input_dim, input_dim, 3])  # RGB by default
+            model = Resnet(inputT=inputT, output_dim=output_dim)
         else:
-            print('No session available, not initialized yet ... ')
+            raise Exception("Either inputT should be provided or input_dim should be specified!")
 
-    else:
-        raise Exception("Unknown load_weights type - 1")
+    if checkpoint_dir and sess:
 
-    return net
+        print(" [*] Reading checkpoints...")
+
+        saver = tf.train.Saver()
+
+        ckpt = tf.train.get_checkpoint_state(checkpoint_dir)
+
+        if ckpt and ckpt.model_checkpoint_path:
+
+            ckpt_name = os.path.basename(ckpt.model_checkpoint_path)
+            saver.restore(sess, os.path.join(checkpoint_dir, ckpt_name))
+            print(" [*] Success to read {}".format(ckpt_name))
+
+        else:
+            print(" [*] Failed to find a checkpoint")
+
+    return inputT, model
 
 def prepare_keras_vgg16(sal_type, init, sess):
 
@@ -176,26 +214,70 @@ def prepare_keras_resnet50(sal_type, init, sess):
 
     return resnet50
 
-def prepare_GBP_shallow_CNN(inputPH=None, sess=None, input_dim=32, output_dim=100):
+def prepare_GBP_Shallow_CNN(output_dim, inputT=None, input_dim=None):
+
+    """
+    Notice that the gradient has been over-written to the GBP!!!
+    :param output_dim: this should always be specified
+    :param inputT: the input placeholder provided
+    :param input_dim: this has to be specified if inputT is not provided
+    :param num_logits: the number of logits of the shallow CNN, which is used for the GBP reconstruction
+    :param sess: should always be provided
+    :param loadback: load back the weights?
+    :return:
+    """
 
     eval_graph = tf.get_default_graph()
-
     with eval_graph.gradient_override_map({'Relu': 'GuidedRelu'}):
-        return Shallow_CNN(inputPH=inputPH, sess=sess, input_dim=input_dim, output_dim=output_dim)
 
-def prepare_GBPdenoising_end2end(sess=None, trainable=False, saved=None):
+        if inputT is not None:
+            model = Shallow_CNN(inputT, output_dim=output_dim)
+        elif input_dim is not None:
+            inputT = tf.placeholder(tf.float32, [None, input_dim, input_dim, 3])  # RGB by default
+            model = Shallow_CNN(inputT, output_dim=output_dim)
+        else:
+            raise Exception("Either inputT should be provided or input_dim should be specified!")
 
-    model = GBP_End2End(trainable=trainable)
+        return inputT, model
 
-    if sess != None and saved == None:
-        print('Model initialized ... ')
-        model.init(sess)
+def prepare_GBP_End2End(output_dim, sess=None, inputT=None, input_dim=None, num_logits=100, checkpoint_dir=None):
 
-    if saved != None and sess != None:
+    """
+    :param output_dim: this should always be specified
+    :param inputT: the input placeholder provided
+    :param input_dim: this has to be specified if inputT is not provided
+    :param num_logits: the number of logits of the shallow CNN, which is used for the GBP reconstruction
+    :param sess: should always be provided
+    :param loadback: load back the weights?
+    :return:
+    """
+
+    if inputT is not None:
+        model = GBP_End2End(inputT, output_dim, num_logits=num_logits)
+    elif input_dim is not None:
+        inputT = tf.placeholder(tf.float32, [None, input_dim, input_dim, 3]) # RGB by default
+        model = GBP_End2End(inputT, output_dim, num_logits=num_logits)
+    else:
+         raise Exception("Either inputT should be provided or input_dim should be specified!")
+
+    if checkpoint_dir and sess:
+
+        print(" [*] Reading checkpoints...")
+
         saver = tf.train.Saver()
-        saver.restore(sess, saved)
-        print('Trained weights are restored ... ')
 
-    return model
+        ckpt = tf.train.get_checkpoint_state(checkpoint_dir)
+
+        if ckpt and ckpt.model_checkpoint_path:
+
+            ckpt_name = os.path.basename(ckpt.model_checkpoint_path)
+            saver.restore(sess, os.path.join(checkpoint_dir, ckpt_name))
+            print(" [*] Success to read {}".format(ckpt_name))
+
+        else:
+            print(" [*] Failed to find a checkpoint")
+
+
+    return inputT, model
 
 
