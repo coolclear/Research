@@ -21,7 +21,7 @@ attacks = ['FGM']
 
 model_type = "Resnet"
 data_set = "CIFAR10"
-reuse = True
+reuse = False
 
 eval_params = {'batch_size': 128}
 size = 100
