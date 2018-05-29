@@ -84,7 +84,7 @@ def main():
 
             checkpoint_dir = "Models/{}_{}".format(data_set, model_type)
 
-            model = prepare_Resnet(10, inputT=x, checkpoint_dir=checkpoint_dir, reuse=reuse)
+            _, model = prepare_Resnet(10, inputT=x, checkpoint_dir=checkpoint_dir, reuse=reuse)
             preds = model.logits
 
             # create an attackable model for the cleverhans lib
