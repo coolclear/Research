@@ -15,95 +15,33 @@ from cleverhans.model import CallableModelWrapper
 from cleverhans.utils_tf import model_eval
 from cleverhans.attacks import FastGradientMethod
 
-model_types = [
-    # 'End2End',
-    'Resnet'
-]
-
-datasets = [
-    'CIFAR10',
-    # 'CIFAR100',
-    # 'SVHN'
-]
-
-attacks = [
-    'FGM'
-]
-
-model_type = "Resnet"
-data_set = "CIFAR10"
-reuse = False
-s = None
 output_dim = 10
+input_dim = 32
 
 eval_params = {'batch_size': 128}
 size = 100
 
 def main():
 
-    for type in model_types:
-        model_type = type
+    (x_train, y_train), (x_test, y_test) = prepare_CIFAR10()
 
-        for set in datasets:
-            data_set = set
+    with tf.Session() as sess:
 
-            if data_set == 'CIAFR10':
-                (x_train, y_train), (x_test, y_test) = prepare_CIFAR10()
-                output_dim = 10
-                input_dim = 32
-            elif data_set == 'CIFAR100':
-                (x_train, y_train), (x_test, y_test) = prepare_CIFAR100()
-                output_dim = 100
-                input_dim = 32
-            else:
-                (x_train, y_train), (x_test, y_test) = prepare_SVHN("./")
-                output_dim = 10
-                input_dim = 32
+        # prepare the input/output placeholders
+        x = tf.placeholder(tf.float32, [None, input_dim, input_dim, 3])
+        y = tf.placeholder(tf.float32, [None, 1])
 
-            with tf.Session() as sess: # start the sess
-
-                # prepare the input/output placeholders
-                x = tf.placeholder(tf.float32, [None, input_dim, input_dim, 3])
-                y = tf.placeholder(tf.float32, [None, 1])
-
-                _, tf_model = \
-                    prepare_Resnet(output_dim, inputT=x, checkpoint_dir="./Models", reuse=False,
-                                   sess=sess)
-
-                preds = graph(x)
-
-                # create an attackable model for the cleverhans lib
-                # we are doing a wrapping
-                # model = CallableModelWrapper(graph, 'logits')
-
-                # apply the attacks
-                for attack in attacks:
-
-                    # attack = FastGradientMethod(model, sess=sess)
-                    # adv_x = attack.generate(x)
-                    # preds_adv = graph(adv_x)
-
-                    # accuracy = model_eval(sess, x, y, preds_adv, x_test[:size], y_test[:size],
-                    #                       args=eval_params)
-                    # print('Test accuracy on adversarial examples: %0.4f' % accuracy)
-
-                    accuracy = model_eval(sess, x, y, preds, x_test[:size], y_test[:size],
-                                          args=eval_params)
-                    print('Test accuracy on normal examples: %0.4f' % accuracy)
-
-def graph(input_ph):
-
-    checkpoint_dir = "./Models"
-
-    if model_type == 'End2End':
         _, tf_model = \
-            prepare_GBP_End2End(output_dim, inputT=input_ph, checkpoint_dir=checkpoint_dir,
-                                reuse=True, sess=s)
-    else:
-        _, tf_model = \
-            prepare_Resnet(output_dim, inputT=input_ph, reuse=True)
+            prepare_Resnet(output_dim, inputT=x, checkpoint_dir="./Models", reuse=True,
+                           sess=sess)
 
-    return tf_model.logits
+        # create an attackable model for the cleverhans lib
+        # we are doing a wrapping
+        model = CallableModelWrapper(lambda input: tf_model.logits, 'logits')
+        attack = FastGradientMethod(model, sess=sess)
+        adv_x = attack.generate(x)
+
+        sess.run(adv_x, feed_dic={x: x_test[:100]})
 
 if __name__ == '__main__':
     os.environ['CUDA_VISIBLE_DEVICES'] = '0'
