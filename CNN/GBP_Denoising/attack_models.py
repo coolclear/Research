@@ -21,6 +21,7 @@ attacks = ['FGM']
 
 model_type = "Resnet"
 data_set = "CIFAR10"
+reuse = False
 
 eval_params = {'batch_size': 128}
 size = 100
@@ -37,9 +38,9 @@ def graph(input_ph):
     checkpoint_dir = "Models/{}_{}".format(data_set, model_type)
 
     if model_type == 'End2End':
-        _, tf_model = prepare_GBP_End2End(output_dim, inputT=input_ph, checkpoint_dir=checkpoint_dir, reuse=True)
+        _, tf_model = prepare_GBP_End2End(output_dim, inputT=input_ph, checkpoint_dir=checkpoint_dir, reuse=reuse)
     else:
-        _, tf_model = prepare_Resnet(output_dim, inputT=input_ph, checkpoint_dir=checkpoint_dir, reuse=True)
+        _, tf_model = prepare_Resnet(output_dim, inputT=input_ph, checkpoint_dir=checkpoint_dir, reuse=reuse)
 
     return tf_model.logits
 
@@ -72,9 +73,10 @@ def main():
 
             # create an attackable model for the cleverhans lib
             # we are doing a wrapping
+            reuse = False
             preds = graph(x)
+            reuse = True
             model = CallableModelWrapper(graph, 'logits')
-
 
             with tf.Session() as sess:
 
