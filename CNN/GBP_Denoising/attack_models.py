@@ -62,11 +62,13 @@ def main():
 
             with tf.Session() as sess: # start the sess
 
-                s = sess
-
                 # prepare the input/output placeholders
                 x = tf.placeholder(tf.float32, [None, input_dim, input_dim, 3])
                 y = tf.placeholder(tf.float32, [None, 1])
+
+                _, tf_model = \
+                    prepare_Resnet(output_dim, inputT=x, checkpoint_dir="./Models", reuse=False,
+                                   sess=sess)
 
                 preds = graph(x)
 
@@ -91,8 +93,6 @@ def main():
 
 def graph(input_ph):
 
-    print("Model Type = {}, Data Set = {}".format(model_type, data_set))
-
     checkpoint_dir = "./Models"
 
     if model_type == 'End2End':
@@ -101,8 +101,7 @@ def graph(input_ph):
                                 reuse=True, sess=s)
     else:
         _, tf_model = \
-            prepare_Resnet(output_dim, inputT=input_ph, checkpoint_dir=checkpoint_dir, reuse=reuse,
-                           sess=s)
+            prepare_Resnet(output_dim, inputT=input_ph, reuse=True)
 
     return tf_model.logits
 
