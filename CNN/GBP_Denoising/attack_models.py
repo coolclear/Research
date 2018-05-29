@@ -33,6 +33,8 @@ attacks = [
 model_type = "Resnet"
 data_set = "CIFAR10"
 reuse = False
+session = None
+output_dim = 10
 
 eval_params = {'batch_size': 128}
 size = 100
@@ -41,17 +43,14 @@ def graph(input_ph):
 
     print("Model Type = {}, Data Set = {}".format(model_type, data_set))
 
-    if data_set == "CIFAR100":
-        output_dim = 100
-    else:
-        output_dim = 10
-
     checkpoint_dir = "Models/{}_{}".format(data_set, model_type)
 
     if model_type == 'End2End':
-        _, tf_model = prepare_GBP_End2End(output_dim, inputT=input_ph, checkpoint_dir=checkpoint_dir, reuse=reuse)
+        _, tf_model = \
+            prepare_GBP_End2End(output_dim, inputT=input_ph, checkpoint_dir=checkpoint_dir, reuse=reuse, sess=session)
     else:
-        _, tf_model = prepare_Resnet(output_dim, inputT=input_ph, checkpoint_dir=checkpoint_dir, reuse=reuse)
+        _, tf_model = \
+            prepare_Resnet(output_dim, inputT=input_ph, checkpoint_dir=checkpoint_dir, reuse=reuse, sess=session)
 
     return tf_model.logits
 
@@ -65,52 +64,47 @@ def main():
 
             if data_set == 'CIAFR10':
                 (x_train, y_train), (x_test, y_test) = prepare_CIFAR10()
-                num_classes = 10
+                output_dim = 10
                 input_dim = 32
             elif data_set == 'CIFAR100':
                 (x_train, y_train), (x_test, y_test) = prepare_CIFAR100()
-                num_classes = 100
+                output_dim = 100
                 input_dim = 32
             else:
                 (x_train, y_train), (x_test, y_test) = prepare_SVHN("./")
-                num_classes = 10
+                output_dim = 10
                 input_dim = 32
 
-            tf.reset_default_graph()  # erase whatever the previous graph
+            with tf.Session() as sess: # start the sess
 
-            # prepare the input/output placeholders
-            x = tf.placeholder(tf.float32, [None, input_dim, input_dim, 3])
-            y = tf.placeholder(tf.float32, [None, 1])
+                session = sess
 
-            checkpoint_dir = "Models/{}_{}".format(data_set, model_type)
+                tf.reset_default_graph()  # erase whatever the previous graph
 
-            _, model = prepare_Resnet(10, inputT=x, checkpoint_dir=checkpoint_dir, reuse=reuse)
-            preds = model.logits
+                # prepare the input/output placeholders
+                x = tf.placeholder(tf.float32, [None, input_dim, input_dim, 3])
+                y = tf.placeholder(tf.float32, [None, 1])
 
-            # create an attackable model for the cleverhans lib
-            # we are doing a wrapping
-            # model = CallableModelWrapper(graph, 'logits')
+                preds = graph(x)
 
-            with tf.Session() as sess:
+                # create an attackable model for the cleverhans lib
+                # we are doing a wrapping
+                # model = CallableModelWrapper(graph, 'logits')
 
-                # apply the attacks
-                for attack in attacks:
+                    # apply the attacks
+                    for attack in attacks:
 
-                    # attack = FastGradientMethod(model, sess=sess)
-                    # adv_x = attack.generate(x)
-                    # preds_adv = graph(adv_x)
+                        # attack = FastGradientMethod(model, sess=sess)
+                        # adv_x = attack.generate(x)
+                        # preds_adv = graph(adv_x)
 
-                    # accuracy = model_eval(sess, x, y, preds_adv, x_test[:size], y_test[:size],
-                    #                       args=eval_params)
-                    # print('Test accuracy on adversarial examples: %0.4f' % accuracy)
+                        # accuracy = model_eval(sess, x, y, preds_adv, x_test[:size], y_test[:size],
+                        #                       args=eval_params)
+                        # print('Test accuracy on adversarial examples: %0.4f' % accuracy)
 
-                    # accuracy = model_eval(sess, x, y, preds, x_test[:size], y_test[:size],
-                    #                       args=eval_params)
-
-                    sess.run(preds, feed_dict={x : x_test[:size]})
-
-
-                    # print('Test accuracy on normal examples: %0.4f' % accuracy)
+                        accuracy = model_eval(sess, x, y, preds, x_test[:size], y_test[:size],
+                                              args=eval_params)
+                        print('Test accuracy on normal examples: %0.4f' % accuracy)
 
 
 
