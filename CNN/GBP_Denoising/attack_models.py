@@ -32,7 +32,7 @@ def main():
         y = tf.placeholder(tf.float32, [None, 1])
 
         _, tf_model = \
-            prepare_Resnet(output_dim, inputT=x, checkpoint_dir="./Models", reuse=True,
+            prepare_Resnet(output_dim, inputT=x, checkpoint_dir="./Models", reuse=False,
                            sess=sess)
 
         # create an attackable model for the cleverhans lib
