@@ -82,7 +82,9 @@ def main():
             x = tf.placeholder(tf.float32, [None, input_dim, input_dim, 3])
             y = tf.placeholder(tf.float32, [None, 1])
 
-            preds = graph(x)
+            checkpoint_dir = "Models/{}_{}".format(data_set, model_type)
+
+            preds = prepare_Resnet(10, inputT=x, checkpoint_dir=checkpoint_dir, reuse=reuse)
 
             # create an attackable model for the cleverhans lib
             # we are doing a wrapping
