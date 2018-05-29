@@ -39,21 +39,6 @@ output_dim = 10
 eval_params = {'batch_size': 128}
 size = 100
 
-def graph(input_ph):
-
-    print("Model Type = {}, Data Set = {}".format(model_type, data_set))
-
-    checkpoint_dir = "./Models"
-
-    if model_type == 'End2End':
-        _, tf_model = \
-            prepare_GBP_End2End(output_dim, inputT=input_ph, checkpoint_dir=checkpoint_dir, reuse=reuse, sess=s)
-    else:
-        _, tf_model = \
-            prepare_Resnet(output_dim, inputT=input_ph, checkpoint_dir=checkpoint_dir, reuse=reuse, sess=s)
-
-    return tf_model.logits
-
 def main():
 
     for type in model_types:
@@ -104,7 +89,22 @@ def main():
                                           args=eval_params)
                     print('Test accuracy on normal examples: %0.4f' % accuracy)
 
+def graph(input_ph):
 
+    print("Model Type = {}, Data Set = {}".format(model_type, data_set))
+
+    checkpoint_dir = "./Models"
+
+    if model_type == 'End2End':
+        _, tf_model = \
+            prepare_GBP_End2End(output_dim, inputT=input_ph, checkpoint_dir=checkpoint_dir,
+                                reuse=True, sess=s)
+    else:
+        _, tf_model = \
+            prepare_Resnet(output_dim, inputT=input_ph, checkpoint_dir=checkpoint_dir, reuse=reuse,
+                           sess=s)
+
+    return tf_model.logits
 
 if __name__ == '__main__':
     os.environ['CUDA_VISIBLE_DEVICES'] = '0'
