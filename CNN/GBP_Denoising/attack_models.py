@@ -104,9 +104,13 @@ def main():
                     #                       args=eval_params)
                     # print('Test accuracy on adversarial examples: %0.4f' % accuracy)
 
-                    accuracy = model_eval(sess, x, y, preds, x_test[:size], y_test[:size],
-                                          args=eval_params)
-                    print('Test accuracy on normal examples: %0.4f' % accuracy)
+                    # accuracy = model_eval(sess, x, y, preds, x_test[:size], y_test[:size],
+                    #                       args=eval_params)
+
+                    sess.run(preds, feed_dict={x : x_test[:size]})
+
+
+                    # print('Test accuracy on normal examples: %0.4f' % accuracy)
 
 
 
