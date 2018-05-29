@@ -74,6 +74,7 @@ def main():
             # create an attackable model for the cleverhans lib
             # we are doing a wrapping
             model = CallableModelWrapper(graph, 'logits')
+            reuse = True
 
             with tf.Session() as sess:
 
