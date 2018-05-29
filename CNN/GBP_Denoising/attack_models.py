@@ -79,8 +79,6 @@ def main():
 
                 session = sess
 
-                tf.reset_default_graph()  # erase whatever the previous graph
-
                 # prepare the input/output placeholders
                 x = tf.placeholder(tf.float32, [None, input_dim, input_dim, 3])
                 y = tf.placeholder(tf.float32, [None, 1])
