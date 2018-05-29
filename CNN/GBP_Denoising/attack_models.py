@@ -47,35 +47,35 @@ def graph(input_ph):
 
 def main():
 
-    with tf.Session() as sess:
+    for type in model_types:
+        model_type = type
 
-        for type in model_types:
-            model_type = type
+        for set in datasets:
+            data_set = set
 
-            for set in datasets:
-                data_set = set
+            if data_set == 'CIAFR10':
+                (x_train, y_train), (x_test, y_test) = prepare_CIFAR10()
+                num_classes = 10
+                input_dim = 32
+            elif data_set == 'CIFAR100':
+                (x_train, y_train), (x_test, y_test) = prepare_CIFAR100()
+                num_classes = 100
+                input_dim = 32
+            else:
+                (x_train, y_train), (x_test, y_test) = prepare_SVHN("./")
+                num_classes = 10
+                input_dim = 32
 
-                if data_set == 'CIAFR10':
-                    (x_train, y_train), (x_test, y_test) = prepare_CIFAR10()
-                    num_classes = 10
-                    input_dim = 32
-                elif data_set == 'CIFAR100':
-                    (x_train, y_train), (x_test, y_test) = prepare_CIFAR100()
-                    num_classes = 100
-                    input_dim = 32
-                else:
-                    (x_train, y_train), (x_test, y_test) = prepare_SVHN("./")
-                    num_classes = 10
-                    input_dim = 32
+            # prepare the input/output placeholders
+            x = tf.placeholder(tf.float32, [None, input_dim, input_dim, 3])
+            y = tf.placeholder(tf.float32, [None, num_classes])
 
-                # prepare the input/output placeholders
-                x = tf.placeholder(tf.float32, [None, input_dim, input_dim, 3])
-                y = tf.placeholder(tf.float32, [None, num_classes])
+            # create an attackable model for the cleverhans lib
+            # we are doing a wrapping
+            model = CallableModelWrapper(graph, 'logits')
+            preds = graph(x)
 
-                # create an attackable model for the cleverhans lib
-                # we are doing a wrapping
-                model = CallableModelWrapper(graph, 'logits')
-                preds = graph(x)
+            with tf.Session() as sess:
 
                 # apply the attacks
                 for attack in attacks:
