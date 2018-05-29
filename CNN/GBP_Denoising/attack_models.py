@@ -15,9 +15,20 @@ from cleverhans.model import CallableModelWrapper
 from cleverhans.utils_tf import model_eval
 from cleverhans.attacks import FastGradientMethod
 
-model_types = ['End2End', 'Resnet']
-datasets = ['CIFAR10', 'CIFAR100', 'SVHN']
-attacks = ['FGM']
+model_types = [
+    # 'End2End',
+    'Resnet'
+]
+
+datasets = [
+    'CIFAR10',
+    # 'CIFAR100',
+    # 'SVHN'
+]
+
+attacks = [
+    'FGM'
+]
 
 model_type = "Resnet"
 data_set = "CIFAR10"
