@@ -33,7 +33,7 @@ attacks = [
 model_type = "Resnet"
 data_set = "CIFAR10"
 reuse = False
-session = None
+s = None
 output_dim = 10
 
 eval_params = {'batch_size': 128}
@@ -43,14 +43,14 @@ def graph(input_ph):
 
     print("Model Type = {}, Data Set = {}".format(model_type, data_set))
 
-    checkpoint_dir = "Models/{}_{}".format(data_set, model_type)
+    checkpoint_dir = "./Models"
 
     if model_type == 'End2End':
         _, tf_model = \
-            prepare_GBP_End2End(output_dim, inputT=input_ph, checkpoint_dir=checkpoint_dir, reuse=reuse, sess=session)
+            prepare_GBP_End2End(output_dim, inputT=input_ph, checkpoint_dir=checkpoint_dir, reuse=reuse, sess=s)
     else:
         _, tf_model = \
-            prepare_Resnet(output_dim, inputT=input_ph, checkpoint_dir=checkpoint_dir, reuse=reuse, sess=session)
+            prepare_Resnet(output_dim, inputT=input_ph, checkpoint_dir=checkpoint_dir, reuse=reuse, sess=s)
 
     return tf_model.logits
 
@@ -77,15 +77,13 @@ def main():
 
             with tf.Session() as sess: # start the sess
 
+                s = sess
+
                 # prepare the input/output placeholders
                 x = tf.placeholder(tf.float32, [None, input_dim, input_dim, 3])
                 y = tf.placeholder(tf.float32, [None, 1])
 
-                checkpoint_dir = "./Models"
-                _, tf_model = \
-                    prepare_Resnet(output_dim, inputT=x, checkpoint_dir=checkpoint_dir, reuse=reuse,
-                                   sess=sess)
-                preds = tf_model.logits
+                preds = graph(x)
 
                 # create an attackable model for the cleverhans lib
                 # we are doing a wrapping
