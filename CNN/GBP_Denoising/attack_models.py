@@ -71,22 +71,26 @@ def main():
             x = tf.placeholder(tf.float32, [None, input_dim, input_dim, 3])
             y = tf.placeholder(tf.float32, [None, num_classes])
 
+            graph(x)
+
             # create an attackable model for the cleverhans lib
             # we are doing a wrapping
-            model = CallableModelWrapper(graph, 'logits')
+            # model = CallableModelWrapper(graph, 'logits')
 
             with tf.Session() as sess:
 
                 # apply the attacks
                 for attack in attacks:
 
-                    attack = FastGradientMethod(model, sess=sess)
-                    adv_x = attack.generate(x)
-                    preds_adv = graph(adv_x)
+                    print("Debug!")
 
-                    accuracy = model_eval(sess, x, y, preds_adv, x_test[:size], y_test[:100],
-                                          args=eval_params)
-                    print('Test accuracy on adversarial examples: %0.4f' % accuracy)
+                    # attack = FastGradientMethod(model, sess=sess)
+                    # adv_x = attack.generate(x)
+                    # preds_adv = graph(adv_x)
+
+                    # accuracy = model_eval(sess, x, y, preds_adv, x_test[:size], y_test[:100],
+                    #                       args=eval_params)
+                    # print('Test accuracy on adversarial examples: %0.4f' % accuracy)
 
 
 
