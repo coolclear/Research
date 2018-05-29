@@ -91,20 +91,20 @@ def main():
                 # we are doing a wrapping
                 # model = CallableModelWrapper(graph, 'logits')
 
-                    # apply the attacks
-                    for attack in attacks:
+                # apply the attacks
+                for attack in attacks:
 
-                        # attack = FastGradientMethod(model, sess=sess)
-                        # adv_x = attack.generate(x)
-                        # preds_adv = graph(adv_x)
+                    # attack = FastGradientMethod(model, sess=sess)
+                    # adv_x = attack.generate(x)
+                    # preds_adv = graph(adv_x)
 
-                        # accuracy = model_eval(sess, x, y, preds_adv, x_test[:size], y_test[:size],
-                        #                       args=eval_params)
-                        # print('Test accuracy on adversarial examples: %0.4f' % accuracy)
+                    # accuracy = model_eval(sess, x, y, preds_adv, x_test[:size], y_test[:size],
+                    #                       args=eval_params)
+                    # print('Test accuracy on adversarial examples: %0.4f' % accuracy)
 
-                        accuracy = model_eval(sess, x, y, preds, x_test[:size], y_test[:size],
-                                              args=eval_params)
-                        print('Test accuracy on normal examples: %0.4f' % accuracy)
+                    accuracy = model_eval(sess, x, y, preds, x_test[:size], y_test[:size],
+                                          args=eval_params)
+                    print('Test accuracy on normal examples: %0.4f' % accuracy)
 
 
 
