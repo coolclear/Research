@@ -69,7 +69,7 @@ def main():
 
             # prepare the input/output placeholders
             x = tf.placeholder(tf.float32, [None, input_dim, input_dim, 3])
-            y = tf.placeholder(tf.float32, [None, num_classes])
+            y = tf.placeholder(tf.float32, [None, 1])
 
             preds = graph(x)
 
