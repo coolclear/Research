@@ -82,8 +82,6 @@ def main():
                 # apply the attacks
                 for attack in attacks:
 
-                    print("Debug!")
-
                     # attack = FastGradientMethod(model, sess=sess)
                     # adv_x = attack.generate(x)
                     # preds_adv = graph(adv_x)
