@@ -81,7 +81,7 @@ def main():
                 x = tf.placeholder(tf.float32, [None, input_dim, input_dim, 3])
                 y = tf.placeholder(tf.float32, [None, 1])
 
-                checkpoint_dir = "Models/{}_{}".format(data_set, model_type)
+                checkpoint_dir = "./Models/{}_{}".format(data_set, model_type)
                 _, tf_model = \
                     prepare_Resnet(output_dim, inputT=x, checkpoint_dir=checkpoint_dir, reuse=reuse,
                                    sess=sess)
