@@ -29,8 +29,6 @@ def graph(input_ph):
 
     print("Model Type = {}, Data Set = {}".format(model_type, data_set))
 
-    tf.reset_default_graph() # erase whatever the previous graph
-
     if data_set == "CIFAR100":
         output_dim = 100
     else:
@@ -65,6 +63,8 @@ def main():
                 (x_train, y_train), (x_test, y_test) = prepare_SVHN("./")
                 num_classes = 10
                 input_dim = 32
+
+            tf.reset_default_graph()  # erase whatever the previous graph
 
             # prepare the input/output placeholders
             x = tf.placeholder(tf.float32, [None, input_dim, input_dim, 3])
