@@ -71,7 +71,7 @@ def main():
             x = tf.placeholder(tf.float32, [None, input_dim, input_dim, 3])
             y = tf.placeholder(tf.float32, [None, num_classes])
 
-            graph(x)
+            preds = graph(x)
 
             # create an attackable model for the cleverhans lib
             # we are doing a wrapping
@@ -88,9 +88,13 @@ def main():
                     # adv_x = attack.generate(x)
                     # preds_adv = graph(adv_x)
 
-                    # accuracy = model_eval(sess, x, y, preds_adv, x_test[:size], y_test[:100],
+                    # accuracy = model_eval(sess, x, y, preds_adv, x_test[:size], y_test[:size],
                     #                       args=eval_params)
                     # print('Test accuracy on adversarial examples: %0.4f' % accuracy)
+
+                    accuracy = model_eval(sess, x, y, preds, x_test[:size], y_test[:size],
+                                          args=eval_params)
+                    print('Test accuracy on normal examples: %0.4f' % accuracy)
 
 
 
