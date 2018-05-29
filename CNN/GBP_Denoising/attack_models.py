@@ -41,7 +41,7 @@ def main():
         attack = FastGradientMethod(model, sess=sess)
         adv_x = attack.generate(x)
 
-        sess.run(adv_x, feed_dic={x: x_test[:100]})
+        sess.run(adv_x, feed_dict={x: x_test[:100]})
 
 if __name__ == '__main__':
     os.environ['CUDA_VISIBLE_DEVICES'] = '0'
