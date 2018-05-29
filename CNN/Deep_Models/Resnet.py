@@ -137,7 +137,7 @@ class Resnet(object):
 
         return fc_h
 
-    def batch_normalization_layer(self, input_layer, reuse):
+    def batch_normalization_layer(self, input_layer, reuse=False):
 
         '''
         batch normalization
