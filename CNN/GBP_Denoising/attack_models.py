@@ -21,7 +21,7 @@ attacks = ['FGM']
 
 model_type = "Resnet"
 data_set = "CIFAR10"
-reuse = False
+reuse = True
 
 eval_params = {'batch_size': 128}
 size = 100
@@ -73,9 +73,6 @@ def main():
 
             # create an attackable model for the cleverhans lib
             # we are doing a wrapping
-            reuse = False
-            preds = graph(x)
-            reuse = True
             model = CallableModelWrapper(graph, 'logits')
 
             with tf.Session() as sess:
@@ -86,10 +83,6 @@ def main():
                     attack = FastGradientMethod(model, sess=sess)
                     adv_x = attack.generate(x)
                     preds_adv = graph(adv_x)
-
-                    accuracy = model_eval(sess, x, y, preds, x_test[:size], y_test[:size],
-                                          args=eval_params)
-                    print('Test accuracy on legitimate examples: %0.4f' % accuracy)
 
                     accuracy = model_eval(sess, x, y, preds_adv, x_test[:size], y_test[:100],
                                           args=eval_params)
