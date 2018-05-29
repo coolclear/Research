@@ -2,7 +2,7 @@ import os
 import sys
 sys.path.append('/home/yang/Research/CNN/')
 from Prepare_Data import pickle_load, prepare_CIFAR10, prepare_CIFAR100, prepare_SVHN
-from Prepare_Model import prepare_GBPdenoising_end2end, prepare_resnet
+from Prepare_Model import prepare_GBP_End2End, prepare_Resnet
 
 sys.path.append('/home/yang/Research/CNN/Tools')
 from Plot import simple_plot
@@ -11,208 +11,88 @@ import numpy as np
 import tensorflow as tf
 import pickle as pkl
 
-import foolbox
-from foolbox.models import TensorFlowModel
-from foolbox.criteria import\
-    Misclassification,\
-    TopKMisclassification,\
-    OriginalClassProbability,\
-    TargetClass,\
-    TargetClassProbability
+from cleverhans.model import CallableModelWrapper
+from cleverhans.utils_tf import model_eval
+from cleverhans.attacks import FastGradientMethod
 
-trainable = False
+model_types = ['End2End', 'Resnet']
+datasets = ['CIFAR10', 'CIFAR100', 'SVHN']
+attacks = ['FGM']
 
-Attacks = [
-    'SalMap'
-]
+model_type = "Resnet"
+data_set = "CIFAR10"
 
+eval_params = {'batch_size': 128}
+size = 100
 
-def softmax_np(x, axis=None):
-    return np.exp(x) / np.sum(np.exp(x), axis=axis)
+def graph(input_ph):
+
+    print("Model Type = {}, Data Set = {}".format(model_type, data_set))
+
+    tf.reset_default_graph() # erase whatever the previous graph
+
+    if data_set == "CIFAR100":
+        output_dim = 100
+    else:
+        output_dim = 10
+
+    checkpoint_dir = "Models/{}_{}".format(data_set, model_type)
+
+    if model_type == 'End2End':
+        _, tf_model = prepare_GBP_End2End(output_dim, inputT=input_ph, checkpoint_dir=checkpoint_dir)
+    else:
+        _, tf_model = prepare_Resnet(output_dim, inputT=input_ph, checkpoint_dir=checkpoint_dir)
+
+    return tf_model.logits
 
 def main():
 
-    # load in the data
-    (x_train, y_train), (x_test, y_test) = prepare_CIFAR10()
-
-    L2_error = 16 * 32
-    Linf_error = 16
-
     with tf.Session() as sess:
 
-        # # pure Resnet
-        # tf_model = prepare_resnet(sess=sess,
-        #                           load_weights='./Models/CIFAR10-32_End2End.ckpt',
-        #                           num_classes=10)
+        for type in model_types:
+            model_type = type
 
-        # End2End
-        tf_model = prepare_GBPdenoising_end2end(sess=sess,
-                                                saved='./Models/CIFAR10-32_End2End.ckpt')
+            for set in datasets:
+                data_set = set
 
-        input_pl = tf_model.inputs
-        logits = tf_model.logits
-
-        # foolbox - construct a tensorflow model
-        fool_model = TensorFlowModel(input_pl, logits, bounds=(0, 255))
-
-        for attack_type in Attacks:
-
-            adv_x_test_L2 = []
-            adv_y_test_L2 = []
-
-            adv_x_test_Linf = []
-            adv_y_test_Linf = []
-
-            for index in range(200):
-
-                print("Attack = {}, Index = {}".format(attack_type, index))
-
-                adv, status = attack_one_image(x_test[index], 'TEST_{}'.format(index), y_test[index], attack_type, fool_model)
-
-                if status == True:
-
-                    L2 = np.linalg.norm(adv - x_test[index])
-                    Linf = np.max(np.abs(adv - x_test[index]))
-
-                    print(L2)
-                    print(Linf)
-
-                    if L2 <= L2_error:
-                        print("L2 add one")
-                        adv_x_test_L2.append(adv)
-                        adv_y_test_L2.append(y_test[index])
-                        simple_plot(adv.astype(int), 'ADV' + 'TEST_{}'.format(index),
-                                    './Adversarial_Examples/CIFAR10/Resnet_off/L2/{}/'.format(attack_type))
-
-
-                    if Linf <= Linf_error:
-                        print("Linf add one")
-                        adv_x_test_Linf.append(adv)
-                        adv_y_test_Linf.append(y_test[index])
-                        simple_plot(adv.astype(int), 'ADV' + 'TEST_{}'.format(index),
-                                    './Adversarial_Examples/CIFAR10/Resnet_off/Linf/{}/'.format(attack_type))
-
-
-            # save to pickle
-            f = open('./ADVs_CIFAR10_Resnet_off_L2_{}.pkl'.format(attack_type), 'wb')
-            pkl.dump((adv_x_test_L2, adv_y_test_L2), f, -1)
-            f.close()
-
-            f = open('./ADVs_CIFAR10_Resnet_off_Linf_{}.pkl'.format(attack_type), 'wb')
-            pkl.dump((adv_x_test_Linf, adv_y_test_Linf), f, -1)
-            f.close()
-
-def attack_one_image(image, name, label, attack_type, fool_model):
-
-        # print('True Label: {}'.format(label))
-
-        preds = fool_model.predictions(image)
-        label_pre = np.argmax(preds)
-
-        if label_pre != label:
-
-            print('The model predicts wrong. No need to attack.')
-            return None, False
-
-        else:
-
-            # print('Ok, let us attack this image ... ')
-
-            ############################ Gradient-based Attacks ########################################################
-            ############################################################################################################
-
-            if attack_type == "FGSM":
-                attack = foolbox.attacks.FGSM(fool_model)
-
-            elif attack_type == "IterGS":
-                attack = foolbox.attacks.IterativeGradientSignAttack(fool_model)
-
-            elif attack_type == "IterG":
-                attack = foolbox.attacks.IterativeGradientAttack(fool_model)
-
-            elif attack_type == "LBFG":
-                attack = foolbox.attacks.LBFGSAttack(fool_model)
-
-            elif attack_type == "DeepFool":
-                attack = foolbox.attacks.DeepFoolAttack(fool_model)
-
-            elif attack_type == "SalMap":
-                attack = foolbox.attacks.SaliencyMapAttack(fool_model)
-
-            ############################################################################################################
-            ############################ Gradient-based Attacks ########################################################
-
-
-
-            ############################ Score-based Attacks ###########################################################
-            ############################################################################################################
-
-            elif attack_type == "SinPix":
-                attack = foolbox.attacks.SinglePixelAttack(fool_model)
-
-            elif attack_type == "LocalSearch":
-                attack = foolbox.attacks.LocalSearchAttack(fool_model)
-
-            ############################################################################################################
-            ############################ Score-based Attacks ###########################################################
-
-
-
-            ############################ Decision-based Attacks ###########################################################
-            ############################################################################################################
-
-            elif attack_type == "Boundary":
-                attack = foolbox.attacks.BoundaryAttack(fool_model)
-
-            elif attack_type == "Blur":
-                attack = foolbox.attacks.GaussianBlurAttack(fool_model)
-
-            elif attack_type == "Contrast":
-                attack = foolbox.attacks.ContrastReductionAttack(fool_model)
-
-            elif attack_type == "Noise":
-                attack = foolbox.attacks.AdditiveUniformNoiseAttack(fool_model)
-
-            ############################################################################################################
-            ############################ Decision-based Attacks ###########################################################
-
-            else:
-                print("Unknown attack type! Using FGSM")
-                attack = foolbox.attacks.FGSM(fool_model)
-
-            # attack happens here
-            adversarial = attack(image, int(label), theta=1.0)
-
-            """
-            Notice that for a given input image if we run the model multiple times the predictions
-            could be different because of the random logits in the GBP Reconstruction. 
-            """
-
-            if adversarial is None:
-
-                # if the attack above fails, it will return None and we catch it here
-                print('The attack failed!')
-                return None, False
-
-            elif np.array_equal(adversarial, image):
-
-                # the prediction for this image is not stable
-                #  because of the random logit in the GBP Reconstruction
-                print('No attack at all, the prediction itself is not stable')
-                return None, False
-
-            else :
-
-                preds_adv = fool_model.predictions(adversarial)
-                label_pre_adv = np.argmax(preds_adv)
-
-                if label_pre_adv != label:
-
-                    print('The attack is successed!')
-                    return adversarial, True
-
+                if data_set == 'CIAFR10':
+                    (x_train, y_train), (x_test, y_test) = prepare_CIFAR10()
+                    num_classes = 10
+                    input_dim = 32
+                elif data_set == 'CIFAR100':
+                    (x_train, y_train), (x_test, y_test) = prepare_CIFAR100()
+                    num_classes = 100
+                    input_dim = 32
                 else:
-                    return None, False
+                    (x_train, y_train), (x_test, y_test) = prepare_SVHN("./")
+                    num_classes = 10
+                    input_dim = 32
+
+                # prepare the input/output placeholders
+                x = tf.placeholder(tf.float32, [None, input_dim, input_dim, 3])
+                y = tf.placeholder(tf.float32, [None, num_classes])
+
+                # create an attackable model for the cleverhans lib
+                # we are doing a wrapping
+                model = CallableModelWrapper(graph, 'logits')
+                preds = graph(x)
+
+                # apply the attacks
+                for attack in attacks:
+
+                    attack = FastGradientMethod(model, sess=sess)
+                    adv_x = attack.generate(x)
+                    preds_adv = graph(adv_x)
+
+                    accuracy = model_eval(sess, x, y, preds, x_test[:size], y_test[:size],
+                                          args=eval_params)
+                    print('Test accuracy on legitimate examples: %0.4f' % accuracy)
+
+                    accuracy = model_eval(sess, x, y, preds_adv, x_test[:size], y_test[:100],
+                                          args=eval_params)
+                    print('Test accuracy on adversarial examples: %0.4f' % accuracy)
+
+
 
 if __name__ == '__main__':
     os.environ['CUDA_VISIBLE_DEVICES'] = '0'
