@@ -117,7 +117,7 @@ class Resnet(object):
 
             channels = last_layer.get_shape().as_list()[-1]
 
-            bn_layer = self.batch_normalization_layer(last_layer) # batch normalization
+            bn_layer = self.batch_normalization_layer(last_layer, reuse=self.reuse) # batch normalization
 
             relu_layer = tf.nn.relu(bn_layer)
 
@@ -137,7 +137,7 @@ class Resnet(object):
 
         return fc_h
 
-    def batch_normalization_layer(self, input_layer):
+    def batch_normalization_layer(self, input_layer, reuse):
 
         '''
         batch normalization
@@ -149,7 +149,7 @@ class Resnet(object):
                                                 center=True,
                                                 scale=True,
                                                 is_training=self.phase,
-                                                reuse=self.reuse)
+                                                reuse=reuse)
 
         return bn_layer
 
