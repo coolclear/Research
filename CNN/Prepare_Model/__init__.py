@@ -75,17 +75,9 @@ def prepare_vgg(sal_type, layer_idx, load_weights, sess):
 
     return vgg
 
-def prepare_Resnet(output_dim, sess=None, inputT=None, input_dim=None, num_logits=100, checkpoint_dir=None, sal_type='PlainSaliency'):
-
-    """
-    :param output_dim: this should always be specified
-    :param inputT: the input placeholder provided
-    :param input_dim: this has to be specified if inputT is not provided
-    :param num_logits: the number of logits of the shallow CNN, which is used for the GBP reconstruction
-    :param sess: should always be provided
-    :param loadback: load back the weights?
-    :return:
-    """
+def prepare_Resnet(output_dim,
+                   sess=None, inputT=None, input_dim=None, num_logits=100, checkpoint_dir=None, reuse=False,
+                   sal_type='PlainSaliency'):
 
     # construct the graph based on the gradient type we want
     if sal_type == 'GuidedBackprop':
@@ -117,10 +109,10 @@ def prepare_Resnet(output_dim, sess=None, inputT=None, input_dim=None, num_logit
     else:
 
         if inputT is not None:
-            model = Resnet(inputT=inputT, output_dim=output_dim)
+            model = Resnet(inputT=inputT, output_dim=output_dim, reuse=reuse)
         elif input_dim is not None:
             inputT = tf.placeholder(tf.float32, [None, input_dim, input_dim, 3])  # RGB by default
-            model = Resnet(inputT=inputT, output_dim=output_dim)
+            model = Resnet(inputT=inputT, output_dim=output_dim, reuse=reuse)
         else:
             raise Exception("Either inputT should be provided or input_dim should be specified!")
 
@@ -240,7 +232,8 @@ def prepare_GBP_Shallow_CNN(output_dim, inputT=None, input_dim=None):
 
         return inputT, model
 
-def prepare_GBP_End2End(output_dim, sess=None, inputT=None, input_dim=None, num_logits=100, checkpoint_dir=None):
+def prepare_GBP_End2End(output_dim,
+                        sess=None, inputT=None, input_dim=None, num_logits=100, checkpoint_dir=None, reuse=False):
 
     """
     :param output_dim: this should always be specified
@@ -253,10 +246,10 @@ def prepare_GBP_End2End(output_dim, sess=None, inputT=None, input_dim=None, num_
     """
 
     if inputT is not None:
-        model = GBP_End2End(inputT, output_dim, num_logits=num_logits)
+        model = GBP_End2End(inputT, output_dim, num_logits=num_logits, reuse=reuse)
     elif input_dim is not None:
         inputT = tf.placeholder(tf.float32, [None, input_dim, input_dim, 3]) # RGB by default
-        model = GBP_End2End(inputT, output_dim, num_logits=num_logits)
+        model = GBP_End2End(inputT, output_dim, num_logits=num_logits, reuse=reuse)
     else:
          raise Exception("Either inputT should be provided or input_dim should be specified!")
 

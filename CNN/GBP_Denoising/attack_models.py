@@ -37,9 +37,9 @@ def graph(input_ph):
     checkpoint_dir = "Models/{}_{}".format(data_set, model_type)
 
     if model_type == 'End2End':
-        _, tf_model = prepare_GBP_End2End(output_dim, inputT=input_ph, checkpoint_dir=checkpoint_dir)
+        _, tf_model = prepare_GBP_End2End(output_dim, inputT=input_ph, checkpoint_dir=checkpoint_dir, reuse=True)
     else:
-        _, tf_model = prepare_Resnet(output_dim, inputT=input_ph, checkpoint_dir=checkpoint_dir)
+        _, tf_model = prepare_Resnet(output_dim, inputT=input_ph, checkpoint_dir=checkpoint_dir, reuse=True)
 
     return tf_model.logits
 

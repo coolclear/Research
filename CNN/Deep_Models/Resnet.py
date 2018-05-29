@@ -6,7 +6,7 @@ sys.path.append('/home/yang/Research/')
 class Resnet(object):
 
     def __init__(self, inputT=None,
-                 input_dim=32, output_dim=100, act_type='relu', pool_type='maxpool',
+                 input_dim=32, output_dim=100, act_type='relu', pool_type='maxpool', reuse=False,
                  res_blocks=5, phase=False, keepprop=0.5):
 
         """
@@ -17,6 +17,7 @@ class Resnet(object):
         :param output_dim:
         :param act_type:
         :param pool_type:
+        :param reuse: False for the training only; True for testing
         :param res_blocks:
         :param phase: False for testing phase and True for training phase
         :param keepprop: the keep probability for the dropout layer
@@ -26,6 +27,7 @@ class Resnet(object):
         self.output_dim = output_dim
         self.act_type = act_type
         self.pool_type = pool_type
+        self.reuse = reuse
         self.res_blocks = res_blocks
 
         self.phase = phase
@@ -59,7 +61,7 @@ class Resnet(object):
 
         last_layer = self.inputT # starting with the input tensor of course
 
-        with tf.variable_scope('Resnet_conv0'):
+        with tf.variable_scope('Resnet_conv0', reuse=self.reuse):
 
             conv0 = self.conv_bn_relu_layer(last_layer, [3, 3, self.num_channel, 16], 1)
             self.layers_dic['Resnet_conv0'] = conv0
@@ -72,7 +74,7 @@ class Resnet(object):
 
             name = 'Resnet_conv1_%d' % i
 
-            with tf.variable_scope(name):
+            with tf.variable_scope(name, reuse=self.reuse):
 
                 if i == 0:
                     conv1 = self.residual_block(last_layer, 16, first_block=True)
@@ -89,7 +91,7 @@ class Resnet(object):
 
             name = 'Resnet_conv2_%d' % i
 
-            with tf.variable_scope(name):
+            with tf.variable_scope(name, reuse=self.reuse):
 
                 conv2 = self.residual_block(last_layer, 32)
                 self.layers_dic[name] = conv2
@@ -102,7 +104,7 @@ class Resnet(object):
 
             name = 'Resnet_conv3_%d' % i
 
-            with tf.variable_scope(name):
+            with tf.variable_scope(name, reuse=self.reuse):
 
                 conv3 = self.residual_block(last_layer, 64)
                 self.layers_dic[name] = conv3
@@ -111,7 +113,7 @@ class Resnet(object):
         last_layer = tf.nn.dropout(last_layer, self.kp)
         self.layers_dic['Resnet_dropout'] = last_layer
 
-        with tf.variable_scope('Resnet_fc'):
+        with tf.variable_scope('Resnet_fc', reuse=self.reuse):
 
             channels = last_layer.get_shape().as_list()[-1]
 
