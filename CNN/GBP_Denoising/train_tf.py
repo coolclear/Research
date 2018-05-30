@@ -1,7 +1,10 @@
 import os
 import sys
-sys.path.append('/home/yang/Research/CNN/')
-sys.path.append('/home/yang/Research/CNN/Tools')
+dirname = os.path.dirname(__file__)
+path1 = os.path.join(dirname, './../')
+sys.path.append(path1)
+path2 = os.path.join(dirname, './../Tools/')
+sys.path.append(path2)
 
 from Prepare_Model import prepare_GBP_End2End, prepare_Resnet
 from Prepare_Data import prepare_CIFAR10, prepare_CIFAR100, prepare_SVHN, pickle_load

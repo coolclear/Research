@@ -1,7 +1,10 @@
 import tensorflow as tf
 import os, sys
-import re
-sys.path.append('/home/yang/Research/CNN/Deep_Models/')
+
+dirname = os.path.dirname(__file__)
+path = os.path.join(dirname, './../Deep_Models/')
+sys.path.append(path)
+
 from vgg16 import Vgg16
 from Resnet import Resnet
 from Shallow_CNN import Shallow_CNN

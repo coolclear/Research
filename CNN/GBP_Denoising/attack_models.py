@@ -1,7 +1,11 @@
 import os
 import sys
 import argparse
-sys.path.append('/home/yang/Research/CNN/')
+
+dirname = os.path.dirname(__file__)
+path = os.path.join(dirname, './../')
+sys.path.append(path)
+
 from Prepare_Data import pickle_load, prepare_CIFAR10, prepare_CIFAR100, prepare_SVHN
 from Prepare_Model import prepare_GBP_End2End, prepare_Resnet
 

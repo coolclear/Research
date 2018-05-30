@@ -1,7 +1,5 @@
 import numpy as np
 import tensorflow as tf
-import sys
-sys.path.append('/home/yang/Research/')
 from Shallow_CNN import Shallow_CNN
 from Resnet import Resnet
 
