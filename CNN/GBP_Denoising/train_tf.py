@@ -153,7 +153,7 @@ def train(dataset, model_type, lr=1e-3, num_epochs=2, batch_size=64):
                         os.makedirs(save_dir)
 
                     if e % 1 == 0: # save every 5 epoches
-                        saver.save(sess, save_dir + "Model.ckpt", global_step=b + e * steps_per_epoch)
+                        saver.save(sess, save_dir + "Model", global_step=b + e * steps_per_epoch)
 
                     break
 
