@@ -67,7 +67,7 @@ class Shallow_CNN(object):
     def convlayers(self):
 
         # conv1_1
-        with tf.name_scope('Shallow_CNN_conv1_1', reuse=self.reuse) as scope:
+        with tf.name_scope('Shallow_CNN_conv1_1') as scope:
 
             kernel = tf.Variable(tf.truncated_normal([2, 2, self.num_channel, 256], dtype=tf.float32, stddev=1e-1),
                                  trainable=self.trainable,
@@ -85,7 +85,7 @@ class Shallow_CNN(object):
             self.layers_dic['Shallow_CNN_conv1_1'] = self.conv1_1
 
         # conv1_2
-        with tf.name_scope('Shallow_CNN_conv1_2', reuse=self.reuse) as scope:
+        with tf.name_scope('Shallow_CNN_conv1_2') as scope:
 
             kernel = tf.Variable(tf.truncated_normal([2, 2, 256, 256], dtype=tf.float32, stddev=1e-1),
                                  trainable=self.trainable,
@@ -109,7 +109,7 @@ class Shallow_CNN(object):
     def fc_layers(self):
 
         # fc1
-        with tf.name_scope('Shallow_CNN_fc1', reuse=self.reuse) as scope:
+        with tf.name_scope('Shallow_CNN_fc1') as scope:
 
             shape = int(np.prod(self.pool1.get_shape()[1:]))
 
@@ -129,7 +129,7 @@ class Shallow_CNN(object):
             self.layers_dic['Shallow_CNN_fc1'] = self.fc1
 
         # fc2
-        with tf.name_scope('Shallow_CNN_fc2', reuse=self.reuse) as scope:
+        with tf.name_scope('Shallow_CNN_fc2') as scope:
 
             fc2w = tf.Variable(tf.truncated_normal([1024, self.output_dim], dtype=tf.float32, stddev=1e-1),
                                trainable=self.trainable,
