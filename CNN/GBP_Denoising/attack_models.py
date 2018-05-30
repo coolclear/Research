@@ -50,22 +50,22 @@ def main(type="Resnet", dataset="CIFAR10"):
             _, tf_model = \
                 prepare_Resnet(num_classes, inputT=x, checkpoint_dir='./{}_{}/'.format(dataset, type), sess=sess)
 
-        # # create an attackable model for the cleverhans lib
-        # # we are doing a wrapping
-        # model = CallableModelWrapper(lambda ph_of_ph: tf_model.logits, 'logits')
-        # attack = FastGradientMethod(model, sess=sess)
-        # adv_x = attack.generate(x)
+        # create an attackable model for the cleverhans lib
+        # we are doing a wrapping
+        model = CallableModelWrapper(lambda ph_of_ph: tf_model.logits, 'logits')
+        attack = FastGradientMethod(model, sess=sess)
+        adv_x = attack.generate(x)
 
-        # # this is where we actually generate the adversarial examples
-        # adv_vals = sess.run(adv_x, feed_dict={x: x_test[:size]})
+        # this is where we actually generate the adversarial examples
+        adv_vals = sess.run(adv_x, feed_dict={x: x_test[:size]})
 
         accuracy = model_eval(sess, x, y, tf.nn.softmax(tf_model.logits), x_test[:size], y_test[:size],
                               args=eval_params)
         print('Test accuracy on normal examples: %0.4f' % accuracy)
 
-        # accuracy = model_eval(sess, x, y, tf.nn.softmax(tf_model.logits), adv_vals, y_test[:size],
-        #                       args=eval_params)
-        # print('Test accuracy on adversarial examples: %0.4f' % accuracy)
+        accuracy = model_eval(sess, x, y, tf.nn.softmax(tf_model.logits), adv_vals, y_test[:size],
+                              args=eval_params)
+        print('Test accuracy on adversarial examples: %0.4f' % accuracy)
 
 if __name__ == '__main__':
 
