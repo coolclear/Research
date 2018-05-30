@@ -15,8 +15,8 @@ import keras
 from keras.preprocessing.image import ImageDataGenerator
 
 model_type = [
-    # 'End2End',
-    'Resnet'
+    'End2End',
+    # 'Resnet'
 ]
 
 dataset = [
