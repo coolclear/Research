@@ -43,10 +43,10 @@ def main(type="Resnet", dataset="CIFAR10"):
         # Model/Graph
         if type == 'End2End':
             _, tf_model = \
-                prepare_GBP_End2End(num_classes, inputT=x, checkpoint_dir="{}_{}".format(dataset, type), sess=sess)
+                prepare_GBP_End2End(num_classes, inputT=x, checkpoint_dir="./{}_{}".format(dataset, type), sess=sess)
         else:
             _, tf_model = \
-                prepare_Resnet(num_classes, inputT=x, checkpoint_dir="{}_{}".format(dataset, type), sess=sess)
+                prepare_Resnet(num_classes, inputT=x, checkpoint_dir="./{}_{}".format(dataset, type), sess=sess)
 
         # create an attackable model for the cleverhans lib
         # we are doing a wrapping
