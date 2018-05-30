@@ -16,13 +16,13 @@ from cleverhans.model import CallableModelWrapper
 from cleverhans.utils_tf import model_eval
 from cleverhans.attacks import FastGradientMethod
 
-eval_params = {'batch_size': 64}
+eval_params = {'batch_size': 128}
 size = 1000
 
 fgsm_params = {
     'eps': 0.3,
     'clip_min': 0.,
-    'clip_max': 1.
+    'clip_max': 255.
 }
 
 def main(type="Resnet", dataset="CIFAR10"):
@@ -59,7 +59,7 @@ def main(type="Resnet", dataset="CIFAR10"):
         # create an attackable model for the cleverhans lib
         # we are doing a wrapping
         model = CallableModelWrapper(lambda ph_of_ph: tf_model.logits, 'logits')
-        attack = FastGradientMethod(model, sess=sess)
+        attack = FastGradientMethod(model, back='tf', sess=sess)
         adv_x = attack.generate(x, **fgsm_params)
 
         # this is where we actually generate the adversarial examples
