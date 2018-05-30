@@ -10,7 +10,7 @@ from Plot import simple_plot
 
 import numpy as np
 import tensorflow as tf
-import pickle as pkl
+import keras
 
 from cleverhans.model import CallableModelWrapper
 from cleverhans.utils_tf import model_eval
@@ -22,23 +22,25 @@ size = 1000
 def main(type="Resnet", dataset="CIFAR10"):
 
     if dataset == 'CIAFR10':
-        (x_train, y_train), (x_test, y_test) = prepare_CIFAR10()
+        (_, _), (x_test, y_test) = prepare_CIFAR10()
         num_classes = 10
         input_dim = 32
     elif dataset == 'CIFAR100':
-        (x_train, y_train), (x_test, y_test) = prepare_CIFAR100()
+        (_, _), (x_test, y_test) = prepare_CIFAR100()
         num_classes = 100
         input_dim = 32
     else:
-        (x_train, y_train), (x_test, y_test) = prepare_SVHN("./")
+        (_, _), (x_test, y_test) = prepare_SVHN("./")
         num_classes = 10
         input_dim = 32
+
+    y_test = keras.utils.to_categorical(y_test, num_classes)
 
     with tf.Session() as sess:
 
         # prepare the input/output placeholders
         x = tf.placeholder(tf.float32, [None, input_dim, input_dim, 3])
-        y = tf.placeholder(tf.float32, [None, 1])
+        y = tf.placeholder(tf.float32, [None, 10])
 
         # Model/Graph
         if type == 'End2End':
