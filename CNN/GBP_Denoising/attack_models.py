@@ -74,4 +74,4 @@ if __name__ == '__main__':
     ap.add_argument("-d", "--dataset", required=True, help="CIFAR10, CIFAR100 or SVHN")
     args = vars(ap.parse_args())
 
-    main(type=args["type"], dataset=["dataset"])
+    main(type=args["type"], dataset=args["dataset"])
