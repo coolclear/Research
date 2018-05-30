@@ -7,7 +7,7 @@ class Resnet(object):
 
     def __init__(self, inputT=None,
                  input_dim=32, output_dim=100, act_type='relu', pool_type='maxpool', reuse=False,
-                 res_blocks=5, phase=False, keepprop=0.5):
+                 res_blocks=5, phase=False, keepprob=0.5):
 
         """
         Construct a Resnet object.
@@ -20,7 +20,7 @@ class Resnet(object):
         :param reuse: False for the training only; True for testing
         :param res_blocks:
         :param phase: False for testing phase and True for training phase
-        :param keepprop: the keep probability for the dropout layer
+        :param keepprob: the keep probability for the dropout layer
         """
 
         self.input_dim = input_dim
@@ -31,10 +31,10 @@ class Resnet(object):
         self.res_blocks = res_blocks
 
         self.phase = phase
-        self.keepprop = keepprop
+        self.keepprob = keepprob
 
         print("Phase = {}".format(self.phase))
-        print("Keep probability = {}".format(self.keepprop))
+        print("Keep probability = {}".format(self.keepprob))
 
         self.layers_dic = {}
 
@@ -48,7 +48,7 @@ class Resnet(object):
 
         with tf.name_scope('Resnet_keepprob') as scope:
             # by default the drop probability is 0.5
-            self.kp = tf.placeholder_with_default(tf.constant(self.keepprop, dtype=tf.float32), [], name='keepporb')
+            self.kp = tf.placeholder_with_default(tf.constant(self.keepprob, dtype=tf.float32), [], name='keepporb')
 
         # Build the TF computational graph for the ResNet architecture
         self.logits = self.build()

@@ -76,7 +76,8 @@ def prepare_vgg(sal_type, layer_idx, load_weights, sess):
     return vgg
 
 def prepare_Resnet(output_dim,
-                   sess=None, inputT=None, input_dim=None, num_logits=100, checkpoint_dir=None, reuse=False,
+                   sess=None, inputT=None, input_dim=None, num_logits=100,
+                   checkpoint_dir=None, reuse=False, keepprob=0.5,
                    sal_type='PlainSaliency'):
 
     # construct the graph based on the gradient type we want
@@ -109,10 +110,10 @@ def prepare_Resnet(output_dim,
     else:
 
         if inputT is not None:
-            model = Resnet(inputT=inputT, output_dim=output_dim, reuse=reuse)
+            model = Resnet(inputT=inputT, output_dim=output_dim, reuse=reuse, keepprob=keepprob)
         elif input_dim is not None:
             inputT = tf.placeholder(tf.float32, [None, input_dim, input_dim, 3])  # RGB by default
-            model = Resnet(inputT=inputT, output_dim=output_dim, reuse=reuse)
+            model = Resnet(inputT=inputT, output_dim=output_dim, reuse=reuse, keepprob=keepprob)
         else:
             raise Exception("Either inputT should be provided or input_dim should be specified!")
 
@@ -233,7 +234,8 @@ def prepare_GBP_Shallow_CNN(output_dim, inputT=None, input_dim=None):
         return inputT, model
 
 def prepare_GBP_End2End(output_dim,
-                        sess=None, inputT=None, input_dim=None, num_logits=100, checkpoint_dir=None, reuse=False):
+                        sess=None, inputT=None, input_dim=None, num_logits=100,
+                        checkpoint_dir=None, reuse=False, keepprob=0.5):
 
     """
     :param output_dim: this should always be specified
@@ -246,10 +248,10 @@ def prepare_GBP_End2End(output_dim,
     """
 
     if inputT is not None:
-        model = GBP_End2End(inputT, output_dim, num_logits=num_logits, reuse=reuse)
+        model = GBP_End2End(inputT, output_dim, num_logits=num_logits, reuse=reuse, keepprob=keepprob)
     elif input_dim is not None:
         inputT = tf.placeholder(tf.float32, [None, input_dim, input_dim, 3]) # RGB by default
-        model = GBP_End2End(inputT, output_dim, num_logits=num_logits, reuse=reuse)
+        model = GBP_End2End(inputT, output_dim, num_logits=num_logits, reuse=reuse, keepprob=keepprob)
     else:
          raise Exception("Either inputT should be provided or input_dim should be specified!")
 

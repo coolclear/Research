@@ -7,7 +7,7 @@ from Resnet import Resnet
 
 class GBP_End2End(object):
 
-    def __init__(self, inputT, output_dim, num_logits=100, reuse=False):
+    def __init__(self, inputT, output_dim, num_logits=100, reuse=False, keepprob=0.5):
 
         """
         GBP defense
@@ -25,6 +25,7 @@ class GBP_End2End(object):
         self.num_logits = num_logits
         self.output_dim = output_dim
         self.reuse = reuse
+        self.keepprob = keepprob
 
         eval_graph = tf.get_default_graph() # get the graph
         # construct the shallow CNN used for the GBP reconstruction
@@ -49,7 +50,7 @@ class GBP_End2End(object):
         ##################################### GBP Reconstruction ###############################################
 
         # now use a Resnet to classify these GBP reconstructions
-        self.NN2 = Resnet(tfOp_gbp_divmax, output_dim=self.output_dim, reuse=self.reuse)
+        self.NN2 = Resnet(tfOp_gbp_divmax, output_dim=self.output_dim, reuse=self.reuse, keepprob=self.keepprob)
 
         self.phase = self.NN2.phase
         self.kp = self.NN2.kp
