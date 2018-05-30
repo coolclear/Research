@@ -15,7 +15,7 @@ import keras
 from keras.preprocessing.image import ImageDataGenerator
 
 model_type = [
-    'End2End',
+    # 'End2End',
     'Resnet'
 ]
 
@@ -48,8 +48,6 @@ def train(dataset, model_type, lr=1e-3, num_epochs=300, batch_size=64):
         num_classes = 10
         input_dim = 32
 
-    x_train = x_train / 255.
-    x_test = x_test / 255.
     y_train = keras.utils.to_categorical(y_train, num_classes)
     y_test = keras.utils.to_categorical(y_test, num_classes)
 
@@ -127,6 +125,8 @@ def train(dataset, model_type, lr=1e-3, num_epochs=300, batch_size=64):
             b = 0
 
             for x_batch, y_batch in datagen.flow(x_train, y_train, batch_size=batch_size):
+
+                x_batch = x_batch / 255.
 
                 _, train_accu, summary = \
                     sess.run([train_step, accuracy, merged],
