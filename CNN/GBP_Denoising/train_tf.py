@@ -149,7 +149,7 @@ def train(dataset, model_type, lr=1e-3, num_epochs=2, batch_size=64):
 
 
                     if e % 1 == 0: # save every 5 epoches
-                        saver.save(sess, 'Models/{}_{}'.format(dataset, model_type), global_step=b + e * steps_per_epoch)
+                        saver.save(sess, '{}_{}/Model'.format(dataset, model_type), global_step=b + e * steps_per_epoch)
 
                     break
 
