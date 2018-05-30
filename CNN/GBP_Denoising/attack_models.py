@@ -22,7 +22,7 @@ size = 1000
 fgsm_params = {
     'eps': 0.3,
     'clip_min': 0.,
-    'clip_max': 255.
+    'clip_max': 1.
 }
 
 def main(type="Resnet", dataset="CIFAR10"):
@@ -40,6 +40,7 @@ def main(type="Resnet", dataset="CIFAR10"):
         num_classes = 10
         input_dim = 32
 
+    x_test /= 255.
     y_test = keras.utils.to_categorical(y_test, num_classes)
 
     with tf.Session() as sess:

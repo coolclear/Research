@@ -28,7 +28,7 @@ def main():
         for set in dataset:
             train(set, type)
 
-def train(dataset, model_type, lr=1e-3, num_epochs=100, batch_size=64):
+def train(dataset, model_type, lr=1e-3, num_epochs=10, batch_size=64):
 
     ########################################## Prepare the Data ########################################################
 
@@ -45,6 +45,8 @@ def train(dataset, model_type, lr=1e-3, num_epochs=100, batch_size=64):
         num_classes = 10
         input_dim = 32
 
+    x_train /= 255.
+    x_test /= 255.
     y_train = keras.utils.to_categorical(y_train, num_classes)
     y_test = keras.utils.to_categorical(y_test, num_classes)
 
