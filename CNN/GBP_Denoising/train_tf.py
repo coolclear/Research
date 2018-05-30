@@ -15,7 +15,7 @@ import keras
 from keras.preprocessing.image import ImageDataGenerator
 
 model_type = [
-    # 'End2End',
+    'End2End',
     'Resnet'
 ]
 
@@ -48,6 +48,7 @@ def train(dataset, model_type, lr=1e-3, num_epochs=300, batch_size=64):
         num_classes = 10
         input_dim = 32
 
+    x_test = x_test / 255.
     y_train = keras.utils.to_categorical(y_train, num_classes)
     y_test = keras.utils.to_categorical(y_test, num_classes)
 
@@ -153,7 +154,7 @@ def train(dataset, model_type, lr=1e-3, num_epochs=300, batch_size=64):
                     test_writer.add_summary(summary, b + e * steps_per_epoch)
 
 
-                    if e % 50 == 0: # save every 50 epoches
+                    if e % 100 == 0: # save every 100 epoches
                         saver.save(sess, '{}_{}/Model'.format(dataset, model_type), global_step=b + e * steps_per_epoch)
 
                     break
@@ -180,6 +181,6 @@ def train(dataset, model_type, lr=1e-3, num_epochs=300, batch_size=64):
 
 if __name__ == "__main__":
     # setup the GPUs to use
-    os.environ['CUDA_VISIBLE_DEVICES'] = '0'
+    os.environ['CUDA_VISIBLE_DEVICES'] = '1'
     main()
 
