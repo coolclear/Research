@@ -147,7 +147,7 @@ def train(dataset, model_type, lr=1e-3, num_epochs=2, batch_size=64):
                                                   kp_ph: 1.0})
                     test_writer.add_summary(summary, b + e * steps_per_epoch)
 
-                    save_dir = '{}_{}'.format(dataset, model_type)
+                    save_dir = 'Models/{}_{}/'.format(dataset, model_type)
 
                     if not os.path.exists(save_dir):
                         os.makedirs(save_dir)
