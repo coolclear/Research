@@ -118,7 +118,6 @@ def prepare_Resnet(output_dim,
 
     if checkpoint_dir and sess:
 
-        print(" [*] Reading checkpoints...")
         saver = tf.train.Saver()
         saver.restore(sess, checkpoint_dir)
         print("Model Restored!")
@@ -245,7 +244,6 @@ def prepare_GBP_End2End(output_dim,
 
     if checkpoint_dir and sess:
 
-        print(" [*] Reading checkpoints...")
         saver = tf.train.Saver()
         saver.restore(sess, checkpoint_dir)
         print("Model Restored!")

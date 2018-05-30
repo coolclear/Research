@@ -147,13 +147,9 @@ def train(dataset, model_type, lr=1e-3, num_epochs=2, batch_size=64):
                                                   kp_ph: 1.0})
                     test_writer.add_summary(summary, b + e * steps_per_epoch)
 
-                    save_dir = '{}_{}/'.format(dataset, model_type)
-
-                    if not os.path.exists(save_dir):
-                        os.makedirs(save_dir)
 
                     if e % 1 == 0: # save every 5 epoches
-                        saver.save(sess, save_dir + "Model", global_step=b + e * steps_per_epoch)
+                        saver.save(sess, 'Models/{}_{}'.format(dataset, model_type), global_step=b + e * steps_per_epoch)
 
                     break
 
