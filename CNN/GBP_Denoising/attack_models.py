@@ -19,6 +19,12 @@ from cleverhans.attacks import FastGradientMethod
 eval_params = {'batch_size': 64}
 size = 1000
 
+fgsm_params = {
+    'eps': 0.3,
+    'clip_min': 0.,
+    'clip_max': 1.
+}
+
 def main(type="Resnet", dataset="CIFAR10"):
 
     if dataset == 'CIAFR10':
@@ -54,7 +60,7 @@ def main(type="Resnet", dataset="CIFAR10"):
         # we are doing a wrapping
         model = CallableModelWrapper(lambda ph_of_ph: tf_model.logits, 'logits')
         attack = FastGradientMethod(model, sess=sess)
-        adv_x = attack.generate(x)
+        adv_x = attack.generate(x, **fgsm_params)
 
         # this is where we actually generate the adversarial examples
         adv_vals = sess.run(adv_x, feed_dict={x: x_test[:size]})
