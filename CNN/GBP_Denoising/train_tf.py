@@ -121,11 +121,13 @@ def train(dataset, model_type, lr=1e-3, num_epochs=300, batch_size=64):
 
         sess.run(init)
 
+        gen = datagen.flow(x_train, y_train, batch_size=batch_size)
+
         for e in range(num_epochs):
 
             b = 0
 
-            for x_batch, y_batch in datagen.flow(x_train, y_train, batch_size=batch_size):
+            for x_batch, y_batch in gen:
 
                 x_batch = x_batch / 255.
 
