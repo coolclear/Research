@@ -48,7 +48,7 @@ def main(type="Resnet", dataset="CIFAR10"):
 
         # prepare the input/output placeholders
         x = tf.placeholder(tf.float32, [None, input_dim, input_dim, 3])
-        y = tf.placeholder(tf.float32, [None, 10])
+        y = tf.placeholder(tf.float32, [None, num_classes])
 
         # Model/Graph
         if type == 'End2End':
