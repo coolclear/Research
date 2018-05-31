@@ -9,9 +9,6 @@ sys.path.append(path)
 from Prepare_Data import pickle_load, prepare_CIFAR10, prepare_CIFAR100, prepare_SVHN
 from Prepare_Model import prepare_GBP_End2End, prepare_Resnet
 
-sys.path.append('/home/yang/Research/CNN/Tools')
-from Plot import simple_plot
-
 import numpy as np
 import tensorflow as tf
 import keras
