@@ -16,7 +16,7 @@ from keras.preprocessing.image import ImageDataGenerator
 
 model_type = [
     'End2End',
-    'Resnet'
+#    'Resnet'
 ]
 
 dataset = [
@@ -183,6 +183,6 @@ def train(dataset, model_type, lr=1e-3, num_epochs=300, batch_size=64):
 
 if __name__ == "__main__":
     # setup the GPUs to use
-    os.environ['CUDA_VISIBLE_DEVICES'] = '0'
+    os.environ['CUDA_VISIBLE_DEVICES'] = '1'
     main()
 

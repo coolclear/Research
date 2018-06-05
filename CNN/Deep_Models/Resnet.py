@@ -111,7 +111,7 @@ class Resnet(object):
         last_layer = tf.nn.dropout(last_layer, self.kp)
         self.layers_dic['Resnet_dropout'] = last_layer
 
-        with tf.variable_scope('Resnet_fc', reuse=self.reuse):
+        with tf.variable_scope('Resnet_fc'):
 
             channels = last_layer.get_shape().as_list()[-1]
 

@@ -122,9 +122,27 @@ def prepare_Resnet(output_dim,
 
     if checkpoint_dir and sess:
 
+        # from tensorflow.python import pywrap_tensorflow
+        # import os
+        # checkpoint_path = os.path.join(checkpoint_dir+"Model-230145", "model.ckpt")
+        # reader = pywrap_tensorflow.NewCheckpointReader(checkpoint_path)
+        # var_to_shape_map = reader.get_variable_to_shape_map()
+        # for key in var_to_shape_map:
+        #     print("tensor_name: ", key)
+
+        scope = tf.get_default_graph().get_name_scope()
+        print(scope)
+
+        trainable_variables = tf.get_collection(tf.GraphKeys.GLOBAL_VARIABLES, scope=scope)
+        map = {}
+        for idx, var in enumerate(trainable_variables):
+            if scope in var.name:
+                name = var.name[len(scope)+1:-2]
+                map[name] = var
+
         print(" [*] Reading checkpoints...")
 
-        saver = tf.train.Saver()
+        saver = tf.train.Saver(var_list = map)
 
         ckpt = tf.train.get_checkpoint_state(checkpoint_dir)
 
@@ -260,9 +278,27 @@ def prepare_GBP_End2End(output_dim,
 
     if checkpoint_dir and sess:
 
+        # from tensorflow.python import pywrap_tensorflow
+        # import os
+        # checkpoint_path = os.path.join(checkpoint_dir+"Model-230145", "model.ckpt")
+        # reader = pywrap_tensorflow.NewCheckpointReader(checkpoint_path)
+        # var_to_shape_map = reader.get_variable_to_shape_map()
+        # for key in var_to_shape_map:
+        #     print("tensor_name: ", key)
+
+        scope = tf.get_default_graph().get_name_scope()
+        print(scope)
+
+        trainable_variables = tf.get_collection(tf.GraphKeys.GLOBAL_VARIABLES, scope=scope)
+        map = {}
+        for idx, var in enumerate(trainable_variables):
+            if scope in var.name:
+                name = var.name[len(scope)+1:-2]
+                map[name] = var
+
         print(" [*] Reading checkpoints...")
 
-        saver = tf.train.Saver()
+        saver = tf.train.Saver(var_list = map)
 
         ckpt = tf.train.get_checkpoint_state(checkpoint_dir)
 
