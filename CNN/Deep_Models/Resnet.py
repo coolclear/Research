@@ -157,8 +157,7 @@ class Resnet(object):
         bn_layer = tf.contrib.layers.batch_norm(input_layer,
                                                 center=True,
                                                 scale=True,
-                                                is_training=self.phase,
-                                                reuse=reuse)
+                                                is_training=self.phase)
 
         return bn_layer
 
