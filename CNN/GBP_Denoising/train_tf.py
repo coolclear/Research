@@ -21,8 +21,8 @@ model_type = [
 
 dataset = [
     'CIFAR10',
-    # 'CIFAR100',
-    # 'SVHN'
+    'CIFAR100',
+    'SVHN'
 ]
 
 def main():
@@ -156,7 +156,7 @@ def train(dataset, model_type, lr=1e-3, num_epochs=2, batch_size=64):
                     test_writer.add_summary(summary, b + e * steps_per_epoch)
 
 
-                    if e % 1 == 0: # save every 1 epoches
+                    if e % 50 == 0: # save every 50 epoches
                         saver.save(sess, '{}_{}/Model'.format(dataset, model_type), global_step=b + e * steps_per_epoch)
 
                     break
