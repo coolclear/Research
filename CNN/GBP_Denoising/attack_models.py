@@ -62,24 +62,43 @@ def main(type="Resnet", dataset="CIFAR10", attack_type="FGM"):
         def helper1(x, num_classes, dataset, type, sess, input_output):
 
             if len(input_output) == 0:
+
                 reuse = False
+
+                # Model/Graph
+                if type == 'End2End':
+                    _, tf_model = \
+                        prepare_GBP_End2End(num_classes,
+                                            inputT=x, checkpoint_dir='./{}_{}/'.format(dataset, type),
+                                            sess=sess, keepprob=1.0, reuse=reuse)
+                else:
+                    _, tf_model = \
+                        prepare_Resnet(num_classes,
+                                       inputT=x, checkpoint_dir='./{}_{}/'.format(dataset, type),
+                                       sess=sess, keepprob=1.0, reuse=reuse)
+
+                input_output.append(x)
+                input_output.append(tf_model.logits)
+
             else:
+
                 reuse = True
 
-            # Model/Graph
-            if type == 'End2End':
-                _, tf_model = \
-                    prepare_GBP_End2End(num_classes,
-                                        inputT=x, checkpoint_dir='./{}_{}/'.format(dataset, type),
-                                        sess=sess, keepprob=1.0, reuse=reuse)
-            else:
-                _, tf_model = \
-                    prepare_Resnet(num_classes,
-                                   inputT=x, checkpoint_dir='./{}_{}/'.format(dataset, type),
-                                   sess=sess, keepprob=1.0, reuse=reuse)
+                # Model/Graph
+                if type == 'End2End':
+                    _, tf_model = \
+                        prepare_GBP_End2End(num_classes,
+                                            inputT=x, checkpoint_dir=None,
+                                            sess=None, keepprob=1.0, reuse=reuse)
+                else:
+                    _, tf_model = \
+                        prepare_Resnet(num_classes,
+                                       inputT=x, checkpoint_dir=None,
+                                       sess=None, keepprob=1.0, reuse=reuse)
 
-            input_output.append(x)
-            input_output.append(tf_model.logits)
+                input_output.append(x)
+                input_output.append(tf_model.logits)
+
 
             return tf_model.logits
 
