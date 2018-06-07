@@ -183,6 +183,6 @@ def train(dataset, model_type, lr=1e-3, num_epochs=2, batch_size=64):
 
 if __name__ == "__main__":
     # setup the GPUs to use
-    os.environ['CUDA_VISIBLE_DEVICES'] = '1'
+    os.environ['CUDA_VISIBLE_DEVICES'] = '0'
     main()
 
