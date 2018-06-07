@@ -32,8 +32,13 @@ class Shallow_CNN(object):
         self.layers_dic['Shallow_CNN_input'] = self.inputT
         self.num_channel = self.inputT.get_shape().as_list()[-1]
 
-        self.convlayers()
-        self.fc_layers()
+        with tf.variable_scope("Shallow_CNN") as scope:
+
+            if self.reuse:
+                scope.reuse_variables()
+
+            self.convlayers()
+            self.fc_layers()
 
         self.logits = self.fc2
         self.probs = tf.nn.softmax(self.logits)
@@ -69,13 +74,19 @@ class Shallow_CNN(object):
         # conv1_1
         with tf.name_scope('Shallow_CNN_conv1_1') as scope:
 
-            kernel = tf.Variable(tf.truncated_normal([2, 2, self.num_channel, 256], dtype=tf.float32, stddev=1e-1),
-                                 trainable=self.trainable,
-                                 name='w')
+            kernel = tf.get_variable(name='w', shape=[2, 2, self.num_channel, 256], dtype=tf.float32,
+                                     initializer=tf.truncated_normal_initializer(stddev=1e-1), trainable=self.trainable)
 
-            biases = tf.Variable(tf.constant(0.0, shape=[256], dtype=tf.float32),
-                                 trainable=self.trainable,
-                                 name='b')
+            # kernel = tf.Variable(tf.truncated_normal([2, 2, self.num_channel, 256], dtype=tf.float32, stddev=1e-1),
+            #                      trainable=self.trainable,
+            #                      name='w')
+
+            biases = tf.get_variable(name='b', shape=[256], dtype=tf.float32,
+                                     initializer=tf.constant_initializer(value=0.0), trainable=self.trainable)
+
+            # biases = tf.Variable(tf.constant(0.0, shape=[256], dtype=tf.float32),
+            #                      trainable=self.trainable,
+            #                      name='b')
 
             conv = tf.nn.conv2d(self.inputT, kernel, [1, 1, 1, 1], padding='SAME')
             out = tf.nn.bias_add(conv, biases)
@@ -87,13 +98,19 @@ class Shallow_CNN(object):
         # conv1_2
         with tf.name_scope('Shallow_CNN_conv1_2') as scope:
 
-            kernel = tf.Variable(tf.truncated_normal([2, 2, 256, 256], dtype=tf.float32, stddev=1e-1),
-                                 trainable=self.trainable,
-                                 name='w')
+            kernel = tf.get_variable(name='w', shape=[2, 2, 256, 256], dtype=tf.float32,
+                                     initializer=tf.truncated_normal_initializer(stddev=1e-1), trainable=self.trainable)
 
-            biases = tf.Variable(tf.constant(0.0, shape=[256], dtype=tf.float32),
-                                 trainable=self.trainable,
-                                 name='b')
+            # kernel = tf.Variable(tf.truncated_normal([2, 2, self.num_channel, 256], dtype=tf.float32, stddev=1e-1),
+            #                      trainable=self.trainable,
+            #                      name='w')
+
+            biases = tf.get_variable(name='b', shape=[256], dtype=tf.float32,
+                                     initializer=tf.constant_initializer(value=0.0), trainable=self.trainable)
+
+            # biases = tf.Variable(tf.constant(0.0, shape=[256], dtype=tf.float32),
+            #                      trainable=self.trainable,
+            #                      name='b')
 
             conv = tf.nn.conv2d(self.conv1_1, kernel, [1, 1, 1, 1], padding='SAME')
             out = tf.nn.bias_add(conv, biases)
@@ -113,13 +130,19 @@ class Shallow_CNN(object):
 
             shape = int(np.prod(self.pool1.get_shape()[1:]))
 
-            fc1w = tf.Variable(tf.truncated_normal([shape, 1024], dtype=tf.float32, stddev=1e-1),
-                               trainable=self.trainable,
-                               name='w')
+            fc1w = tf.get_variable(name='w', shape=[shape, 1024], dtype=tf.float32,
+                                     initializer=tf.truncated_normal_initializer(stddev=1e-1), trainable=self.trainable)
 
-            fc1b = tf.Variable(tf.constant(0.0, shape=[1024], dtype=tf.float32),
-                               trainable=self.trainable,
-                               name='b')
+            fc1b = tf.get_variable(name='b', shape=[1024], dtype=tf.float32,
+                                     initializer=tf.constant_initializer(value=0.0), trainable=self.trainable)
+
+            # fc1w = tf.Variable(tf.truncated_normal([shape, 1024], dtype=tf.float32, stddev=1e-1),
+            #                    trainable=self.trainable,
+            #                    name='w')
+            #
+            # fc1b = tf.Variable(tf.constant(0.0, shape=[1024], dtype=tf.float32),
+            #                    trainable=self.trainable,
+            #                    name='b')
 
             pool1_flat = tf.reshape(self.pool1, [-1, shape])
 
@@ -131,13 +154,19 @@ class Shallow_CNN(object):
         # fc2
         with tf.name_scope('Shallow_CNN_fc2') as scope:
 
-            fc2w = tf.Variable(tf.truncated_normal([1024, self.output_dim], dtype=tf.float32, stddev=1e-1),
-                               trainable=self.trainable,
-                               name='w')
+            fc2w = tf.get_variable(name='w', shape=[1024, self.output_dim], dtype=tf.float32,
+                                     initializer=tf.truncated_normal_initializer(stddev=1e-1), trainable=self.trainable)
 
-            fc2b = tf.Variable(tf.constant(0.0, shape=[self.output_dim], dtype=tf.float32),
-                               trainable=self.trainable,
-                               name='b')
+            fc2b = tf.get_variable(name='b', shape=[self.output_dim], dtype=tf.float32,
+                                     initializer=tf.constant_initializer(value=0.0), trainable=self.trainable)
+
+            # fc2w = tf.Variable(tf.truncated_normal([1024, self.output_dim], dtype=tf.float32, stddev=1e-1),
+            #                    trainable=self.trainable,
+            #                    name='w')
+            #
+            # fc2b = tf.Variable(tf.constant(0.0, shape=[self.output_dim], dtype=tf.float32),
+            #                    trainable=self.trainable,
+            #                    name='b')
 
             self.fc2 = tf.nn.bias_add(tf.matmul(self.fc1, fc2w), fc2b)
 

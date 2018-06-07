@@ -40,17 +40,22 @@ class Resnet(object):
         self.layers_dic['Resnet_input'] = self.inputT
         self.num_channel = self.inputT.get_shape().as_list()[-1]
 
-        with tf.name_scope('Resnet_phase') as scope:
-            # by default we are in the testing phase
-            self.phase = tf.placeholder_with_default(tf.constant(self.phase, dtype=tf.bool), [], name='phase')
+        with tf.variable_scope("Resnet") as scope:
 
-        with tf.name_scope('Resnet_keepprob') as scope:
-            # by default the drop probability is 0.5
-            self.kp = tf.placeholder_with_default(tf.constant(self.keepprob, dtype=tf.float32), [], name='keepporb')
+            if self.reuse:
+                scope.reuse_variables()
 
-        # Build the TF computational graph for the ResNet architecture
-        self.logits = self.build()
-        self.probs = tf.nn.softmax(self.logits)
+            with tf.name_scope('Resnet_phase') as scope:
+                # by default we are in the testing phase
+                self.phase = tf.placeholder_with_default(tf.constant(self.phase, dtype=tf.bool), [], name='phase')
+
+            with tf.name_scope('Resnet_keepprob') as scope:
+                # by default the drop probability is 0.5
+                self.kp = tf.placeholder_with_default(tf.constant(self.keepprob, dtype=tf.float32), [], name='keepporb')
+
+            # Build the TF computational graph for the ResNet architecture
+            self.logits = self.build()
+            self.probs = tf.nn.softmax(self.logits)
 
     def build(self):
 
@@ -111,11 +116,11 @@ class Resnet(object):
         last_layer = tf.nn.dropout(last_layer, self.kp)
         self.layers_dic['Resnet_dropout'] = last_layer
 
-        with tf.variable_scope('Resnet_fc'):
+        with tf.variable_scope('Resnet_fc', reuse=self.reuse):
 
             channels = last_layer.get_shape().as_list()[-1]
 
-            bn_layer = self.batch_normalization_layer(last_layer) # batch normalization
+            bn_layer = self.batch_normalization_layer(last_layer, self.reuse) # batch normalization
 
             relu_layer = tf.nn.relu(bn_layer)
 
@@ -123,11 +128,17 @@ class Resnet(object):
 
             input_dim = global_pool.get_shape().as_list()[-1]
 
-            fc_w = tf.Variable(tf.truncated_normal([input_dim, self.output_dim],
-                                                         dtype=tf.float32,
-                                                         stddev=1e-1), name='w')
+            fc_w = tf.get_variable(name='w', shape=[input_dim, self.output_dim], dtype=tf.float32,
+                                     initializer=tf.truncated_normal_initializer(stddev=1e-1))
 
-            fc_b = tf.Variable(tf.constant(1.0, shape=[self.output_dim], dtype=tf.float32), name='b')
+            # fc_w = tf.Variable(tf.truncated_normal([input_dim, self.output_dim],
+            #                                              dtype=tf.float32,
+            #                                              stddev=1e-1), name='w')
+
+            fc_b = tf.get_variable(name='b', shape=[self.output_dim], dtype=tf.float32,
+                                     initializer=tf.constant_initializer(value=1.0))
+
+            # fc_b = tf.Variable(tf.constant(1.0, shape=[self.output_dim], dtype=tf.float32), name='b')
 
             fc_h = tf.matmul(global_pool, fc_w) + fc_b
 
@@ -135,7 +146,7 @@ class Resnet(object):
 
         return fc_h
 
-    def batch_normalization_layer(self, input_layer):
+    def batch_normalization_layer(self, input_layer, reuse):
 
         '''
         batch normalization
@@ -146,7 +157,8 @@ class Resnet(object):
         bn_layer = tf.contrib.layers.batch_norm(input_layer,
                                                 center=True,
                                                 scale=True,
-                                                is_training=self.phase)
+                                                is_training=self.phase,
+                                                reuse=reuse)
 
         return bn_layer
 
@@ -159,11 +171,13 @@ class Resnet(object):
         :return: 4D tensor. Y = Relu(batch_normalize(conv(X)))
         '''
 
-        out_channel = filter_shape[-1]
-        filter = tf.Variable(tf.truncated_normal(shape=filter_shape, dtype=tf.float32,
-                                                 stddev=1e-1), name='weights')
+
+
+        filter = tf.get_variable(name='weights', shape=filter_shape, dtype=tf.float32, initializer=tf.truncated_normal_initializer(stddev=1e-1))
+        # filter = tf.Variable(tf.truncated_normal(shape=filter_shape, dtype=tf.float32,
+        #                                          stddev=1e-1), name='weights')
         conv_layer = tf.nn.conv2d(input_layer, filter, strides=[1, stride, stride, 1], padding='SAME')
-        bn_layer = self.batch_normalization_layer(conv_layer)
+        bn_layer = self.batch_normalization_layer(conv_layer, self.reuse)
         output = tf.nn.relu(bn_layer)
         return output
 
@@ -178,10 +192,11 @@ class Resnet(object):
         '''
 
         in_channel = input_layer.get_shape().as_list()[-1]
-        bn_layer = self.batch_normalization_layer(input_layer)
+        bn_layer = self.batch_normalization_layer(input_layer, self.reuse)
         relu_layer = tf.nn.relu(bn_layer)
-        filter = tf.Variable(tf.truncated_normal(shape=filter_shape, dtype=tf.float32,
-                                                 stddev=1e-1), name='weights')
+        filter = tf.get_variable(name='weights', shape=filter_shape, dtype=tf.float32, initializer=tf.truncated_normal_initializer(stddev=1e-1))
+        # filter = tf.Variable(tf.truncated_normal(shape=filter_shape, dtype=tf.float32,
+        #                                          stddev=1e-1), name='weights')
         conv_layer = tf.nn.conv2d(relu_layer, filter, strides=[1, stride, stride, 1], padding='SAME')
         return conv_layer
 
@@ -211,8 +226,10 @@ class Resnet(object):
         # The first conv layer of the first residual block does not need to be normalized and relu-ed.
         with tf.variable_scope('conv1_in_block'):
             if first_block:
-                filter = tf.Variable(tf.truncated_normal(shape=[3, 3, input_channel, output_channel], dtype=tf.float32,
-                                                         stddev=1e-1), name='weights')
+                filter = tf.get_variable(name='weights', shape=[3, 3, input_channel, output_channel], dtype=tf.float32,
+                                         initializer=tf.truncated_normal_initializer(stddev=1e-1))
+                # filter = tf.Variable(tf.truncated_normal(shape=[3, 3, input_channel, output_channel], dtype=tf.float32,
+                #                                          stddev=1e-1), name='weights')
                 conv1 = tf.nn.conv2d(input_layer, filter=filter, strides=[1, 1, 1, 1], padding='SAME')
             else:
                 conv1 = self.bn_relu_conv_layer(input_layer, [3, 3, input_channel, output_channel], stride)

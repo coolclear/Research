@@ -22,33 +22,38 @@ class GBP_End2End(object):
 
         self.num_logits = num_logits
         self.output_dim = output_dim
-        self.reuse = reuse
         self.keepprob = keepprob
+        self.reuse = reuse
 
-        eval_graph = tf.get_default_graph() # get the graph
-        # construct the shallow CNN used for the GBP reconstruction
-        # the gradient has to be overwritten
-        # the gradient registration happens in Prepare_Model
-        with eval_graph.gradient_override_map({'Relu': 'GuidedRelu'}):
-            self.NN1 = Shallow_CNN(self.inputT, output_dim=self.num_logits, reuse=self.reuse)
+        with tf.variable_scope("GBP_End2End") as scope:
 
-        ##################################### GBP Reconstruction ###############################################
+            if self.reuse:
+                scope.reuse_variables()
 
-        logits = self.NN1.logits  # get the logits
+            eval_graph = tf.get_default_graph() # get the graph
+            # construct the shallow CNN used for the GBP reconstruction
+            # the gradient has to be overwritten
+            # the gradient registration happens in Prepare_Model
+            with eval_graph.gradient_override_map({'Relu': 'GuidedRelu'}):
+                self.NN1 = Shallow_CNN(self.inputT, output_dim=self.num_logits, reuse=self.reuse)
 
-        index = tf.random_uniform([1], minval=0, maxval=self.num_logits, dtype=tf.int32)[0]
+            ##################################### GBP Reconstruction ###############################################
 
-        tfOp_gbp_raw = tf.gradients(logits[:, index], self.inputT)[0]  # raw gbp reconstruction
+            logits = self.NN1.logits  # get the logits
 
-        # normalizations
-        tfOp_gbp_submin = tf.map_fn(lambda img: img - tf.reduce_min(img), tfOp_gbp_raw)
-        tfOp_gbp_divmax = tf.map_fn(lambda img: img / tf.reduce_max(img), tfOp_gbp_submin)
-        tfOp_gbp_255 = tf.map_fn(lambda img: tf.cast(img * 255, tf.int32), tfOp_gbp_divmax, dtype=tf.int32)
+            index = tf.random_uniform([1], minval=0, maxval=self.num_logits, dtype=tf.int32)[0]
 
-        ##################################### GBP Reconstruction ###############################################
+            tfOp_gbp_raw = tf.gradients(logits[:, index], self.inputT)[0]  # raw gbp reconstruction
 
-        # now use a Resnet to classify these GBP reconstructions
-        self.NN2 = Resnet(tfOp_gbp_divmax, output_dim=self.output_dim, reuse=self.reuse, keepprob=self.keepprob)
+            # normalizations
+            tfOp_gbp_submin = tf.map_fn(lambda img: img - tf.reduce_min(img), tfOp_gbp_raw)
+            tfOp_gbp_divmax = tf.map_fn(lambda img: img / tf.reduce_max(img), tfOp_gbp_submin)
+            tfOp_gbp_255 = tf.map_fn(lambda img: tf.cast(img * 255, tf.int32), tfOp_gbp_divmax, dtype=tf.int32)
+
+            ##################################### GBP Reconstruction ###############################################
+
+            # now use a Resnet to classify these GBP reconstructions
+            self.NN2 = Resnet(tfOp_gbp_divmax, output_dim=self.output_dim, reuse=self.reuse, keepprob=self.keepprob)
 
         self.phase = self.NN2.phase
         self.kp = self.NN2.kp
