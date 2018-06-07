@@ -29,7 +29,7 @@ from cleverhans.attacks import\
     SPSA,\
     vatm
 
-size = 1000
+size = 256
 eval_params = {'batch_size': 128}
 
 def main(type="Resnet", dataset="CIFAR10", attack_type="FGM"):
@@ -52,60 +52,56 @@ def main(type="Resnet", dataset="CIFAR10", attack_type="FGM"):
 
     with tf.Session() as sess:
 
-        scopes = []
+        # scopes = []
         input_output = []
 
         # prepare the output placeholders
         x = tf.placeholder(tf.float32, [None, 32, 32, 3])
         y = tf.placeholder(tf.float32, [None, num_classes])
 
-        def helper1(x, num_classes, dataset, type, sess, scopes, input_output):
+        def helper1(x, num_classes, dataset, type, sess, input_output):
 
-            if len(scopes) == 0:
+            if len(input_output) == 0:
+                reuse = False
+            else:
+                reuse = True
 
-                scopes.append(0)
+            # Model/Graph
+            if type == 'End2End':
+                _, tf_model = \
+                    prepare_GBP_End2End(num_classes,
+                                        inputT=x, checkpoint_dir='./{}_{}/'.format(dataset, type),
+                                        sess=sess, keepprob=1.0, reuse=reuse)
+            else:
+                _, tf_model = \
+                    prepare_Resnet(num_classes,
+                                   inputT=x, checkpoint_dir='./{}_{}/'.format(dataset, type),
+                                   sess=sess, keepprob=1.0, reuse=reuse)
 
-            with tf.variable_scope("Scope-{}".format(scopes[-1])): # for iterative attacks
+            input_output.append(x)
+            input_output.append(tf_model.logits)
 
-                # Model/Graph
-                if type == 'End2End':
-                    _, tf_model = \
-                        prepare_GBP_End2End(num_classes,
-                                            inputT=x, checkpoint_dir='./{}_{}/'.format(dataset, type),
-                                            sess=sess, keepprob=1.0)
-                else:
-                    _, tf_model = \
-                        prepare_Resnet(num_classes,
-                                       inputT=x, checkpoint_dir='./{}_{}/'.format(dataset, type),
-                                       sess=sess, keepprob=1.0)
-
-                if len(scopes) == 1:
-                    input_output.append(x)
-                    input_output.append(tf_model.logits)
-
-                scopes.append(scopes[-1] + 1)
-
-                return tf_model.logits
+            return tf_model.logits
 
         # create an attackable model for the cleverhans lib
         # we are doing a wrapping
-        model = CallableModelWrapper(lambda placeholder: helper1(placeholder, num_classes, dataset, type, sess, scopes, input_output), 'logits')
+        model = CallableModelWrapper(lambda placeholder: helper1(placeholder, num_classes, dataset, type, sess, input_output), 'logits')
 
-        if attack_type == "FGM": # configurations checked
+        if attack_type == "FGM": # pass
             attack = FastGradientMethod(model, back='tf', sess=sess)
             params = {
                 'eps' : 0.06,
                 'clip_min': 0.,
                 'clip_max': 1.
             }
-        elif attack_type == "CWL2": # configurations checked, quickly tested
+        elif attack_type == "CWL2": # pass
             attack = CarliniWagnerL2(model, back='tf', sess=sess)
             params = {
                 'confidence': 0.9,
                 'batch_size': 128,
                 'learning_rate': 0.005,
             }
-        elif attack_type == "DF": # configurations checked
+        elif attack_type == "DF": # pass
             attack = DeepFool(model, back='tf', sess=sess)
             params = {
             }
