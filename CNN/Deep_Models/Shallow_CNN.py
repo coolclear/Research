@@ -43,31 +43,29 @@ class Shallow_CNN(object):
         self.logits = self.fc2
         self.probs = tf.nn.softmax(self.logits)
 
-    def act(self, tensor, name):
+    def act(self, tensor):
 
         if self.act_type == 'relu':
-            return tf.nn.relu(tensor, name=name)
+            return tf.nn.relu(tensor)
 
         if self.act_type == 'softplus':
-            return tf.nn.softplus(tensor, name=name)
+            return tf.nn.softplus(tensor)
 
-    def pool(self, tensor, name):
+    def pool(self, tensor):
 
         if self.pool_type == 'maxpool':
 
             return tf.nn.max_pool(tensor,
                                   ksize=[1, 2, 2, 1],
                                   strides=[1, 2, 2, 1],
-                                  padding='SAME',
-                                  name=name)
+                                  padding='SAME')
 
         if self.pool_type == 'avgpool':
 
             return tf.nn.avg_pool(tensor,
                                   ksize=[1, 2, 2, 1],
                                   strides=[1, 2, 2, 1],
-                                  padding='SAME',
-                                  name=name)
+                                  padding='SAME')
 
     def convlayers(self):
 
@@ -91,7 +89,7 @@ class Shallow_CNN(object):
             conv = tf.nn.conv2d(self.inputT, kernel, [1, 1, 1, 1], padding='SAME')
             out = tf.nn.bias_add(conv, biases)
 
-            self.conv1_1 = self.act(tensor=out, name=scope)
+            self.conv1_1 = self.act(tensor=out)
 
             self.layers_dic['Shallow_CNN_conv1_1'] = self.conv1_1
 
@@ -115,12 +113,12 @@ class Shallow_CNN(object):
             conv = tf.nn.conv2d(self.conv1_1, kernel, [1, 1, 1, 1], padding='SAME')
             out = tf.nn.bias_add(conv, biases)
 
-            self.conv1_2 = self.act(tensor=out, name=scope)
+            self.conv1_2 = self.act(tensor=out)
 
             self.layers_dic['Shallow_CNN_conv1_2'] = self.conv1_2
 
         # pool1
-        self.pool1 = self.pool(tensor=self.conv1_2, name='pool1')
+        self.pool1 = self.pool(tensor=self.conv1_2)
         self.layers_dic['Shallow_CNN_pool1'] = self.pool1
 
     def fc_layers(self):
@@ -147,7 +145,7 @@ class Shallow_CNN(object):
             pool1_flat = tf.reshape(self.pool1, [-1, shape])
 
             fc1l = tf.nn.bias_add(tf.matmul(pool1_flat, fc1w), fc1b)
-            self.fc1 = self.act(tensor=fc1l, name=scope)
+            self.fc1 = self.act(tensor=fc1l)
 
             self.layers_dic['Shallow_CNN_fc1'] = self.fc1
 
