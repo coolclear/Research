@@ -1,35 +1,29 @@
 import numpy as np
-import glob
-import os, sys
+import os
 from scipy.misc import imread, imresize
 import scipy.io as sio
 from keras.datasets import cifar10, cifar100
 import pickle as pkl
 
-def list_load(data_dir, names, size=(224, 224)):
+def prepare_CIFAR100():
+    print(" [*] Preparing CIFAR100 ... ")
+    (x_train, y_train), (x_test, y_test) = cifar100.load_data(label_mode='fine')
+    # print("[0, 255]")
+    # print("x_train shape = {}".format(x_train.shape))
+    # print("y samples = {}".format(y_train[:10]))
+    return (x_train, y_train), (x_test, y_test)
 
-    # To load a list of images
-    # You need to specify the image directory and the image name with the extension
-    # We assume the image format is RGB
-    # The image will be resized to 224 * 224 * 3 by default
-
-    fns = []
-    image_list = []
-
-    for name in names:
-        path = os.path.join(data_dir, '{}'.format(name))
-        file_name = os.path.basename(path).split('.')[0]
-        fns.append(file_name)
-
-        image = imread(path, mode='RGB')
-        image = imresize(image, size).astype(np.float32)
-        image_list.append(image)
-
-    batch_img = np.array(image_list) # put into a batch
-
-    return batch_img, fns
+def prepare_CIFAR10():
+    print(" [*] Preparing CIFAR10 ... ")
+    (x_train, y_train), (x_test, y_test) = cifar10.load_data()
+    # print("[0, 255]")
+    # print("x_train shape = {}".format(x_train.shape))
+    # print("y samples = {}".format(y_train[:10]))
+    return (x_train, y_train), (x_test, y_test)
 
 def prepare_SVHN(data_dir):
+
+    print(" [*] Preparing SVHN ... ")
 
     train_dict = sio.loadmat(data_dir + 'train_32x32.mat')
     X = np.asarray(train_dict['X'])
@@ -57,13 +51,41 @@ def prepare_SVHN(data_dir):
         if Y_test[i]%10 == 0:
             Y_test[i] = 0
 
+    # print("[0, 255]")
+    # print("x_train shape = {}".format(X_train.shape))
+    # print("y samples = {}".format(Y_train[:10]))
     return (X_train, Y_train), (X_test, Y_test)
 
-def prepare_CIFAR100():
-    return cifar100.load_data(label_mode='fine')
 
-def prepare_CIFAR10():
-    return cifar10.load_data()
+
+
+
+
+
+
+
+def list_load(data_dir, names, size=(224, 224)):
+
+    # To load a list of images
+    # You need to specify the image directory and the image name with the extension
+    # We assume the image format is RGB
+    # The image will be resized to 224 * 224 * 3 by default
+
+    fns = []
+    image_list = []
+
+    for name in names:
+        path = os.path.join(data_dir, '{}'.format(name))
+        file_name = os.path.basename(path).split('.')[0]
+        fns.append(file_name)
+
+        image = imread(path, mode='RGB')
+        image = imresize(image, size).astype(np.float32)
+        image_list.append(image)
+
+    batch_img = np.array(image_list) # put into a batch
+
+    return batch_img, fns
 
 def pickle_load(data_dir, pickle_name):
 

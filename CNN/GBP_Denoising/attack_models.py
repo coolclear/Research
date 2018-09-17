@@ -29,12 +29,15 @@ from cleverhans.attacks import\
     SPSA,\
     vatm
 
-size = 256
-eval_params = {'batch_size': 128}
 
 def main(type="Resnet", dataset="CIFAR10", attack_type="FGM"):
 
-    if dataset == 'CIAFR10':
+    size = 256
+    eval_params = {'batch_size': 128}
+
+    ############################################# Prepare the Data #####################################################
+
+    if dataset == 'CIFAR10':
         (_, _), (x_test, y_test) = prepare_CIFAR10()
         num_classes = 10
         input_dim = 32
@@ -43,23 +46,26 @@ def main(type="Resnet", dataset="CIFAR10", attack_type="FGM"):
         num_classes = 100
         input_dim = 32
     else:
-        (_, _), (x_test, y_test) = prepare_SVHN("./")
+        (_, _), (x_test, y_test) = prepare_SVHN("./Data/")
         num_classes = 10
         input_dim = 32
 
     x_test = x_test / 255.
     y_test = keras.utils.to_categorical(y_test, num_classes)
 
-    with tf.Session() as sess:
+    ############################################# Prepare the Data #####################################################
 
-        # scopes = []
-        input_output = []
 
-        # prepare the output placeholders
-        x = tf.placeholder(tf.float32, [None, 32, 32, 3])
+    config = tf.ConfigProto()
+    config.gpu_options.allow_growth = True
+    with tf.Session(config=config) as sess:
+
+        # prepare the placeholders
+        x = tf.placeholder(tf.float32, [None, input_dim, input_dim, 3])
         y = tf.placeholder(tf.float32, [None, num_classes])
 
-        def helper1(x, num_classes, dataset, type, sess, input_output):
+        input_output = []
+        def modelBuilder(x, num_classes, dataset, type, sess, input_output):
 
             if len(input_output) == 0:
 
@@ -69,13 +75,14 @@ def main(type="Resnet", dataset="CIFAR10", attack_type="FGM"):
                 if type == 'End2End':
                     _, tf_model = \
                         prepare_GBP_End2End(num_classes,
-                                            inputT=x, checkpoint_dir='./{}_{}/'.format(dataset, type),
-                                            sess=sess, keepprob=1.0, reuse=reuse)
+                                            inputT=x, sess=sess,
+                                            checkpoint_dir='./{}_{}/'.format(dataset, type), reuse=reuse)
                 else:
+
                     _, tf_model = \
                         prepare_Resnet(num_classes,
-                                       inputT=x, checkpoint_dir='./{}_{}/'.format(dataset, type),
-                                       sess=sess, keepprob=1.0, reuse=reuse)
+                                       inputT=x, sess=sess,
+                                       checkpoint_dir='./{}_{}/'.format(dataset, type), reuse=reuse)
 
                 input_output.append(x)
                 input_output.append(tf_model.logits)
@@ -87,14 +94,10 @@ def main(type="Resnet", dataset="CIFAR10", attack_type="FGM"):
                 # Model/Graph
                 if type == 'End2End':
                     _, tf_model = \
-                        prepare_GBP_End2End(num_classes,
-                                            inputT=x, checkpoint_dir=None,
-                                            sess=None, keepprob=1.0, reuse=reuse)
+                        prepare_GBP_End2End(num_classes, inputT=x, reuse=reuse)
                 else:
                     _, tf_model = \
-                        prepare_Resnet(num_classes,
-                                       inputT=x, checkpoint_dir=None,
-                                       sess=None, keepprob=1.0, reuse=reuse)
+                        prepare_Resnet(num_classes, inputT=x, reuse=reuse)
 
                 input_output.append(x)
                 input_output.append(tf_model.logits)
@@ -102,10 +105,10 @@ def main(type="Resnet", dataset="CIFAR10", attack_type="FGM"):
 
             return tf_model.logits
 
-        # create an attackable model for the cleverhans lib
-        # we are doing a wrapping
-        model = CallableModelWrapper(lambda placeholder: helper1(placeholder, num_classes, dataset, type, sess, input_output), 'logits')
+        # create an attackable model for the cleverhans
+        model = CallableModelWrapper(lambda placeholder: modelBuilder(placeholder, num_classes, dataset, type, sess, input_output), 'logits')
 
+        # TODO: check the configurations
         if attack_type == "FGM": # pass
             attack = FastGradientMethod(model, back='tf', sess=sess)
             params = {
@@ -191,11 +194,14 @@ def main(type="Resnet", dataset="CIFAR10", attack_type="FGM"):
         else:
             raise Exception("I don't recognize {} this attack type. I will use FGM instead.".format(attack_type))
 
+        # tf operation
         adv_x = attack.generate(x, **params)
+
+        # generate the adversarial examples
         adv_vals = sess.run(adv_x, feed_dict={x: x_test[:size]})
 
-        # Notice that adv_vals may contain NANs because of the failure of the attack
-        # Also the input may not be perturbed at all because of the failure of the attack
+        # notice that "adv_vals" may contain NANs because of the failure of the attack
+        # also the input may not be perturbed at all because of the failure of the attack
         to_delete = []
         for idx, adv in enumerate(adv_vals):
             # for nan
@@ -236,7 +242,7 @@ if __name__ == '__main__':
     ap = argparse.ArgumentParser()
     ap.add_argument("-t", "--type", required=True, help="Resnet or End2End")
     ap.add_argument("-d", "--dataset", required=True, help="CIFAR10, CIFAR100 or SVHN")
-    ap.add_argument("-a", "--attack", required=True, help="Specify the Attack Type")
+    ap.add_argument("-a", "--attack", required=True, help="Attack Type")
     args = vars(ap.parse_args())
 
     main(type=args["type"], dataset=args["dataset"], attack_type=args["attack"])

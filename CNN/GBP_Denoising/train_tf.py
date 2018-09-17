@@ -5,23 +5,23 @@ path1 = os.path.join(dirname, './../')
 sys.path.append(path1)
 path2 = os.path.join(dirname, './../Tools/')
 sys.path.append(path2)
+from keras import backend as K
 
 from Prepare_Model import prepare_GBP_End2End, prepare_Resnet
 from Prepare_Data import prepare_CIFAR10, prepare_CIFAR100, prepare_SVHN, pickle_load
-from Plot import grid_plot
 
 import tensorflow as tf
 import keras
 from keras.preprocessing.image import ImageDataGenerator
 
 model_type = [
-    'End2End',
-   'Resnet'
+    'End2End'
+    # 'Resnet'
 ]
 
 dataset = [
-    'CIFAR10',
-    'CIFAR100',
+    # 'CIFAR10'
+    # 'CIFAR100'
     'SVHN'
 ]
 
@@ -35,7 +35,7 @@ def train(dataset, model_type, lr=1e-3, num_epochs=300, batch_size=64):
 
     ########################################## Prepare the Data ########################################################
 
-    if dataset == 'CIAFR10':
+    if dataset == 'CIFAR10':
         (x_train, y_train), (x_test, y_test) = prepare_CIFAR10()
         num_classes = 10
         input_dim = 32
@@ -44,16 +44,17 @@ def train(dataset, model_type, lr=1e-3, num_epochs=300, batch_size=64):
         num_classes = 100
         input_dim = 32
     else:
-        (x_train, y_train), (x_test, y_test) = prepare_SVHN("./")
+        (x_train, y_train), (x_test, y_test) = prepare_SVHN("./Data/")
         num_classes = 10
         input_dim = 32
 
     x_test = x_test / 255.
+
     y_train = keras.utils.to_categorical(y_train, num_classes)
     y_test = keras.utils.to_categorical(y_test, num_classes)
 
     steps_per_epoch = int((len(x_train) - 1) / batch_size) + 1
-    print('Steps per epoch = ', steps_per_epoch)
+    print('Steps per epoch = {}'.format(steps_per_epoch))
 
     datagen = ImageDataGenerator(
         rotation_range=5,
@@ -117,7 +118,9 @@ def train(dataset, model_type, lr=1e-3, num_epochs=300, batch_size=64):
 
     ####################################### Actual Training Happens Here ###############################################
 
-    with tf.Session() as sess:
+    config = tf.ConfigProto()
+    config.gpu_options.allow_growth = True
+    with tf.Session(config=config) as sess:
 
         sess.run(init)
 
@@ -135,13 +138,14 @@ def train(dataset, model_type, lr=1e-3, num_epochs=300, batch_size=64):
                     sess.run([train_step, accuracy, merged],
                              feed_dict={input_ph: x_batch,
                                         label_ph: y_batch,
+                                        kp_ph: 0.5,
                                         phase_ph: True})
 
                 train_writer.add_summary(summary, b + e * steps_per_epoch)
 
                 if b % 50 == 0:
 
-                    msg = "Epoch = {}, Batch = {}, Accu = {:.4f}".format(e, b, train_accu)
+                    msg = "Epoch = {}, Batch = {}, Accu = {:.4f}".format(e, b, train_accu )
 
                     print(msg)
 
@@ -152,37 +156,41 @@ def train(dataset, model_type, lr=1e-3, num_epochs=300, batch_size=64):
                     summary = sess.run(merged,
                                        feed_dict={input_ph: x_test[:512],
                                                   label_ph: y_test[:512],
-                                                  kp_ph: 1.0})
+                                                  kp_ph: 1.0,
+                                                  phase_ph: False})
+
                     test_writer.add_summary(summary, b + e * steps_per_epoch)
 
-
-                    if e % 50 == 0: # save every 50 epoches
+                    if e % 10 == 0: # save every 10 epoches
                         saver.save(sess, '{}_{}/Model'.format(dataset, model_type), global_step=b + e * steps_per_epoch)
 
                     break
 
         # Testing Accuracy
         test_accu = 0.
-        for i in range(int(len(x_test) / batch_size)):
+        count = 0.
+        for i in range(int(len(x_test[512:]) / batch_size)):
+
+            count = count + 1
 
             # prepare batch
-            test_X_batch = x_test[batch_size * i: batch_size * i + batch_size]
-            test_y_batch = y_test[batch_size * i: batch_size * i + batch_size]
+            test_X_batch = x_test[512 + batch_size * i: 512 + batch_size * i + batch_size]
+            test_y_batch = y_test[512 + batch_size * i: 512 + batch_size * i + batch_size]
 
             # accumulate
             test_accu += \
                 sess.run(accuracy,
                          feed_dict={input_ph: test_X_batch,
                                     label_ph: test_y_batch,
-                                    kp_ph: 1.0}) * batch_size
+                                    kp_ph: 1.0})
 
-        msg = "Test Accuracy = {:.4f}".format(test_accu / len(x_test))
+        msg = "Test Accuracy = {:.4f}".format(test_accu / count)
         print(msg)
 
     ####################################### Actual Training Happens Here ###############################################
 
 if __name__ == "__main__":
-    # setup the GPUs to use
-    os.environ['CUDA_VISIBLE_DEVICES'] = '0'
+    # specify which GPU to use
+    os.environ['CUDA_VISIBLE_DEVICES'] = '1'
     main()
 

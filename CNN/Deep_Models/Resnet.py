@@ -1,42 +1,39 @@
-import numpy as np
 import tensorflow as tf
 
 class Resnet(object):
 
-    def __init__(self, inputT=None,
-                 input_dim=32, output_dim=100, act_type='relu', pool_type='maxpool', reuse=False,
-                 res_blocks=5, phase=False, keepprob=0.5):
+    def __init__(self, inputT, output_dim,
+                 act_type='relu', reuse=False, res_blocks=5):
+
+        print(" [*] Constructing Resnet ... ")
 
         """
         Construct a Resnet object.
         Total layers = 1 + 2n + 2n + 2n +1 = 6n + 2
-        :param inputT: input has to be a tensor; has to be provided when constructing this class
-        :param input_dim:
-        :param output_dim:
-        :param act_type:
-        :param pool_type:
-        :param reuse: False for the training only; True for testing
-        :param res_blocks:
-        :param phase: False for testing phase and True for training phase
-        :param keepprob: the keep probability for the dropout layer
+        :param inputT: has to be a tensor; has to be provided
+        :param input_dim: has to be provided
+        :param output_dim: has to be provided
+        :param act_type: relu by default
+        :param pool_type: max pooling by default
+        :param reuse: False for training; True for testing
+        :param res_blocks: 5 by default
+        :param phase: False for testing; True for training
+        :param keepprob: 1.0 by default
         """
 
-        self.input_dim = input_dim
+        self.inputT = inputT
         self.output_dim = output_dim
+
         self.act_type = act_type
-        self.pool_type = pool_type
+
         self.reuse = reuse
         self.res_blocks = res_blocks
 
-        self.phase = phase
-        self.keepprob = keepprob
-
-        print("Phase = {}".format(self.phase))
-        print("Keep probability = {}".format(self.keepprob))
+        print("Output dim = {}".format(output_dim))
+        print("Reuse = {}, (T)Testing/(F)Training".format(self.reuse))
 
         self.layers_dic = {}
 
-        self.inputT = inputT
         self.layers_dic['Resnet_input'] = self.inputT
         self.num_channel = self.inputT.get_shape().as_list()[-1]
 
@@ -47,13 +44,13 @@ class Resnet(object):
 
             with tf.name_scope('Resnet_phase') as scope:
                 # by default we are in the testing phase
-                self.phase = tf.placeholder_with_default(tf.constant(self.phase, dtype=tf.bool), [], name='phase')
+                self.phase = tf.placeholder_with_default(tf.constant(False, dtype=tf.bool), [], name='phase')
 
             with tf.name_scope('Resnet_keepprob') as scope:
-                # by default the drop probability is 0.5
-                self.kp = tf.placeholder_with_default(tf.constant(self.keepprob, dtype=tf.float32), [], name='keepporb')
+                # by default the drop probability is 0.0
+                self.kp = tf.placeholder_with_default(tf.constant(1.0, dtype=tf.float32), [], name='keepporb')
 
-            # Build the TF computational graph for the ResNet architecture
+            # Build up the computational graph for the Resnet architecture
             self.logits = self.build()
             self.probs = tf.nn.softmax(self.logits)
 
@@ -62,7 +59,7 @@ class Resnet(object):
         # we are stacking the layers
         # and thus we need an easy reference to the last layer of the current graph
 
-        last_layer = self.inputT # starting with the input tensor of course
+        last_layer = self.inputT # starting with the input tensor
 
         with tf.variable_scope('Resnet_conv0', reuse=self.reuse):
 
@@ -114,11 +111,10 @@ class Resnet(object):
                 last_layer = conv3
 
         last_layer = tf.nn.dropout(last_layer, self.kp)
+
         self.layers_dic['Resnet_dropout'] = last_layer
 
         with tf.variable_scope('Resnet_fc', reuse=self.reuse):
-
-            channels = last_layer.get_shape().as_list()[-1]
 
             bn_layer = self.batch_normalization_layer(last_layer, self.reuse) # batch normalization
 
@@ -131,14 +127,8 @@ class Resnet(object):
             fc_w = tf.get_variable(name='w', shape=[input_dim, self.output_dim], dtype=tf.float32,
                                      initializer=tf.truncated_normal_initializer(stddev=1e-1))
 
-            # fc_w = tf.Variable(tf.truncated_normal([input_dim, self.output_dim],
-            #                                              dtype=tf.float32,
-            #                                              stddev=1e-1), name='w')
-
             fc_b = tf.get_variable(name='b', shape=[self.output_dim], dtype=tf.float32,
                                      initializer=tf.constant_initializer(value=1.0))
-
-            # fc_b = tf.Variable(tf.constant(1.0, shape=[self.output_dim], dtype=tf.float32), name='b')
 
             fc_h = tf.matmul(global_pool, fc_w) + fc_b
 
@@ -150,8 +140,6 @@ class Resnet(object):
 
         '''
         batch normalization
-        :param input_layer: the input tensor
-        :return: a tensor batch normed
         '''
 
         bn_layer = tf.contrib.layers.batch_norm(input_layer,
@@ -162,41 +150,45 @@ class Resnet(object):
         return bn_layer
 
     def conv_bn_relu_layer(self, input_layer, filter_shape, stride):
+
         '''
-        Helper: conv, batch normalize and relu the input tensor sequentially
+        Helper: Conv, Batch Normalization, Relu sequentially
         :param input_layer: 4D tensor
         :param filter_shape: list. [filter_height, filter_width, filter_depth, filter_number]
         :param stride: stride size for conv
         :return: 4D tensor. Y = Relu(batch_normalize(conv(X)))
         '''
 
-
-
+        # Conv
         filter = tf.get_variable(name='weights', shape=filter_shape, dtype=tf.float32, initializer=tf.truncated_normal_initializer(stddev=1e-1))
-        # filter = tf.Variable(tf.truncated_normal(shape=filter_shape, dtype=tf.float32,
-        #                                          stddev=1e-1), name='weights')
         conv_layer = tf.nn.conv2d(input_layer, filter, strides=[1, stride, stride, 1], padding='SAME')
+
+        # BN
         bn_layer = self.batch_normalization_layer(conv_layer, self.reuse)
+
+        # Relu
         output = tf.nn.relu(bn_layer)
+
         return output
 
     def bn_relu_conv_layer(self, input_layer, filter_shape, stride):
 
         '''
-        Helper: batch normalize, relu and conv the input layer sequentially
+        Helper: batch normalization, relu, conv sequentially
         :param input_layer: 4D tensor
         :param filter_shape: list. [filter_height, filter_width, filter_depth, filter_number]
         :param stride: stride size for conv
         :return: 4D tensor. Y = conv(Relu(batch_normalize(X)))
         '''
 
-        in_channel = input_layer.get_shape().as_list()[-1]
-        bn_layer = self.batch_normalization_layer(input_layer, self.reuse)
-        relu_layer = tf.nn.relu(bn_layer)
+        bn_layer = self.batch_normalization_layer(input_layer, self.reuse) # BN
+
+        relu_layer = tf.nn.relu(bn_layer) # Relu
+
+        # Conv
         filter = tf.get_variable(name='weights', shape=filter_shape, dtype=tf.float32, initializer=tf.truncated_normal_initializer(stddev=1e-1))
-        # filter = tf.Variable(tf.truncated_normal(shape=filter_shape, dtype=tf.float32,
-        #                                          stddev=1e-1), name='weights')
         conv_layer = tf.nn.conv2d(relu_layer, filter, strides=[1, stride, stride, 1], padding='SAME')
+
         return conv_layer
 
     def residual_block(self, input_layer, output_channel, first_block=False):
@@ -205,14 +197,13 @@ class Resnet(object):
         A Residual Block
         :param input_layer: 4D tensor
         :param output_channel: int. return_tensor.get_shape().as_list()[-1] = output_channel
-        :param first_block: if this is the first residual block of the whole network
+        :param first_block: indicate if this is the first residual block of the entire network
         :return: 4D tensor.
         '''
 
-        input_channel = input_layer.get_shape().as_list()[-1]
+        ############################################### Analysis #######################################################
 
-        # when it's time to "shrink" the image size (and double the number of filters), we use stride = 2
-        # so no pooling layers
+        input_channel = input_layer.get_shape().as_list()[-1]
         if input_channel * 2 == output_channel:
             increase_dim = True
             stride = 2
@@ -222,19 +213,33 @@ class Resnet(object):
         else:
             raise ValueError('Output and input channel does not match in residual blocks!!!')
 
+        ############################################### Analysis #######################################################
+
+
+
+
+
+        ######################################### 2 Times Convolution ##################################################
+
         # The first conv layer of the first residual block does not need to be normalized and relu-ed.
         with tf.variable_scope('conv1_in_block'):
             if first_block:
                 filter = tf.get_variable(name='weights', shape=[3, 3, input_channel, output_channel], dtype=tf.float32,
                                          initializer=tf.truncated_normal_initializer(stddev=1e-1))
-                # filter = tf.Variable(tf.truncated_normal(shape=[3, 3, input_channel, output_channel], dtype=tf.float32,
-                #                                          stddev=1e-1), name='weights')
                 conv1 = tf.nn.conv2d(input_layer, filter=filter, strides=[1, 1, 1, 1], padding='SAME')
             else:
                 conv1 = self.bn_relu_conv_layer(input_layer, [3, 3, input_channel, output_channel], stride)
 
         with tf.variable_scope('conv2_in_block'):
             conv2 = self.bn_relu_conv_layer(conv1, [3, 3, output_channel, output_channel], 1)
+
+        ######################################### 2 Times Convolution ##################################################
+
+
+
+
+
+        ############################################ Skip Connection ###################################################
 
         # When the channels of input layer and conv2 does not match, we add zero pads to increase the
         #  depth of input layers
@@ -247,6 +252,9 @@ class Resnet(object):
             padded_input = input_layer
 
         output = conv2 + padded_input
+
+        ############################################ Skip Connection ###################################################
+
         return output
 
     def init(self, sess):
